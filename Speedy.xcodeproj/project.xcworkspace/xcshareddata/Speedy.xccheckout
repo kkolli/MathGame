@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CECEAB55-F6CD-4367-BD0A-0CEC8AECD665</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Speedy</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B0E175BF137FEA5AEBCC9F3BB2994549FAC6817A</key>
+		<string>https://github.com/kkolli/MathGame.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Speedy.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B0E175BF137FEA5AEBCC9F3BB2994549FAC6817A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/kkolli/MathGame.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B0E175BF137FEA5AEBCC9F3BB2994549FAC6817A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B0E175BF137FEA5AEBCC9F3BB2994549FAC6817A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Speedy</string>
+		</dict>
+	</array>
+</dict>
+</plist>
