@@ -8,7 +8,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Speedy" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Speedy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -23,7 +23,6 @@
                                 <color key="textColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-<<<<<<< HEAD
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhh-mQ-1Hs">
                                 <rect key="frame" x="103" y="349" width="394" height="84"/>
                                 <color key="backgroundColor" red="0.0" green="0.0006893987713185723" blue="1" alpha="0.089999999999999997" colorSpace="calibratedRGB"/>
@@ -34,12 +33,10 @@
                                     <segue destination="OxY-fG-A3V" kind="show" id="O41-VW-Gvg"/>
                                 </connections>
                             </button>
-=======
                             <view contentMode="center" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqh-JY-ZGi" customClass="FBLoginView">
                                 <rect key="frame" x="200" y="114" width="200" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
->>>>>>> added gitignore to node modules, fixed centering for fb
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -50,13 +47,10 @@
                             <constraint firstAttribute="centerX" secondItem="aqh-JY-ZGi" secondAttribute="centerX" id="uZA-nY-5o6"/>
                         </constraints>
                     </view>
-<<<<<<< HEAD
-=======
                     <connections>
                         <outlet property="fbLoginView" destination="aqh-JY-ZGi" id="Fh8-nO-izv"/>
                         <segue destination="OxY-fG-A3V" kind="show" identifier="login_segue" id="h5g-BT-gv2"/>
                     </connections>
->>>>>>> added gitignore to node modules, fixed centering for fb
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

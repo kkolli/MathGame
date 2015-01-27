@@ -14,7 +14,6 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view, typically from a nib.
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
@@ -97,7 +96,6 @@ class LoginViewController: UIViewController {
     
     func loginView(loginView : FBLoginView!, handleError:NSError) {
         println("Error: \(handleError.localizedDescription)")
->>>>>>> adding facebook integration for friends request and almos post request to heroku
     }
 
     override func didReceiveMemoryWarning() {
