@@ -11,7 +11,7 @@ import XCTest
 
 class RandomEquationTests: XCTestCase {
     let randomDefault = RandomEquation()
-    let random        = RandomEquation(difficulty: 2)
+    let random        = RandomEquation(difficulty: 5)
 
     override func setUp() {
         super.setUp()
@@ -21,18 +21,6 @@ class RandomEquationTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
     }
     
     func testInitDefault(){
@@ -45,12 +33,19 @@ class RandomEquationTests: XCTestCase {
         XCTAssertLessThanOrEqual(random.minTarget, random.target, "Generated target is less than min target possible")
     }
     
+    func testGenerateTarget(){
+        for(var i = 0; i < 100; ++i){
+            var randomTarget = random.generateTarget()
+            XCTAssertGreaterThanOrEqual(random.minTarget + random.maxRange, randomTarget, "Generated target is greater than max value allowed")
+            XCTAssertLessThanOrEqual(0, randomTarget, "Generated target is negative")
+        }
+    }
+    
     func testGenerateNumber(){
-        for var i = 0; i < 12; ++i{
-            var randomNumber = randomDefault.generateNumber()
+        for var i = 0; i < 100; ++i{
+            var randomNumber = random.generateNumber()
             XCTAssertGreaterThanOrEqual(99, randomNumber, "generateNumber result is above bounds")
             XCTAssertLessThan(0, randomNumber, "generateNumber result is below bounds")
         }
     }
-
 }
