@@ -23,6 +23,7 @@
                                 <color key="textColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+<<<<<<< HEAD
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhh-mQ-1Hs">
                                 <rect key="frame" x="103" y="349" width="394" height="84"/>
                                 <color key="backgroundColor" red="0.0" green="0.0006893987713185723" blue="1" alpha="0.089999999999999997" colorSpace="calibratedRGB"/>
@@ -33,18 +34,29 @@
                                     <segue destination="OxY-fG-A3V" kind="show" id="O41-VW-Gvg"/>
                                 </connections>
                             </button>
+=======
+                            <view contentMode="center" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqh-JY-ZGi" customClass="FBLoginView">
+                                <rect key="frame" x="200" y="114" width="200" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+>>>>>>> added gitignore to node modules, fixed centering for fb
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="uhh-mQ-1Hs" secondAttribute="trailing" constant="87" id="0uO-wK-4Ac"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uhh-mQ-1Hs" secondAttribute="bottom" constant="167" id="2dF-jz-4Zu"/>
                             <constraint firstItem="CBZ-qp-Ihd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Nnc-kp-WbC"/>
-                            <constraint firstItem="uhh-mQ-1Hs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="87" id="Q8l-mL-dZ0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="CBZ-qp-Ihd" secondAttribute="bottom" constant="494" id="lUe-Tr-hhl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CBZ-qp-Ihd" secondAttribute="trailing" constant="-16" id="o5Q-Nt-vIZ"/>
                             <constraint firstItem="CBZ-qp-Ihd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="rkf-UF-aH7"/>
+                            <constraint firstAttribute="centerX" secondItem="aqh-JY-ZGi" secondAttribute="centerX" id="uZA-nY-5o6"/>
                         </constraints>
                     </view>
+<<<<<<< HEAD
+=======
+                    <connections>
+                        <outlet property="fbLoginView" destination="aqh-JY-ZGi" id="Fh8-nO-izv"/>
+                        <segue destination="OxY-fG-A3V" kind="show" identifier="login_segue" id="h5g-BT-gv2"/>
+                    </connections>
+>>>>>>> added gitignore to node modules, fixed centering for fb
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
