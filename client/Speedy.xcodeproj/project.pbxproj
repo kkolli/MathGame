@@ -25,8 +25,6 @@
 		6B5747BD1A70BF2800D2756F /* SpeedyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */; };
 		6B8C560D1A83EAC2006B8734 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8C560C1A83EAC2006B8734 /* FacebookSDK.framework */; };
 		A19960DA1A724EB600A327F6 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19960D91A724EB600A327F6 /* ViewController2.swift */; };
-		A1F43FF41A806DF2008FF953 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F43FEB1A806DA7008FF953 /* Alamofire.framework */; };
-		A1F43FF51A806DF2008FF953 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1F43FEB1A806DA7008FF953 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D28D6F1A79C83D00F44B13 /* AlamoFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D28D6E1A79C83D00F44B13 /* AlamoFire.swift */; };
 /* End PBXBuildFile section */
 
@@ -120,7 +118,6 @@
 		6B8C560C1A83EAC2006B8734 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		A19960D81A723D7600A327F6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
 		A19960D91A724EB600A327F6 /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
-		A1F43FE31A806DA7008FF953 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Libs/Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		A1D28D6E1A79C83D00F44B13 /* AlamoFire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamoFire.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
