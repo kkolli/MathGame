@@ -188,10 +188,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             // 4
             for var col = 1; col <= ColCount; col++ {
                 
-                /*var invader = SKSpriteNode(color:SKColor.redColor(), size:Size)
-                invader.position = Position
-                addChild(invader)*/
-                
                 let shape = SKShapeNode(circleOfRadius: 20)
                 shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
                 shape.lineWidth = 4
@@ -252,6 +248,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         activeNode = touchedNode
     }
     
+<<<<<<< HEAD
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
