@@ -31,7 +31,15 @@ class GameScene : SKScene {
             createContent()
             contentCreated = true
             setupColumns()
+            setUpPhysics()
         }
+    }
+    
+    func setUpPhysics(){
+        self.physicsWorld.gravity = CGVectorMake(-1, -1)
+        // we put contraints on the top, left, right, bottom so that our balls can bounce off them
+        let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
+        self.physicsBody = physicsBody
     }
     
     func createContent() {
@@ -83,6 +91,13 @@ class GameScene : SKScene {
                 text.fontSize = 16.0
                 // we nest the text label in our circle
                 shape.addChild(text)
+                shape.physicsBody = SKPhysicsBody(circleOfRadius: shape.frame.size.width/2)
+                // this defines the mass, roughness and bounciness
+                shape.physicsBody?.friction = 0.3
+                shape.physicsBody?.restitution = 0.8
+                shape.physicsBody?.mass = 0.5
+                // this will allow the balls to rotate when bouncing off each other
+                shape.physicsBody?.allowsRotation = false
                 
                 // we set initial random positions
                 shape.position = Position
