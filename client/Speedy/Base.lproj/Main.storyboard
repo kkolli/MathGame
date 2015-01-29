@@ -211,7 +211,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT9-hS-myM">
-                                <rect key="frame" x="470" y="550" width="105" height="30"/>
+                                <rect key="frame" x="479" y="570" width="105" height="30"/>
                                 <color key="backgroundColor" red="0.28844282959955359" green="0.49518830699026006" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="0.068023989898989945" green="0.018646972232209558" blue="0.0083342547150162052" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
