@@ -75,10 +75,6 @@ class GameScene : SKScene {
             // 4
             for var col = 1; col <= ColCount; col++ {
                 
-                /*var invader = SKSpriteNode(color:SKColor.redColor(), size:Size)
-                invader.position = Position
-                addChild(invader)*/
-                
                 let shape = SKShapeNode(circleOfRadius: 20)
                 shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
                 shape.lineWidth = 4
@@ -101,7 +97,7 @@ class GameScene : SKScene {
     }
     
     
-    func createCircle(){
+    /*func createCircle(){
         let shape = SKShapeNode(circleOfRadius: 20)
         shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
         shape.lineWidth = 4
@@ -117,7 +113,7 @@ class GameScene : SKScene {
         // we add each circle to the display list
         self.addChild(shape)
 
-    }
+    }*/
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
