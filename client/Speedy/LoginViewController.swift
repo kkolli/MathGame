@@ -7,13 +7,15 @@
 //import UIKit
 
 import UIKit
+import SpriteKit
 
-class ViewController: UIViewController, FBLoginViewDelegate {
+class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     @IBOutlet var fbLoginView : FBLoginView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         self.fbLoginView.delegate = self
