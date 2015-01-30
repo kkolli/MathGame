@@ -304,7 +304,7 @@
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="85" y="679" width="631" height="80"/>
+                                    <rect key="frame" x="58" y="686" width="485" height="81"/>
                                     <mask key="constraints">
                                         <include reference="Shy-xS-kFm"/>
                                     </mask>
