@@ -14,6 +14,9 @@
 		0AE720021A9054870030705B /* GameOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE720001A9054870030705B /* GameOperators.swift */; };
 		0AE720051A90698C0030705B /* RandomOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE720031A90698C0030705B /* RandomOperators.swift */; };
 		1C667FEB1A8C9E4D0035A402 /* BoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C667FEA1A8C9E4D0035A402 /* BoardController.swift */; };
+		0A2085D01A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
+		0A2085D21A7E13C500412C8B /* RandomNumbersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */; };
+		0A2088ED1A7E1E0B00412C8B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2088EC1A7E1E0B00412C8B /* FacebookSDK.framework */; };
 		1C88FC241A78223800509137 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC231A78223800509137 /* GameScene.swift */; };
 		1C88FC261A78239B00509137 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC251A78239B00509137 /* GameViewController.swift */; };
 		1CBCA2381A83FF8A00036F67 /* NumberCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCA2371A83FF8A00036F67 /* NumberCircle.swift */; };
