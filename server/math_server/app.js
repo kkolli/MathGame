@@ -52,13 +52,10 @@ db.once('open', function callback() {
 });
 
 app.get('/list_user', users.list);
-app.get('/HighScores/:fbID', users.getHighScores);
-app.post('/HighScores/:fbID', users.sendHighScores);
 app.post('/create_check_user', function(req, res) {
+    console.log(req.body);
     users.createFbUser(req, function(err, data) {
         if (err) { 
-            res.status(400);
-            console.log("there was an error: " + JSON.stringify(err));
             res.end ("there was an error: " + JSON.stringify(err));
         } else {
             res.end("succcess!");
@@ -70,6 +67,9 @@ app.post('/post', function(req, res) {
     res.end(JSON.stringify(req.body));
 })
 
+app.delete('/whatever/:id', function(req, res) {
+    res.end("deleted");
+});
 // app.post('')
 
 // catch 404 and forward to error handler
