@@ -149,7 +149,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
     
     func setUpPhysics(){
-        self.physicsWorld.gravity = CGVectorMake(-1, -1)
+        self.physicsWorld.gravity = CGVectorMake(0, 0)
         // we put contraints on the top, left, right, bottom so that our balls can bounce off them
         let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
         self.physicsBody = physicsBody
@@ -224,6 +224,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
         /*for touch: AnyObject in touches {
@@ -263,7 +264,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         activeNode = touchedNode
     }
     
-<<<<<<< HEAD
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
