@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2085CF1A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
+		0A2085D01A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
+		0A2085D21A7E13C500412C8B /* RandomNumbersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */; };
+		0A2088ED1A7E1E0B00412C8B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2088EC1A7E1E0B00412C8B /* FacebookSDK.framework */; };
 		1C88FC241A78223800509137 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC231A78223800509137 /* GameScene.swift */; };
 		1C88FC261A78239B00509137 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC251A78239B00509137 /* GameViewController.swift */; };
 		6B5747A71A70BF2800D2756F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5747A61A70BF2800D2756F /* AppDelegate.swift */; };
@@ -15,7 +19,6 @@
 		6B5747AE1A70BF2800D2756F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B5747AD1A70BF2800D2756F /* Images.xcassets */; };
 		6B5747B11A70BF2800D2756F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5747AF1A70BF2800D2756F /* LaunchScreen.xib */; };
 		6B5747BD1A70BF2800D2756F /* SpeedyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */; };
-		A19960D71A723B4C00A327F6 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A19960D61A723B4C00A327F6 /* FacebookSDK.framework */; };
 		A19960DA1A724EB600A327F6 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19960D91A724EB600A327F6 /* ViewController2.swift */; };
 		A1D28D6F1A79C83D00F44B13 /* AlamoFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D28D6E1A79C83D00F44B13 /* AlamoFire.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +34,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A2085CE1A7E138600412C8B /* RandomNumbers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNumbers.swift; sourceTree = "<group>"; };
+		0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNumbersTest.swift; sourceTree = "<group>"; };
+		0A2088EC1A7E1E0B00412C8B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		1C88FC231A78223800509137 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		1C88FC251A78239B00509137 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = ../GameViewController.swift; sourceTree = "<group>"; };
 		6B5747A11A70BF2800D2756F /* Speedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Speedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,7 +49,6 @@
 		6B5747B61A70BF2800D2756F /* SpeedyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeedyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B5747BB1A70BF2800D2756F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedyTests.swift; sourceTree = "<group>"; };
-		A19960D61A723B4C00A327F6 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		A19960D81A723D7600A327F6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
 		A19960D91A724EB600A327F6 /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		A1D28D6E1A79C83D00F44B13 /* AlamoFire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamoFire.swift; sourceTree = "<group>"; };
@@ -54,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A19960D71A723B4C00A327F6 /* FacebookSDK.framework in Frameworks */,
+				0A2088ED1A7E1E0B00412C8B /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +76,7 @@
 		6B5747981A70BF2800D2756F = {
 			isa = PBXGroup;
 			children = (
-				A19960D61A723B4C00A327F6 /* FacebookSDK.framework */,
+				0A2088EC1A7E1E0B00412C8B /* FacebookSDK.framework */,
 				6B5747A31A70BF2800D2756F /* Speedy */,
 				6B5747B91A70BF2800D2756F /* SpeedyTests */,
 				6B5747A21A70BF2800D2756F /* Products */,
@@ -90,6 +95,7 @@
 		6B5747A31A70BF2800D2756F /* Speedy */ = {
 			isa = PBXGroup;
 			children = (
+				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
 				A19960D81A723D7600A327F6 /* Bridging-Header.h */,
 				6B5747A61A70BF2800D2756F /* AppDelegate.swift */,
 				1C88FC231A78223800509137 /* GameScene.swift */,
@@ -118,6 +124,7 @@
 			children = (
 				6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */,
 				6B5747BA1A70BF2800D2756F /* Supporting Files */,
+				0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */,
 			);
 			path = SpeedyTests;
 			sourceTree = "<group>";
@@ -193,6 +200,7 @@
 			knownRegions = (
 				en,
 				Base,
+				he,
 			);
 			mainGroup = 6B5747981A70BF2800D2756F;
 			productRefGroup = 6B5747A21A70BF2800D2756F /* Products */;
@@ -236,6 +244,7 @@
 				6B5747A71A70BF2800D2756F /* AppDelegate.swift in Sources */,
 				A1D28D6F1A79C83D00F44B13 /* AlamoFire.swift in Sources */,
 				A19960DA1A724EB600A327F6 /* ViewController2.swift in Sources */,
+				0A2085CF1A7E138600412C8B /* RandomNumbers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,7 +252,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A2085D21A7E13C500412C8B /* RandomNumbersTest.swift in Sources */,
 				6B5747BD1A70BF2800D2756F /* SpeedyTests.swift in Sources */,
+				0A2085D01A7E138600412C8B /* RandomNumbers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,8 +372,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/choucalate/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
+					/Users/edwardchiou/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -377,8 +388,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/choucalate/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
+					/Users/edwardchiou/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
