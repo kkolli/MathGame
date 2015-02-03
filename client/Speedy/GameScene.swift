@@ -36,7 +36,7 @@ class GameScene : SKScene {
     }
     
     func setUpPhysics(){
-        self.physicsWorld.gravity = CGVectorMake(-1, -1)
+        self.physicsWorld.gravity = CGVectorMake(0, 0)
         // we put contraints on the top, left, right, bottom so that our balls can bounce off them
         let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
         self.physicsBody = physicsBody
@@ -112,26 +112,25 @@ class GameScene : SKScene {
     }
     
     
-    /*func createCircle(){
-        let shape = SKShapeNode(circleOfRadius: 20)
-        shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
-        shape.lineWidth = 4
-        let text = SKLabelNode(text: String(3))
-        text.color = UIColor.whiteColor()
-        // we set the font
-        text.fontSize = 6.0
-        // we nest the text label in our circle
-        shape.addChild(text)
-        
-        // we set initial random positions
-        shape.position = CGPoint (x: CGFloat(arc4random()%(canvasWidth)), y: CGFloat(arc4random()%(canvasHeight)))
-        // we add each circle to the display list
-        self.addChild(shape)
-
-    }*/
-    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
+        /*for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(location)
+            touchedNode.position.x = event.
+        }*/
+        let touch = touches.anyObject() as UITouch
+        let touchLocation = touch.locationInNode(self)
+        let touchedNode = nodeAtPoint(touchLocation)
+        /*Make the touched node do something*/
+    }
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        let touch = touches.anyObject() as UITouch
+        let touchLocation = touch.locationInNode(self)
+        let touchedNode = nodeAtPoint(touchLocation)
+        touchedNode.position.x = touchLocation.x
+        touchedNode.position.y = touchLocation.y
         
     }
     
