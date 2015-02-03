@@ -26,12 +26,14 @@ class GameScene : SKScene {
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        drawSpeedy()
+        /*drawSpeedy()
         if (!contentCreated) {
             createContent()
             contentCreated = true
             setupColumns()
         }
+*/
+        setupSpeedyNodes()
     }
     
     func createContent() {
@@ -59,7 +61,68 @@ class GameScene : SKScene {
         myLabel3.fontSize = 18;
         myLabel3.position = CGPoint(x:rightColumn, y:startHeight);
         self.addChild(myLabel3)
+        
     }
+    
+    func getColPositions() -> [String:(CGFloat, CGFloat)] {
+        let midX = CGRectGetMidX(self.frame) as CGFloat
+        let midY = CGRectGetMidY(self.frame) as CGFloat
+        
+        let left = (midX - 0.7 * midX, midY - 0.8 * midY)
+        let center = (midX, midY - 0.8 * midY)
+        let right = (midX + 0.7 * midX, midY + 0.8 * midY)
+        return ["left": left, "center": center, "right": right]
+    }
+    
+    func setupSpeedyNodes() {
+        var number: Int = 77
+        var op = "+"
+        var start_positions = getColPositions()
+        let verticalIncrement = (CGRectGetMaxY(self.frame) as CGFloat) / 15
+        
+        for var i = 0; i < 12; i++ {
+            if i % 2 == 0 {
+                // this is a number node
+                // create 2 speedy nodes and add them at the correct spot
+                let node = SpeedyNode(num: number)
+                let node2 = SpeedyNode(num: number / 2)
+                
+                if let (x, y) = start_positions["left"] {
+                    node.position = CGPointMake(x, y + verticalIncrement * CGFloat(i))
+                }
+                
+                if let (x, y) = start_positions["right"] {
+                    node2.position = CGPointMake(x, y + verticalIncrement * CGFloat(i))
+                }
+                
+                self.addChild(node)
+                self.addChild(node2)
+            } else {
+                // this is an operator node
+                let node = SpeedyNode(op: op)
+                if let (x, y) = start_positions["center"] {
+                    node.position = CGPointMake(x, y + verticalIncrement * CGFloat(i))
+                }
+                self.addChild(node)
+            }
+            
+            self.physicsWorld.gravity = CGVectorMake(0, 0)
+        }
+    }
+    
+    func nodeTouchStart(node: SpeedyNode) {
+        
+    }
+    
+    func nodeTouchMoved(event: UIEvent) {
+        
+    }
+    
+    func nodeTouchEnd(node: SpeedyNode) {
+        
+    }
+    
+    func nodeContact(){}
     
     func setupColumns() {
         
@@ -81,6 +144,7 @@ class GameScene : SKScene {
                 let text = SKLabelNode(text: String(3))
                 // we set the font
                 text.fontSize = 16.0
+                text.fontColor = UIColor.redColor()
                 // we nest the text label in our circle
                 shape.addChild(text)
                 
@@ -116,8 +180,7 @@ class GameScene : SKScene {
     }*/
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* touch has begun */
-        
+            println("hey don't touch me")
     }
     
     override func update(currentTime: CFTimeInterval) {
