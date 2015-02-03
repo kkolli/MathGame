@@ -56,18 +56,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>FacebookAppID</key>
-	<string>374353949393455</string>
-	<key>FacebookDisplayName</key>
-	<string>SwiftyTest</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb374353949393455</string>
-			</array>
-		</dict>
-	</array>
 </dict>
 </plist>

@@ -26,10 +26,7 @@ class RandomNumbers {
         weightedList = []
     }
     
-<<<<<<< HEAD
     //Use this constructor
-=======
->>>>>>> Random numbers
     init(difficulty: Int){
         self.difficulty = difficulty
         self.target = 0
@@ -41,12 +38,10 @@ class RandomNumbers {
         self.weightedList = generateWeightedList(weights)
     }
     
-<<<<<<< HEAD
     /*
      * We want 1-10 to appear more than 11-100, so 1-10 is assigned a 
      * higher probability.
      */
-=======
     func generateGeometricDist() -> Int{
         let p = 0.25
         var random = Double(arc4random() / UInt32.max)
@@ -56,7 +51,6 @@ class RandomNumbers {
         return Int(floor(exponentialDist))
     }
     
->>>>>>> Random numbers
     func generateWeights() -> [Double]{
         let primaryProbability = 0.055
         let secondaryProbability = 0.005
@@ -77,14 +71,11 @@ class RandomNumbers {
         return weights
     }
     
-<<<<<<< HEAD
     /*
      * Generates weighted number list to provide the RNG that we want.
      * List contains 1000 numbers. If probability of a number is x, then
      * it will appear x * 1000 times.
      */
-=======
->>>>>>> Random numbers
     func generateWeightedList(weights: [Double]) -> [Int]{
         var weightedList: [Int] = []
         
@@ -99,12 +90,9 @@ class RandomNumbers {
         return weightedList
     }
     
-<<<<<<< HEAD
     /*
      * Call this to generate a random number.
      */
-=======
->>>>>>> Random numbers
     func generateNumber() -> Int{
         var randomNumber = Int(arc4random_uniform(UInt32(1000)))
         
