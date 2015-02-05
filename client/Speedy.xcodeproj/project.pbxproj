@@ -10,7 +10,6 @@
 		0A2085CF1A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
 		0A2085D01A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
 		0A2085D21A7E13C500412C8B /* RandomNumbersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */; };
-		0A2088ED1A7E1E0B00412C8B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2088EC1A7E1E0B00412C8B /* FacebookSDK.framework */; };
 		1C88FC241A78223800509137 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC231A78223800509137 /* GameScene.swift */; };
 		1C88FC261A78239B00509137 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC251A78239B00509137 /* GameViewController.swift */; };
 		6B5747A71A70BF2800D2756F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5747A61A70BF2800D2756F /* AppDelegate.swift */; };
@@ -19,6 +18,7 @@
 		6B5747AE1A70BF2800D2756F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B5747AD1A70BF2800D2756F /* Images.xcassets */; };
 		6B5747B11A70BF2800D2756F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5747AF1A70BF2800D2756F /* LaunchScreen.xib */; };
 		6B5747BD1A70BF2800D2756F /* SpeedyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */; };
+		6B8C560D1A83EAC2006B8734 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8C560C1A83EAC2006B8734 /* FacebookSDK.framework */; };
 		A19960DA1A724EB600A327F6 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19960D91A724EB600A327F6 /* ViewController2.swift */; };
 		A1F43FF41A806DF2008FF953 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F43FEB1A806DA7008FF953 /* Alamofire.framework */; };
 		A1F43FF51A806DF2008FF953 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1F43FEB1A806DA7008FF953 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -93,7 +93,6 @@
 /* Begin PBXFileReference section */
 		0A2085CE1A7E138600412C8B /* RandomNumbers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNumbers.swift; sourceTree = "<group>"; };
 		0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNumbersTest.swift; sourceTree = "<group>"; };
-		0A2088EC1A7E1E0B00412C8B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		1C88FC231A78223800509137 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		1C88FC251A78239B00509137 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = ../GameViewController.swift; sourceTree = "<group>"; };
 		6B5747A11A70BF2800D2756F /* Speedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Speedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +105,7 @@
 		6B5747B61A70BF2800D2756F /* SpeedyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeedyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B5747BB1A70BF2800D2756F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedyTests.swift; sourceTree = "<group>"; };
+		6B8C560C1A83EAC2006B8734 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		A19960D81A723D7600A327F6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
 		A19960D91A724EB600A327F6 /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		A1F43FE31A806DA7008FF953 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Libs/Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
