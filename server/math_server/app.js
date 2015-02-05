@@ -56,6 +56,8 @@ app.post('/create_check_user', function(req, res) {
     console.log(req.body);
     users.createFbUser(req, function(err, data) {
         if (err) { 
+            res.status(400);
+            console.log("there was an error: " + JSON.stringify(err));
             res.end ("there was an error: " + JSON.stringify(err));
         } else {
             res.end("succcess!");
