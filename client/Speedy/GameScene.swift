@@ -135,6 +135,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     let RowCount = 8
     let ColCount = 3
     
+    let Node:UInt32 = 0x1 << 0;
+    let NonNode:UInt32 = 0x1 << 1;
+    
     var contentCreated = false
     
     override func didMoveToView(view: SKView) {
@@ -153,6 +156,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         // we put contraints on the top, left, right, bottom so that our balls can bounce off them
         let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
         self.physicsBody = physicsBody
+        self.physicsWorld.contactDelegate = self;
     }
     
     func createContent() {
@@ -212,6 +216,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                 // this will allow the balls to rotate when bouncing off each other
                 shape.physicsBody?.allowsRotation = false
                 
+                //Physics to check collision
+                shape.physicsBody?.contactTestBitMask = Node
+                shape.physicsBody?.collisionBitMask = Node
+                
                 // we set initial random positions
                 shape.position = Position
                 // we add each circle to the display list
@@ -223,6 +231,18 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        println("CONTACT")
+        var myJoint = SKPhysicsJointPin.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB, anchor: contact.contactPoint)
+        self.physicsWorld.addJoint(myJoint)
+    }
+    
+     func didEndContact(contact: SKPhysicsContact) {
+        println("Contact 2")
+    }
+    
+    
     
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
