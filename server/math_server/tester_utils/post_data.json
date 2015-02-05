@@ -1,0 +1,33 @@
+{
+	"fbID": "2224",
+	"firstName" : "tests",
+	"lastName" : "testLast",
+	"friends_page" : {
+      "data": [
+      {
+      "id": "11111",
+      "name": "t1",
+      "first_name": "t1",
+      "last_name": "t1"
+      }, 
+      {
+      "id": "55555",
+      "name": "t2",
+      "first_name": "t2",
+      "last_name": "t2"
+      },
+      {
+      "id": "222",
+      "name": "t3",
+      "first_name": "t3",
+      "last_name": "t3"
+      }
+      ],
+      "paging": {
+      "next": "https://graph.facebook.com/v2.2/10152612343177227/friends?fields=id,name,first_name,last_name&limit=25&offset=25&format=json&access_token=CAAJLVBsv3N4BAAcnbRvwxRyA4hTA9y2oCbvhwuXpoI2YZCTpAkZACZAR04Vo8IksMMMhWduFm1P05DYQFGWmhfBzQTetZCiOHnR0YNbox1MW9QcVnEGbn4erxSoJbc41qyZBgyVXORaEqQbhK7AXB8WO6nz00GJvwF5HLX7ZB3JLaH4UtDp4Yk82IpiPNW1khkfXpy5zWloAWnQkUlKSLG592ilJm8GWsba4D9SE38YwZDZD&__after_id=enc_Aeybkze8Iznm7aaVueyL0AsuTakmr--EbDCNo3vN-OzWM1IWGKbb05WjLmjIqc-OFZdJ2V9fqjd5Pz47z9YGu-0M"
+      },
+      "summary": {
+      "total_count": 575
+      }
+    }
+}
