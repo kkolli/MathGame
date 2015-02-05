@@ -67,9 +67,6 @@ app.post('/post', function(req, res) {
     res.end(JSON.stringify(req.body));
 })
 
-app.delete('/whatever/:id', function(req, res) {
-    res.end("deleted");
-});
 // app.post('')
 
 // catch 404 and forward to error handler
