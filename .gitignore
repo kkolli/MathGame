@@ -17,6 +17,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 /node_modules/*
+.DS_Store
 
 # CocoaPods
 #
