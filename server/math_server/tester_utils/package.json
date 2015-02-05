@@ -1,0 +1,12 @@
+{
+  "name": "send_req",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node send_req"
+  },
+  "dependencies": {
+    "minimist" : "1.x",
+    "request": "~2.x"
+  }
+}
