@@ -50,20 +50,23 @@ class LoginViewController: UIViewController {
     func makePostReq(user: FBGraphUser, data: NSDictionary) {
         /*Issue a post request to our server, with the updated/or new user with friends */
         let params = [
-            "user_id": user.objectID,
-            "user_first_name": user.first_name,
-            "user_last_name" : user.last_name,
-            "friends": data.objectForKey("data") as NSArray,
-            "other" : data
+            "fbID": user.objectID,
+            "firstName": user.first_name,
+            "lastName" : user.last_name,
+            //"friends": data.objectForKey("data") as NSArray,
+            "friends_page" : data
         ]
         println("PRINTING PARAMS: ")
         println(params)
-        /*Alamofire.request(.POST, "http://[HEROKU_URL]/create_update_fbuser", parameters: params)
+        
+        
+        
+        Alamofire.request(.POST, "http://mathisspeedy.herokuapp.com/create_check_user", parameters: params, encoding:.JSON)
         .response { (request, response, data, error) in
-        println(request)
-        println(response)
-        println(error)
-        }*/
+          println("request: \(request)")
+          println("response: \(response)")
+          println("error: \(error)")
+        }
     }
     
     func getFacebookFriendsList(user: FBGraphUser, handler: (FBGraphUser, NSDictionary) -> Void) {
