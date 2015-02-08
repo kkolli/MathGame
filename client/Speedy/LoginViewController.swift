@@ -18,7 +18,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
-        
+        println("loaded login view controller")
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
         
