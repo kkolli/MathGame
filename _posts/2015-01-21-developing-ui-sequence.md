@@ -10,7 +10,7 @@ In our first group meeting, we decided that we should quickly draw up a couple s
 -----
 
 ### The User Interface Flow Diagram (Drawn in CSE 4140)
-![Initial Game Sequence](/images/speedy_uiflow.jpg)
+![Initial Game Sequence]({{ site.baseurl }}/images/speedy_uiflow.jpg)
 
 As you can see, our App is composed of 
 
@@ -27,7 +27,7 @@ With this initial design, we realized that most of our work would center on the 
 -----
 
 ###  Game Play
-![Initial Game Sequence](/images/speedy_gameplay.jpg)
+![Initial Game Sequence]({{ site.baseurl }}/images/speedy_gameplay.jpg)
 
 As you can see from our gameplay, we decided that it'd be more fun to have 3 columns to match up, with 2 operand numbers and an operator.  The player would use his finger to swipe from an operand, to an operator, and combine it with another operator and the numbers would join.  Once one of these joins have finished, the next set of numbers and operators drop.  Eventually, the user will match the target number and be awarded points.  
 

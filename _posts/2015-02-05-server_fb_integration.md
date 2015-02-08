@@ -19,7 +19,7 @@ For the past 2 weeks I was working on the server side component of our applicati
 
 ### The Facebook Integration
 
-![Initial Game Sequence](/images/fblogin.png)
+![Initial Game Sequence]({{ site.baseurl }}/images/fblogin.png)
 
 So Facebook has a nice IOS SDK in Objective-C, but it doesn't have very good Swift support.  Therefore, we had to use a bridging header where I found a tutorial to do [here](www.brianjcoleman.com/tutorial-facebook-login-in-swift/)
 
@@ -35,7 +35,7 @@ From the client, I had to handle the tasks of segueing into the next view contro
 
 ### The Serverside
 
-![JSON Image](/images/mathisspeedy_json.png)
+![JSON Image]({{ site.baseurl }}/images/mathisspeedy_json.png)
 
 On the serverside, we used node.js as our backend, powered by MongoDB and Express 4.0.  While the serverside was mostly just about getting user registration to work so that we could keep track of the users' friends and high scores, the biggest challenge 
 

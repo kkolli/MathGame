@@ -5,12 +5,12 @@ relative_permalinks: true
 # Setup
 title:            Speedy
 tagline:          190 IOS Group
-url:              http://kkolli.github.io/MathGame
+url:              http://kkolli.github.io
 paginate:         1
-baseurl:          /
+baseurl:          /MathGame/
 author:
   name:           Speedy Math
-  url:            http://kkoolli.github.io/
+  url:            http://kkolli.github.io/
   email:          jychou@ucsd.edu
 
 # Custom vars
