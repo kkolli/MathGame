@@ -5,9 +5,9 @@ relative_permalinks: true
 # Setup
 title:            Poole
 tagline:          The Jekyll Butler
-url:              http://kkolli.github.io
+url:              http://kkolli.github.io/MathGame
 paginate:         1
-baseurl:          /MathGame/
+baseurl:          /
 author:
   name:           Mark Otto
   url:            https://twitter.com/mdo
