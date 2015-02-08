@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Integrating the Server and Client with Facebook as the Glue
+title: Example..... 
 ---
 
-*Author: John* In this blog post I'll discuss how I went about building the serverside component in Node.js, integrating swift with Facebook, and making requests with AlamoFire
+*Author: John*  Blahbalhblah
 
 -----
 

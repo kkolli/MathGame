@@ -15,29 +15,30 @@ For the past 2 weeks I was working on the server side component of our applicati
 * The Client requests
 * The Serverside
 
+-----
+
 ### The Facebook Integration
+
+![Initial Game Sequence](/images/fblogin.png)
 
 So Facebook has a nice IOS SDK in Objective-C, but it doesn't have very good Swift support.  Therefore, we had to use a bridging header where I found a tutorial to do [here](www.brianjcoleman.com/tutorial-facebook-login-in-swift/)
 
-From there, I was able to get facebook login to work correctly, the next task 
+From there, I was able to get facebook login to work correctly, the next task was that because we needed the users' friends information to be sent over via a POST request, we needed to make another subsequent facebook request for the users' friends.  After we finally got that information, we sent the information to the server.
 
-Poole is a streamlined Jekyll site designed and built as a foundation for building more meaningful themes. Poole, and every theme built on it, includes the following:
+-----
 
-* Complete Jekyll setup included (layouts, config, [404](/404.html), [RSS feed](/atom.xml), posts, and [example page](/about))
-* Mobile friendly design and development
-* Easily scalable text and component sizing with `rem` units in the CSS
-* Support for a wide gamut of HTML elements
-* Related posts (time-based, because Jekyll) below each post
-* Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)
+### The Client Requests
 
-Additional features are available in individual themes.
+From the client, I had to handle the tasks of segueing into the next view controller, building up the user with its facebook credentials, sending the request to facebook, and issuing the post request to the heroku server.   The main challenge here was simply learning the swift language, which I actually found to be quite annoying in some areas.  But as with learning a new language, there's always a unique learning curve, and in retrospect, I think it was quite interesting.  However, a main plus-side to IOS that I've learned is that I don't have to deal with nasty XML since unlike Android, IOS's storyboard works beautifully, so props to them!
 
-### Browser support
+-----
 
-Poole and it's themes are by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.
+### The Serverside
 
-### Download
+![JSON Image](/images/mathisspeedy_json.png)
 
-Poole is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/poole">GitHub repository</a> for downloads, bug reports, and features requests.
+On the serverside, we used node.js as our backend, powered by MongoDB and Express 4.0.  While the serverside was mostly just about getting user registration to work so that we could keep track of the users' friends and high scores, the biggest challenge 
 
-Thanks!
+In order to test with the client side, we deployed with Heroku, which although seemed straightforward, didn't work like we expected since the server had to be in the root directory of the .git file.  So we actually migrated to a different repository just for server deployment.  But after all the trouble... check it out! *mathisspeedy.herokuapp.com*
+
+Thanks for reading!
