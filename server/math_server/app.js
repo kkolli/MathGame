@@ -5,11 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
+var mongoose = require('mongoose');
+var User = require('./models/user.js');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
+var uristring = process.env.MONGOHQ_URL ||
+                process.env.MONGOLAB_URI ||
+                'mongodb://localhost/nodedemo';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -23,10 +29,45 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.get('/create_user/:userid', function(req, res) {
-    res.end("success: " + req.params.userid);
+// app.use('/users', users);
+
+// Database Connection
+
+mongoose.connect(uristring, function(err, res) {
+  if(err) {
+     console.log("ERROR occurred connecting to :" + uristring + '. ' + err);
+  } else {
+     console.log("MONGO connected! here: " + uristring);
+
+  }
 });
+
+
+//the db connection on error or opened 
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback() {
+  console.log("MONGO open!");
+});
+
+app.get('/list_user', users.list);
+app.post('/create_check_user', function(req, res) {
+    console.log(req.body);
+    users.createFbUser(req, function(err, data) {
+        if (err) { 
+            res.status(400);
+            console.log("there was an error: " + JSON.stringify(err));
+            res.end ("there was an error: " + JSON.stringify(err));
+        } else {
+            res.end("succcess!");
+        }
+    });
+});
+
+app.post('/post', function(req, res) { 
+    res.end(JSON.stringify(req.body));
+})
 
 // app.post('')
 
