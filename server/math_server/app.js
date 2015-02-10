@@ -52,6 +52,8 @@ db.once('open', function callback() {
 });
 
 app.get('/list_user', users.list);
+app.get('/HighScores', users.getHighScores);
+app.post('/HighScores/:Id');
 app.post('/create_check_user', function(req, res) {
     console.log(req.body);
     users.createFbUser(req, function(err, data) {
