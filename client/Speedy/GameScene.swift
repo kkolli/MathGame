@@ -101,7 +101,11 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                 shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
                 shape.lineWidth = 4
                 shape.antialiased = true
+                
                 let text = SKLabelNode(text: String(3))
+                text.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+                text.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+                
                 // we set the font
                 text.fontSize = 16.0
                 // we nest the text label in our circle
@@ -164,7 +168,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        let touchedNode = nodeAtPoint(touchLocation)
+        var touchedNode = nodeAtPoint(touchLocation)
+        if touchedNode is SKLabelNode {
+            touchedNode = touchedNode.parent!
+        }
         touchedNode.position.x = touchLocation.x
         touchedNode.position.y = touchLocation.y
         
