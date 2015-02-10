@@ -167,7 +167,7 @@ exports.list = function(req, res){
 
 //Get the HighScores
 exports.getHighScores = function(req,res){
-  Users.find({fbID:req.body.fbID},function(err,user){
+  Users.find({fbID:req.params.fbID},function(err,user){
     if(err) return res.end(JSON.stringify(err));
     return res.end(JSON.stringify(user));
   });
@@ -175,9 +175,13 @@ exports.getHighScores = function(req,res){
 
 //Post a Score
 exports.sendHighScores = function(req,res){
-  Users.findByIdAndUpdate(req.params.Id,{$push: {"score": req.body.score}},
+  console.log("req body: " + JSON.stringify(req.body, null, '\t'));
+  Users.findOneAndUpdate({fbID: req.params.Id} ,{$push: {"score": req.body.score}},
     function(err,user){
-      if(err) return res.end(JSON.stringify(err));
+      if(err) {
+        res.sendStatus(400);
+        return res.end(JSON.stringify(err));
+      }
       res.sendStatus(200);
     }
   );
