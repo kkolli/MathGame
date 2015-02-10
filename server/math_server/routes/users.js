@@ -164,3 +164,24 @@ exports.list = function(req, res){
     
   });
 }
+
+//Get the HighScores
+exports.getHighScores = function(req,res){
+  Users.find({fbID:req.params.fbID},function(err,user){
+    if(err) return res.end(JSON.stringify(err));
+    return res.end(JSON.stringify(user.score));
+  });
+}
+
+//Post a Score
+exports.sendHighScores = function(req,res){
+  Users.findOneAndUpdate({fbID: req.params.fbID} ,{$push: {"score": req.body.score}},
+    function(err,user){
+      if(err) {
+        res.sendStatus(400);
+        return res.end(JSON.stringify(err));
+      }
+      res.sendStatus(200);
+    }
+  );
+}
