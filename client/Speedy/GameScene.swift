@@ -155,8 +155,18 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVectorMake(0, 0)
         // we put contraints on the top, left, right, bottom so that our balls can bounce off them
         let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
+        physicsBody.dynamic = false
         self.physicsBody = physicsBody
         self.physicsWorld.contactDelegate = self;
+        
+        let physField = SKFieldNode.springField()
+        physField.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+        physField.exclusive = true
+        physField.enabled = true
+        physField.falloff = 0.001
+        physField.strength = 20
+        physField.region = SKRegion(size: self.frame.size)
+        self.addChild(physField)
     }
     
     func createContent() {
@@ -203,6 +213,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                 let shape = SKShapeNode(circleOfRadius: 20)
                 shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
                 shape.lineWidth = 4
+                shape.antialiased = true
                 let text = SKLabelNode(text: String(3))
                 // we set the font
                 text.fontSize = 16.0
@@ -210,15 +221,19 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                 shape.addChild(text)
                 shape.physicsBody = SKPhysicsBody(circleOfRadius: shape.frame.size.width/2)
                 // this defines the mass, roughness and bounciness
-                shape.physicsBody?.friction = 0.3
+                shape.physicsBody?.friction = 3.8
                 shape.physicsBody?.restitution = 0.8
-                shape.physicsBody?.mass = 0.5
+                shape.physicsBody?.mass = 1
                 // this will allow the balls to rotate when bouncing off each other
                 shape.physicsBody?.allowsRotation = false
                 
                 //Physics to check collision
                 shape.physicsBody?.contactTestBitMask = Node
                 shape.physicsBody?.collisionBitMask = Node
+                
+                shape.physicsBody?.dynamic = true
+                //shape.physicsBody?.affectedByGravity = true
+                
                 
                 // we set initial random positions
                 shape.position = Position
@@ -234,8 +249,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         println("CONTACT")
-        var myJoint = SKPhysicsJointPin.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB, anchor: contact.contactPoint)
-        self.physicsWorld.addJoint(myJoint)
+        //var myJoint = SKPhysicsJointSpring.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB,
+        //    anchorA: contact.bodyA.node!.position, anchorB: contact.bodyB.node!.position)
+        //self.physicsWorld.addJoint(myJoint)
     }
     
      func didEndContact(contact: SKPhysicsContact) {
