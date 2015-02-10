@@ -169,14 +169,13 @@ exports.list = function(req, res){
 exports.getHighScores = function(req,res){
   Users.find({fbID:req.params.fbID},function(err,user){
     if(err) return res.end(JSON.stringify(err));
-    return res.end(JSON.stringify(user));
+    return res.end(JSON.stringify(user.score));
   });
 }
 
 //Post a Score
 exports.sendHighScores = function(req,res){
-  console.log("req body: " + JSON.stringify(req.body, null, '\t'));
-  Users.findOneAndUpdate({fbID: req.params.Id} ,{$push: {"score": req.body.score}},
+  Users.findOneAndUpdate({fbID: req.params.fbID} ,{$push: {"score": req.body.score}},
     function(err,user){
       if(err) {
         res.sendStatus(400);
