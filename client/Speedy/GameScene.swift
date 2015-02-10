@@ -162,7 +162,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let physField = SKFieldNode.springField()
         physField.position = CGPointMake(self.size.width / 2, self.size.height / 2)
         physField.exclusive = true
-        physField.enabled = true
+        // disable for now, we know it works
+        physField.enabled = false
         physField.falloff = 0.001
         physField.strength = 20
         physField.region = SKRegion(size: self.frame.size)
@@ -255,7 +256,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         println("CONTACT")
         //var myJoint = SKPhysicsJointSpring.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB,
         //    anchorA: contact.bodyA.node!.position, anchorB: contact.bodyB.node!.position)
-        //self.physicsWorld.addJoint(myJoint)
+        var myJoint = SKPhysicsJointPin.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB,
+            anchor: contact.bodyA.node!.position)
+        myJoint.frictionTorque = 1.0
+        self.physicsWorld.addJoint(myJoint)
     }
     
      func didEndContact(contact: SKPhysicsContact) {
@@ -319,6 +323,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             touchedNode = touchedNode.parent!
         }
         
+        if touchedNode is SKScene {
+            // can't move the scene, finger probably fell off a circle?
+            return
+        }
         touchedNode.position.x = touchLocation.x
         touchedNode.position.y = touchLocation.y
         
