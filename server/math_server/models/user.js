@@ -8,7 +8,7 @@ var UserSchema = new Schema({
   firstName : { type: String, required: true, index : { unique: false } },
   lastName : { type: String, required: true, index: { unique: false } },
   friends : [String], // friends are a string of Id's where Id's are the auto id's in mongo
-  score: {type: [Number], required:true}
+  score: {type: [Number]}
 });
 
 
