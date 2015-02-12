@@ -425,7 +425,7 @@
                         </variation>
                     </view>
                     <connections>
-                        <segue destination="OxY-fG-A3V" kind="show" identifier="login_segue" id="h5g-BT-gv2"/>
+                        <segue destination="mOj-00-VY8" kind="show" identifier="login_segue" id="h5g-BT-gv2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -525,7 +525,8 @@
                                         <exclude reference="sza-26-6Yh"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="45" y="671" width="310" height="60"/>
                                     <mask key="constraints">
                                         <include reference="C7b-X3-KwQ"/>
                                         <exclude reference="CYe-qE-zUm"/>
@@ -643,7 +644,8 @@
                                         <exclude reference="znf-UG-4jh"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="45" y="603" width="310" height="60"/>
                                     <mask key="constraints">
                                         <exclude reference="1QN-rY-rVP"/>
                                         <exclude reference="2ff-fR-3Dv"/>
@@ -720,7 +722,8 @@
                                         <exclude reference="yAH-69-Cab"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="66" y="138" width="269" height="139"/>
                                     <mask key="constraints">
                                         <include reference="1W9-ed-J74"/>
                                         <include reference="TqH-Xp-6gB"/>
@@ -980,10 +983,11 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="Etv-S7-ifM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cSS-aR-cp3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1359" y="475.5"/>
+            <point key="canvasLocation" x="2277" y="475.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="dya-Li-ERY">
@@ -1205,7 +1209,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AeE-nH-Psf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2176.5" y="622.5"/>
+            <point key="canvasLocation" x="3094.5" y="622.5"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="yEW-eo-xOy">
@@ -1240,7 +1244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Re-9k-rH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2901" y="769"/>
+            <point key="canvasLocation" x="3819" y="768.75"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Jhc-mq-gCM">
@@ -1275,6 +1279,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2e1-FP-pyb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3614" y="1160"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cTD-zy-sEI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mOj-00-VY8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TvY-or-zX2">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OxY-fG-A3V" kind="relationship" relationship="rootViewController" id="4b5-jf-oei"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g5n-5q-h6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1359" y="475.5"/>
         </scene>
     </scenes>
     <resources>
