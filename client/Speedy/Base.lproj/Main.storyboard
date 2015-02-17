@@ -74,7 +74,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged in as Player#1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62F-Zf-oQd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Logged in as Player#1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62F-Zf-oQd">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="118"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -118,7 +118,7 @@
                                     <rect key="frame" x="85" y="594" width="631" height="80"/>
                                 </variation>
                                 <connections>
-                                    <segue destination="aQA-bA-k6m" kind="showDetail" id="K8v-Hg-CL2"/>
+                                    <segue destination="aQA-bA-k6m" kind="show" id="fHl-CN-3Wd"/>
                                 </connections>
                             </button>
                         </subviews>
