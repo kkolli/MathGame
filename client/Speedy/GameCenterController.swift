@@ -24,6 +24,7 @@ class GameCenterController: UIViewController {
             } else {
                 /* Player is not logged in Game Center */
                 println("Not Logged in")
+                //TODO: Need to add navigation for our app between Views
             }
         }
     }
