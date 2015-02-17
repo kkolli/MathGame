@@ -53,6 +53,7 @@ db.once('open', function callback() {
 
 app.get('/list_user', users.list);
 app.get('/HighScores/:fbID', users.getHighScores);
+app.get('/friend_scores/:fbID', users.getFriendScores);
 app.post('/HighScores/:fbID', users.sendHighScores);
 app.post('/create_check_user', function(req, res) {
     users.createFbUser(req, function(err, data) {
@@ -65,6 +66,7 @@ app.post('/create_check_user', function(req, res) {
         }
     });
 });
+
 
 app.post('/post', function(req, res) { 
     res.end(JSON.stringify(req.body));
