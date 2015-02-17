@@ -16,6 +16,14 @@
 		1C667FEB1A8C9E4D0035A402 /* BoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C667FEA1A8C9E4D0035A402 /* BoardController.swift */; };
 		0A2085D01A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
 		0A2085D21A7E13C500412C8B /* RandomNumbersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085D11A7E13C500412C8B /* RandomNumbersTest.swift */; };
+		0AE71FFB1A904A230030705B /* GameCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFA1A904A230030705B /* GameCircle.swift */; };
+		0AE71FFC1A904A230030705B /* GameCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFA1A904A230030705B /* GameCircle.swift */; };
+		0AE71FFE1A904F1D0030705B /* OperatorCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */; };
+		0AE71FFF1A904F1D0030705B /* OperatorCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */; };
+		0AE720011A9054870030705B /* GameOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE720001A9054870030705B /* GameOperators.swift */; };
+		0AE720021A9054870030705B /* GameOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE720001A9054870030705B /* GameOperators.swift */; };
+		0AE720041A90698C0030705B /* RandomOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE720031A90698C0030705B /* RandomOperators.swift */; };
+		0AE720051A90698C0030705B /* RandomOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE720031A90698C0030705B /* RandomOperators.swift */; };
 		1C88FC241A78223800509137 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC231A78223800509137 /* GameScene.swift */; };
 		1C88FC261A78239B00509137 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C88FC251A78239B00509137 /* GameViewController.swift */; };
 		1CBCA2381A83FF8A00036F67 /* NumberCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCA2371A83FF8A00036F67 /* NumberCircle.swift */; };
