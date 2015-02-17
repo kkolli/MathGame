@@ -6,6 +6,22 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="vEL-Ms-zpv">
+            <objects>
+                <navigationController id="f0s-d6-2Kh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iNe-aG-WGW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ala-of-OHI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hGb-r6-ZvI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-156" y="295"/>
+        </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -315,6 +331,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="s4c-WK-bYu"/>
                     <connections>
                         <outlet property="fbLoginView" destination="kf1-EM-FMd" id="WAL-bA-n0w"/>
                         <segue destination="OxY-fG-A3V" kind="show" identifier="login_segue" id="fHu-Ph-b1t"/>
@@ -527,6 +544,9 @@
                                         <exclude reference="xnr-Mf-WbC"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="be5-pX-IFK" kind="show" id="730-OP-KPn"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="25" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VNO-23-z1k">
                                 <rect key="frame" x="150" y="320" width="300" height="75"/>
@@ -1245,6 +1265,24 @@
             </objects>
             <point key="canvasLocation" x="2253" y="457.5"/>
         </scene>
+        <!--Game Center Controller-->
+        <scene sceneID="tQm-EQ-Qrn">
+            <objects>
+                <viewController id="be5-pX-IFK" customClass="GameCenterController" customModule="Speedy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kAs-Jf-7mU"/>
+                        <viewControllerLayoutGuide type="bottom" id="he6-jX-fY7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="USq-Q3-juT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sg8-Q0-g7f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1461" y="1421"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="dya-Li-ERY">
             <objects>
@@ -1632,6 +1670,12 @@
                                     <segue destination="8bK-Y6-6GN" kind="showDetail" id="S8O-M2-spD"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ef3-N4-yis">
+                                <rect key="frame" x="10" y="540" width="80" height="52"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1639,6 +1683,9 @@
                             <constraint firstItem="rT9-hS-myM" firstAttribute="top" secondItem="e2c-Ou-BDh" secondAttribute="bottom" constant="530" id="eg0-h0-Wh5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="GameTimerLabel" destination="ef3-N4-yis" id="stl-WT-ZbS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Re-9k-rH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
