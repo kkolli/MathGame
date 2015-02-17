@@ -14,18 +14,7 @@ class GameCenterController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameCenter = GameCenter(rootViewController: self)
-        self.gameCenter.loginToGameCenter() {
-            (result: Bool) in
-            if result {
-                /* Player is loggedin Game Center OR Open Windows for login in Game Center */
-                println("Logged in")
-                
-            } else {
-                /* Player is not logged in Game Center */
-                println("Not Logged in")
-                //TODO: Need to add navigation for our app between Views
-            }
-        }
+        self.gameCenter = GameCenter(rootViewController: self)
+        self.gameCenter.loginToGameCenter()
     }
 }
