@@ -73,6 +73,10 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         // Get List Of Friends
         var friendsRequest : FBRequest = FBRequest.requestForMyFriends()
         friendsRequest.startWithCompletionHandler{(connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+            if error != nil {
+                println("error: \(error)")
+                return
+            }
             var resultdict = result as NSDictionary
             // println("Result Dict: \(resultdict)")
             var data : NSArray = resultdict.objectForKey("data") as NSArray
