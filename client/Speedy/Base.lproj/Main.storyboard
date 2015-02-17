@@ -416,6 +416,12 @@
                                     <segue destination="8bK-Y6-6GN" kind="showDetail" id="S8O-M2-spD"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ef3-N4-yis">
+                                <rect key="frame" x="10" y="540" width="80" height="52"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -423,6 +429,9 @@
                             <constraint firstItem="rT9-hS-myM" firstAttribute="top" secondItem="e2c-Ou-BDh" secondAttribute="bottom" constant="530" id="eg0-h0-Wh5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="GameTimerLabel" destination="ef3-N4-yis" id="stl-WT-ZbS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Re-9k-rH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
