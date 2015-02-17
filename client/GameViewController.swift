@@ -15,7 +15,6 @@ class GameViewController : UIViewController {
         super.viewDidLoad();
         println("In Game View controller")
 
-        
         if let scene = GameScene(size: view.frame.size) as GameScene? {
             // Configure the view.
             let skView = self.view as SKView
