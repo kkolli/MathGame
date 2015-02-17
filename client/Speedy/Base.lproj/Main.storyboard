@@ -317,7 +317,7 @@
                     </view>
                     <connections>
                         <outlet property="fbLoginView" destination="kf1-EM-FMd" id="WAL-bA-n0w"/>
-                        <segue destination="OxY-fG-A3V" kind="show" id="fHu-Ph-b1t"/>
+                        <segue destination="OxY-fG-A3V" kind="show" identifier="login_segue" id="fHu-Ph-b1t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -718,7 +718,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="aQA-bA-k6m" kind="showDetail" id="K8v-Hg-CL2"/>
+                                    <segue destination="aQA-bA-k6m" kind="show" identifier="login_segue" id="K8v-Hg-CL2"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62F-Zf-oQd">
@@ -1524,12 +1524,12 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="JQo-xn-CZE"/>
-                                <exclude reference="RBi-SQ-Ipt"/>
-                                <exclude reference="cyt-I9-Iyb"/>
                                 <exclude reference="2zq-tr-dCq"/>
                                 <exclude reference="k4w-GJ-7AH"/>
                                 <exclude reference="loM-4M-Apq"/>
+                                <exclude reference="JQo-xn-CZE"/>
+                                <exclude reference="RBi-SQ-Ipt"/>
+                                <exclude reference="cyt-I9-Iyb"/>
                                 <exclude reference="8lV-f3-cjg"/>
                                 <exclude reference="Bv6-hc-qcd"/>
                                 <exclude reference="W8w-1o-NAq"/>
@@ -1542,13 +1542,6 @@
                                 <exclude reference="Wnm-xm-CAr"/>
                                 <exclude reference="b0s-hK-Hls"/>
                                 <exclude reference="eLd-cX-FRP"/>
-                                <exclude reference="1kM-yy-V30"/>
-                                <exclude reference="FR3-HN-RRu"/>
-                                <exclude reference="UM5-e9-l31"/>
-                                <exclude reference="VAL-Tm-h6X"/>
-                                <exclude reference="dKU-HG-8Tl"/>
-                                <exclude reference="tXn-SA-5ev"/>
-                                <exclude reference="wrg-N8-0xD"/>
                                 <exclude reference="4PO-Ar-WDq"/>
                                 <exclude reference="5j7-ve-vO3"/>
                                 <exclude reference="8Eb-48-uh6"/>
@@ -1557,11 +1550,19 @@
                                 <exclude reference="uvx-hx-abe"/>
                                 <exclude reference="D5o-BB-xvd"/>
                                 <exclude reference="d56-bq-pNG"/>
+                                <exclude reference="1kM-yy-V30"/>
+                                <exclude reference="FR3-HN-RRu"/>
+                                <exclude reference="UM5-e9-l31"/>
+                                <exclude reference="VAL-Tm-h6X"/>
+                                <exclude reference="dKU-HG-8Tl"/>
+                                <exclude reference="tXn-SA-5ev"/>
+                                <exclude reference="wrg-N8-0xD"/>
                                 <exclude reference="zey-lU-e5C"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=compact">
                             <mask key="constraints">
+                                <exclude reference="5j7-ve-vO3"/>
                                 <include reference="1kM-yy-V30"/>
                                 <exclude reference="EZ8-JM-gjk"/>
                                 <exclude reference="VAL-Tm-h6X"/>
@@ -1569,7 +1570,6 @@
                                 <exclude reference="tXn-SA-5ev"/>
                                 <include reference="wrg-N8-0xD"/>
                                 <exclude reference="zYW-sg-6Wl"/>
-                                <exclude reference="5j7-ve-vO3"/>
                                 <exclude reference="lvh-KI-t2Q"/>
                             </mask>
                         </variation>
@@ -1583,16 +1583,16 @@
                                 <exclude reference="dld-kx-pXa"/>
                                 <exclude reference="PDg-Hz-yaU"/>
                                 <exclude reference="eLd-cX-FRP"/>
-                                <exclude reference="EZ8-JM-gjk"/>
-                                <include reference="FR3-HN-RRu"/>
-                                <include reference="UM5-e9-l31"/>
-                                <exclude reference="zYW-sg-6Wl"/>
                                 <exclude reference="8Eb-48-uh6"/>
                                 <exclude reference="R85-Ec-Cxm"/>
                                 <exclude reference="Won-7t-KE3"/>
                                 <exclude reference="uvx-hx-abe"/>
                                 <include reference="D5o-BB-xvd"/>
                                 <exclude reference="d56-bq-pNG"/>
+                                <exclude reference="EZ8-JM-gjk"/>
+                                <include reference="FR3-HN-RRu"/>
+                                <include reference="UM5-e9-l31"/>
+                                <exclude reference="zYW-sg-6Wl"/>
                                 <exclude reference="lvh-KI-t2Q"/>
                                 <include reference="zey-lU-e5C"/>
                             </mask>
