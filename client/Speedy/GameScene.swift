@@ -147,13 +147,13 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         let boardController = BoardController(scene: self, debug: true)
         
+        setUpPhysics()
         /* Setup your scene here
         //drawSpeedy()
         if (!contentCreated) {
             createContent()
             contentCreated = true
             setupColumns()
-            setUpPhysics()
         }*/
     }
     
@@ -162,11 +162,12 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         // we put contraints on the top, left, right, bottom so that our balls can bounce off them
         let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
         physicsBody.dynamic = false
+        physicsBody.categoryBitMask = 0xFFFFFFFF
         self.physicsBody = physicsBody
         self.physicsBody?.restitution = 0.1
         self.physicsBody?.friction = 0.0
         self.physicsWorld.contactDelegate = self;
-        
+/*
         let physField = SKFieldNode.springField()
         physField.position = CGPointMake(self.size.width / 2, self.size.height / 2)
         physField.exclusive = true
@@ -176,6 +177,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         physField.strength = 20
         physField.region = SKRegion(size: self.frame.size)
         self.addChild(physField)
+*/
     }
     
     func drawSpeedy(){
