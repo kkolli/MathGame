@@ -32,8 +32,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     var wayPoints: [CGPoint] = []
     
     override func didMoveToView(view: SKView) {
-        let boardController = BoardController(scene: self)
-        boardController.drawDebug()
+        let boardController = BoardController(scene: self, debug: true)
         
         /* Setup your scene here
         //drawSpeedy()
