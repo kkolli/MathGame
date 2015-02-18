@@ -12,7 +12,7 @@ class ViewController2: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        println("In View controller 2")
         // Do any additional setup after loading the view.
     }
 
