@@ -32,14 +32,17 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     var wayPoints: [CGPoint] = []
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        drawSpeedy()
+        let boardController = BoardController(scene: self)
+        boardController.drawDebug()
+        
+        /* Setup your scene here
+        //drawSpeedy()
         if (!contentCreated) {
             createContent()
             contentCreated = true
             setupColumns()
             setUpPhysics()
-        }
+        }*/
     }
     
     func setUpPhysics(){
@@ -61,10 +64,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         physField.strength = 20
         physField.region = SKRegion(size: self.frame.size)
         self.addChild(physField)
-    }
-    
-    func createContent() {
-        self.backgroundColor = SKColor.lightGrayColor()
     }
     
     func drawSpeedy(){
