@@ -52,11 +52,11 @@ class BoardController {
         self.init(scene: scene, debug: false)
     }
     
-    func setupBoard() {
+    private func setupBoard() {
         //scene.backgroundColor = bgColor
     }
     
-    func drawHeaderLine() {
+    private func drawHeaderLine() {
         let x = 0
         let y = frame.height - frame.height * constraints.header_height
         
@@ -70,10 +70,10 @@ class BoardController {
         scene.addChild(node)
     }
     
-    func addDebugPhysBodies() {
+    private func addDebugPhysBodies() {
         var physCategory: UInt32 = 0
         for i in 0...(2 * longColNodes + shortColNodes - 1) {
-            let node = SKShapeNode(circleOfRadius: 10.0)
+            let node = SKShapeNode(circleOfRadius: 20.0)
             node.fillColor = UIColor.redColor()
             node.physicsBody = createTestPhysBody(1 << physCategory)
             node.position = CGPointMake(scene.frame.midX, scene.frame.midY)
@@ -83,8 +83,8 @@ class BoardController {
         }
     }
     
-    func createTestPhysBody(category: UInt32) -> SKPhysicsBody {
-        let physBody = SKPhysicsBody(circleOfRadius: 10.0)
+    private func createTestPhysBody(category: UInt32) -> SKPhysicsBody {
+        let physBody = SKPhysicsBody(circleOfRadius: 20.0)
         
         // friction when sliding against this physics body
         physBody.friction = 3.8
@@ -105,10 +105,12 @@ class BoardController {
         physBody.dynamic = true
         physBody.fieldBitMask = category
         
+        physBody.linearDamping = 2.0
+        
         return physBody
     }
     
-    func drawLongColLines() {
+    private func drawLongColLines() {
         let starty = frame.height - (constraints.header_height + constraints.long_col_vert_padding) * frame.height
         let endy = constraints.long_col_vert_padding * frame.height
         let leftX = constraints.col_horiz_padding * frame.width
@@ -134,7 +136,7 @@ class BoardController {
         scene.addChild(rightNode)
     }
     
-    func drawShortColLine() {
+    private func drawShortColLine() {
         let starty = frame.height - (constraints.header_height + constraints.short_col_vert_padding) * frame.height
         let endy = constraints.short_col_vert_padding * frame.height
         let x = frame.width / 2.0
@@ -149,16 +151,26 @@ class BoardController {
         scene.addChild(node)
     }
     
-    func createFieldNode(category: UInt32) -> SKFieldNode {
-        let node = SKFieldNode.springField()
-        node.falloff = 0.001
-        node.strength = 20
+    private func createFieldNode(category: UInt32) -> SKFieldNode {
+        let node = SKFieldNode.radialGravityField()
+        node.falloff = 0.01
+        node.strength = 5.5
+        node.minimumRadius = 10.0
         node.categoryBitMask = category
+        
+        let dragNode = SKFieldNode.dragField()
+        dragNode.region = SKRegion(radius: 30.0)
+        dragNode.strength = 20.0
+        dragNode.categoryBitMask = category
+        dragNode.exclusive = true
+        //dragNode.minimumRadius = 5.0
+        
+        node.addChild(dragNode)
         
         return node
     }
-    
-    func setupLongColFieldNodes() {
+
+    private func setupLongColFieldNodes() {
         let startY = frame.height - (constraints.header_height + constraints.long_col_vert_padding) * frame.height
         let endY = constraints.long_col_vert_padding * frame.height
         let leftX = constraints.col_horiz_padding * frame.width
@@ -198,7 +210,7 @@ class BoardController {
         }
     }
     
-    func setupShortColFieldNodes() {
+    private func setupShortColFieldNodes() {
         let startY = frame.height - (constraints.header_height + constraints.short_col_vert_padding) * frame.height
         let endY = constraints.short_col_vert_padding * frame.height
         let x = frame.width / 2.0
@@ -227,7 +239,7 @@ class BoardController {
         }
     }
     
-    func drawDebugLines() {
+    private func drawDebugLines() {
         drawHeaderLine()
         drawLongColLines()
         drawShortColLine()
