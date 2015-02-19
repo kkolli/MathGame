@@ -84,17 +84,6 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             println("calling handler")
             handler(user, resultdict)
             println("called handler...")
-            
-            
-            /* for i in 0...(data.count-1) {
-                let valueDict : NSDictionary = data[i] as NSDictionary
-                let id = valueDict.objectForKey("id") as String
-                println("the id value is \(id)")
-            }
-
-            
-            var friends = resultdict.objectForKey("data") as NSArray
-            println("Found \(friends.count) friends")*/
         }
     }
     
