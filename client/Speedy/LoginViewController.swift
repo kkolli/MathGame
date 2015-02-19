@@ -13,6 +13,7 @@ import Alamofire
 class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     @IBOutlet var fbLoginView : FBLoginView!
+    var alreadyFetched = false
     var user: FBGraphUser!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         println("User Email: \(userEmail)")
         
         // call method to handle getting the user's current/updated friends
-        getFacebookFriendsList(user, makePostReq);
+        if !alreadyFetched {
+            alreadyFetched = true
+            getFacebookFriendsList(user, makePostReq)
+        } else {
+            println("already fetched...")
+        }
     }
     
     func makePostReq(user: FBGraphUser, data: NSDictionary) {
@@ -92,22 +98,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             println("calling handler")
             handler(user, resultdict)
             println("called handler...")
-            
-            
-            /* for i in 0...(data.count-1) {
-                let valueDict : NSDictionary = data[i] as NSDictionary
-                let id = valueDict.objectForKey("id") as String
-                println("the id value is \(id)")
-            }
-
-            
-            var friends = resultdict.objectForKey("data") as NSArray
-            println("Found \(friends.count) friends")*/
         }
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {
         println("User Logged Out")
+        alreadyFetched = false
     }
     
     func loginView(loginView : FBLoginView!, handleError:NSError) {
