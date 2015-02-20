@@ -7,22 +7,27 @@
 //
 
 import UIKit
+import Alamofire
 
 class ViewController2: UIViewController, UIPageViewControllerDataSource {
     var user : FBGraphUser!
+    var friendScoreMap: [String]!
 
     private let MAIN_SCREEN = "MainScreenPage"
-    private let TABLE_SCREEN = "FriendsTable"
+    private let TABLE_SCREEN = "FriendScores"
     // (jchou) setting this constant is so annoying... just leave it lol
     private let viewsToNav = ["MainScreenPage",
-        "FriendsTable"];
+        "FriendScores"];
     private var curIndexNav = 0
     private var pageViewController: UIPageViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        friendScoreMap = []
         println("In View controller 2")
-        createPageViewController()
+        // should prevent getFriends from redundant calls
+        getFriends(createPageViewController)
+//        createPageViewController()
         
         // Do any additional setup after loading the view.
     }
@@ -83,8 +88,8 @@ class ViewController2: UIViewController, UIPageViewControllerDataSource {
                 let castController = pageItemController as IntroViewController
                 castController.user = user
             } else if viewsToNav[itemIndex] == TABLE_SCREEN {
-                let castController = pageItemController as FriendsTableViewController
-                castController.user = user
+                let castController = pageItemController as FSViewController
+                castController.friendScores = friendScoreMap
             }
         
 //            pageItemController.itemIndex = itemIndex
@@ -93,6 +98,48 @@ class ViewController2: UIViewController, UIPageViewControllerDataSource {
         }
         
         return nil
+    }
+    
+    func getFriends(handler: () -> Void) {
+        
+        var uri = "http://mathisspeedy.herokuapp.com/friend_scores/" + user.objectID
+        Alamofire.request(.GET, uri)
+            .responseJSON { (request, response, data, error) in
+                println("request: \(request)")
+                println("response: \(response)")
+                println("data: \(data)")
+                println("error: \(error)")
+                if error != nil || data == nil ||  data!.objectForKey("friends") == nil {
+                    println(" errors found")
+                   
+                } else {
+                     println(data!.objectForKey("friends"))
+                    var arr = data!.objectForKey("friends") as [AnyObject]
+                    for f in arr {
+                        var highscore = self.computeHighScore(f.objectForKey("score") as [Int])
+                        var str = f.objectForKey("firstName") as? String
+                        var str2 = f.objectForKey("lastName") as? String
+                        var finalString = str! + " " + str2! + " : " + String(highscore)
+//                        println("final string: " + finalString)
+                        self.friendScoreMap.append( finalString)
+                    }
+                }
+                handler()
+                
+        }
+    }
+    func computeHighScore(score: [Int])->Int {
+        var max = 0
+        if score.count == 0 {
+            return max
+        } else {
+            for s in score {
+                if s > max {
+                    max = s
+                }
+            }
+        }
+        return max
     }
     
     
