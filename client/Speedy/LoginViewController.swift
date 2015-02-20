@@ -13,7 +13,8 @@ import Alamofire
 class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     @IBOutlet var fbLoginView : FBLoginView!
-    
+    var alreadyFetched = false
+    var user: FBGraphUser!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,8 +29,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         println("User Logged In")
-        performSegueWithIdentifier("login_segue", sender: nil);
-        //perform a segue
+        
     }
     
     /*
@@ -37,6 +37,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     When we get the info back, make a post request to our server
     */
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
+        self.user = user
         println("User: \(user)")
         println("User ID: \(user.objectID)")
         println("User Name: \(user.name)")
@@ -44,7 +45,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         println("User Email: \(userEmail)")
         
         // call method to handle getting the user's current/updated friends
-        getFacebookFriendsList(user, makePostReq);
+        if !alreadyFetched {
+            alreadyFetched = true
+            getFacebookFriendsList(user, makePostReq)
+        } else {
+            println("already fetched...")
+        }
     }
     
     func makePostReq(user: FBGraphUser, data: NSDictionary) {
@@ -62,10 +68,18 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         
         
         Alamofire.request(.POST, "http://mathisspeedy.herokuapp.com/create_check_user", parameters: params, encoding:.JSON)
-        .response { (request, response, data, error) in
+        .responseString { (request, response, data, error) in
           println("request: \(request)")
           println("response: \(response)")
+          println("data: \(data)")
           println("error: \(error)")
+            if error != nil {
+                println(" errors found")
+            } else {
+                self.performSegueWithIdentifier("login_segue", sender: nil)
+                //perform a segue
+            }
+          
         }
     }
     
@@ -89,6 +103,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {
         println("User Logged Out")
+        alreadyFetched = false
     }
     
     func loginView(loginView : FBLoginView!, handleError:NSError) {
@@ -104,6 +119,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         if segue.identifier == "login_segue" {
             println("performing segue")
             let vc = segue.destinationViewController as ViewController2
+            vc.user = user
             
         }
         
