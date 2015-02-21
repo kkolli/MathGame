@@ -110,6 +110,16 @@ function fbDataObjToArr(friendsData) {
   });
   return result;
 }
+/*
+Takes the data array above and returns a list of ids
+*/
+function fbDataObjToFBID(friendsData) {
+  var result = [];
+  friendsData.forEach(function(friend) {
+    result.push(friend.fbID);
+  });
+  return result;
+}
 
 /*
 given a list of facebook ID's, give back list of friends' ids
@@ -184,4 +194,53 @@ exports.sendHighScores = function(req,res){
       res.sendStatus(200);
     }
   );
+}
+
+/*
+Request -> fbID
+
+Return -> 
+if Error:
+status 400, and the error as well
+
+if no Error:
+status 200, return the list of user friends
+friends: [
+{
+   (friend data object)
+  firstName: ...
+  lastName: ...
+  highScore: ...
+}
+]
+*/
+exports.getFriendScores = function(req, res) { 
+  Users.findOne({fbID:req.params.fbID},function(err,user){
+    if(err || !user) {
+      res.status(400);
+      if (!user) { 
+        return res.end("user not found"); 
+      }
+      res.end(JSON.stringify(err));
+      return
+    }
+    var friends = user.friends;
+    // in other words, if loner
+    if (!friends.length || friends.length === 0) {
+      res.status(200);
+      res.end(JSON.stringify({friends : []}));
+    } else {
+      Users.find({
+        '_id' : {
+          $in: friends
+        }
+      }, function(err, myFriends) {
+        res.status(200);
+        var result = {
+          friends: myFriends
+        }
+        res.end(JSON.stringify(result, null, '\t'));
+      });
+    }
+  });
 }
