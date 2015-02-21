@@ -15,13 +15,19 @@ class OperatorCircle: GameCircle{
         self.init(col: col)
         setOperator(operatorSymbol)
         setLabel(operatorSymbol)
+        setCollision()
     }
     
     func setOperator(operatorSymbol: Operator){
         op = operatorSymbol
     }
     
-    //TODO: apply image of operator to SKSpriteNode
+    func setCollision(){
+        parentNode!.physicsBody!.categoryBitMask = OperatorMask
+        parentNode!.physicsBody!.contactTestBitMask = NumberMask | OperatorMask
+        parentNode!.physicsBody!.collisionBitMask = NumberMask | OperatorMask
+    }
+    
     func setLabel(op: Operator){
         var label: SKLabelNode
         

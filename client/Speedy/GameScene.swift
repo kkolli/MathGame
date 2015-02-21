@@ -106,12 +106,12 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                     let op = OperatorCircle(col: col, operatorSymbol: randomOperators.generateOperator())
                     op.setPosition(Position)
                     
-                    self.addChild(op.parentNode!)
+                    self.addChild(op)
                 }else{
                     let number = NumberCircle(num: randomNumbers.generateNumber(), col: col)
                     number.setPosition(Position)
                     
-                    self.addChild(number.parentNode!)
+                    self.addChild(number)
                 }
                 
                 Position = CGPoint(x: Position.x + Size.width + GridSpacing.width, y: PositionY)
@@ -120,23 +120,73 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("CONTACT")
+        var numberBody: SKPhysicsBody
+        var opBody: SKPhysicsBody
         
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        
-        if contact.bodyA.joints.count <= 1 && contact.bodyB.joints.count <= 1{
-            var myJoint = SKPhysicsJointPin.jointWithBodyA(contact.bodyA, bodyB: contact.bodyB,
-                anchor: contact.bodyA.node!.position)
-            myJoint.frictionTorque = 1.0
-            self.physicsWorld.addJoint(myJoint)
+        //A neccessary check to prevent contacts from throwing runtime errors
+        if contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil{
+            //This is dependant on the order of the nodes
+            if contact.bodyA.node!.parent! is NumberCircle{
+                numberBody = contact.bodyA
+                
+                if contact.bodyB.node!.parent! is OperatorCircle{
+                    opBody = contact.bodyB
+                    
+                    let numberNode = numberBody.node!.parent! as NumberCircle
+                    let opNode     = opBody.node!.parent! as OperatorCircle
+                    
+                    if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
+                        var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
+                            anchor: numberBody.node!.position)
+                        
+                        numberNode.setNeighbor(opNode)
+                        opNode.setNeighbor(numberNode)
+                        
+                        myJoint.frictionTorque = 1.0
+                        self.physicsWorld.addJoint(myJoint)
+                    }else{
+                        let lhs = (opNode.neighbor as NumberCircle).number
+                        let op  = opNode.op
+                        
+                        numberNode.setResultLabel(lhs!, rhs: numberNode.number!, op: op!)
+                        opNode.removeFromParent()
+                        opNode.neighbor?.removeFromParent()
+                    }
+                }
+            }else{
+                if contact.bodyA.node!.parent! is OperatorCircle{
+                    opBody = contact.bodyA
+                    
+                    if contact.bodyB.node!.parent! is NumberCircle{
+                        numberBody = contact.bodyB
+                        
+                        let numberNode = numberBody.node!.parent! as NumberCircle
+                        let opNode     = opBody.node!.parent! as OperatorCircle
+                        
+                        if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
+                            var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
+                                anchor: numberBody.node!.position)
+                            
+                            numberNode.setNeighbor(opNode)
+                            opNode.setNeighbor(numberNode)
+                            
+                            myJoint.frictionTorque = 1.0
+                            self.physicsWorld.addJoint(myJoint)
+                        }else{
+                            let lhs = (opNode.neighbor as NumberCircle).number
+                            let op  = opNode.op
+                            
+                            numberNode.setResultLabel(lhs!, rhs: numberNode.number!, op: op!)
+                            opNode.removeFromParent()
+                            opNode.neighbor?.removeFromParent()
+                        }
+                    }
+                }
+            }
         }
-        
     }
     
-     func didEndContact(contact: SKPhysicsContact) {
-        println("Contact 2")
-    }
+    func didEndContact(contact: SKPhysicsContact) {}
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
@@ -147,15 +197,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }*/
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        let touchedNode = nodeAtPoint(touchLocation)
-        
-        if touchedNode is GameCircle {
-            println("GameCircle touched")
-        }
-        
-        if touchedNode is SKLabelNode {
-            println("Label node touched")
-        }
+        let touchedNode = nodeAtPoint(touchLocation).parent
+
         /*Make the touched node do something*/
     }
     
@@ -171,8 +214,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             // can't move the scene, finger probably fell off a circle?
             return
         }
-//        touchedNode.position.x = touchLocation.x
-//        touchedNode.position.y = touchLocation.y
+        touchedNode.position.x = touchLocation.x
+        touchedNode.position.y = touchLocation.y
         
         addPoint(touchLocation)
     }
@@ -184,7 +227,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: CFTimeInterval) {
         /* called before each frame is rendered */
-        drawLine()
     }
     
     func drawLine(){

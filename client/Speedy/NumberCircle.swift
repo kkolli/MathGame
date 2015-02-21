@@ -10,18 +10,21 @@ import SpriteKit
 class NumberCircle : GameCircle {
     var number: Int?
     
-    let Node:UInt32 = 0x1 << 0;
-    let Number:UInt32 = 0x1 << 2;
-    let Operator:UInt32 = 0x1 << 3;
-    
     convenience init(num: Int, col: Int)    {
         self.init(col: col)
         setNumber(num)
         setLabel()
+        setCollision()
     }
     
     func setNumber(num: Int) {
         number = num
+    }
+    
+    func setCollision(){
+        parentNode!.physicsBody!.categoryBitMask = NumberMask
+        parentNode!.physicsBody!.contactTestBitMask = NumberMask | OperatorMask
+        parentNode!.physicsBody!.collisionBitMask = NumberMask | OperatorMask
     }
     
     func setLabel(){

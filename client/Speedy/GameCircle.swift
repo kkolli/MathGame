@@ -11,6 +11,10 @@ import SpriteKit
 class GameCircle: SKNode{
     var column: Int?
     var parentNode: SKShapeNode?
+    var neighbor: GameCircle?
+    
+    let NumberMask:UInt32 = 0x1 << 2;
+    let OperatorMask:UInt32 = 0x1 << 3;
     
     let nodeRadius: CGFloat = 20
     let nodeStrokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
@@ -57,5 +61,37 @@ class GameCircle: SKNode{
     
     func setPosition(position: CGPoint) {
         parentNode?.position = position
+    }
+    
+    func setNeighbor(neighborNode: GameCircle){
+        neighbor = neighborNode
+    }
+    
+    func hasNeighbor() -> Bool{
+        if let neighbor = self.neighbor{
+            return true
+        }else{
+            return false
+        }
+    }
+    
+    func setResultLabel(lhs: Int, rhs: Int, op: Operator){
+        if parentNode!.children.count > 0{
+            parentNode!.removeAllChildren()
+        }
+        
+        var result: Int
+        switch op{
+        case .PLUS: result = lhs + rhs
+        case .MINUS: result = lhs - rhs
+        case .MULTIPLY: result = lhs * rhs
+        case .DIVIDE: result = lhs/rhs
+        }
+        
+        let resultLabel = SKLabelNode(text: String(result))
+        resultLabel.fontSize = nodeTextFontSize
+        resultLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        resultLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        parentNode!.addChild(resultLabel)
     }
 }
