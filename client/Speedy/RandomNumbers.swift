@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 class RandomNumbers {
     var target: Int
     var difficulty: Int
