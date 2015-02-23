@@ -29,10 +29,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
     
     var contentCreated = false
-    var wayPoints: [CGPoint] = []
     var scoreHandler: ((node: NumberCircle, op1: Int, op2: Int, oper: OperatorCircle) -> ())?
 
-    
+    var currentJoint: SKPhysicsJoint?
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         drawSpeedy()
@@ -147,6 +146,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                         
                         myJoint.frictionTorque = 1.0
                         self.physicsWorld.addJoint(myJoint)
+                        currentJoint = myJoint
                     }else{
                         let lhs = (opNode.neighbor as NumberCircle).number
                         let op  = opNode.op
@@ -178,6 +178,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                             
                             myJoint.frictionTorque = 1.0
                             self.physicsWorld.addJoint(myJoint)
+                            currentJoint = myJoint
                         }else{
                             // if hitting all 3
                             let lhs = (opNode.neighbor as NumberCircle).number
@@ -197,11 +198,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
-        /*for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(location)
-            touchedNode.position.x = event.
-        }*/
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
         let touchedNode = nodeAtPoint(touchLocation).parent
@@ -213,6 +209,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
+        
         if touchedNode is SKLabelNode {
             touchedNode = touchedNode.parent!
         }
@@ -220,60 +217,35 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if touchedNode is SKScene {
             // can't move the scene, finger probably fell off a circle?
             return
+        }else if touchedNode.parent! is NumberCircle{
+            //Only number circles can be moved
+            touchedNode.position.x = touchLocation.x
+            touchedNode.position.y = touchLocation.y
         }
-        touchedNode.position.x = touchLocation.x
-        touchedNode.position.y = touchLocation.y
-        
-        addPoint(touchLocation)
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        wayPoints.removeAll(keepCapacity: false)
+        let touch = touches.anyObject() as UITouch
+        let touchLocation = touch.locationInNode(self)
+        var touchedNode = nodeAtPoint(touchLocation)
         
+        if touchedNode is SKLabelNode {
+            touchedNode = touchedNode.parent!.parent!
+            
+        }
+        
+        //Break the node joint if touch is released
+        breakJoint()
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* called before each frame is rendered */
     }
-    
-    func drawLine(){
-        enumerateChildNodesWithName("line", usingBlock: {node, stop in
-            node.removeFromParent()
-        })
-            
-        if let path = createPath(){
-            let shapeNode = SKShapeNode()
-            shapeNode.path = path
-            shapeNode.name = "line"
-            shapeNode.strokeColor = UIColor.blueColor()
-            shapeNode.lineWidth = 2
-            shapeNode.zPosition = 1
-            
-            self.addChild(shapeNode)
+
+    func breakJoint(){
+        if currentJoint != nil{
+            self.physicsWorld.removeJoint(currentJoint!)
+            currentJoint = nil
         }
-    }
-    
-    func createPath() -> CGPathRef? {
-        if wayPoints.count <= 1 {
-            return nil
-        }
-        
-        var ref = CGPathCreateMutable()
-        
-        for var i = 0; i < wayPoints.count; ++i{
-            let p = wayPoints[i]
-            
-            if i == 0{
-                CGPathMoveToPoint(ref, nil, p.x, p.y)
-            }else{
-                CGPathAddLineToPoint(ref, nil, p.x, p.y)
-            }
-        }
-        
-        return ref
-    }
-    
-    func addPoint(point: CGPoint){
-        wayPoints.append(point)
     }
 }
