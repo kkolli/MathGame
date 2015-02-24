@@ -7,48 +7,31 @@
 //
 import SpriteKit
 
-class NumberCircle : SKNode {
+class NumberCircle : GameCircle {
     var number: Int?
-    var parentNode: SKShapeNode?
     
-    let nodeRadius: CGFloat = 20
-    let nodeStrokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
-    let nodeTextFontSize: CGFloat = 16.0
-    let nodeLineWidth: CGFloat = 4
-    
-    let physicsFriction: CGFloat = 0.1
-    let physicsRestitution: CGFloat = 0.8
-    let physicsMass: CGFloat = 0.1
-    
-    convenience init(num: Int) {
-        self.init()
-        setupNodes()
+    convenience init(num: Int, col: Int)    {
+        self.init(col: col)
         setNumber(num)
+        setLabel()
+        setCollision()
     }
     
     func setNumber(num: Int) {
         number = num
     }
     
-    func setupNodes() {
-        parentNode = SKShapeNode(circleOfRadius: nodeRadius)
-        parentNode!.strokeColor = nodeStrokeColor
-        parentNode!.lineWidth = nodeLineWidth
-        
+    func setCollision(){
+        parentNode!.physicsBody!.categoryBitMask = NumberMask
+        parentNode!.physicsBody!.contactTestBitMask = NumberMask | OperatorMask
+        parentNode!.physicsBody!.collisionBitMask = NumberMask | OperatorMask
+    }
+    
+    func setLabel(){
         let text = SKLabelNode(text: String(number!))
         text.fontSize = nodeTextFontSize
+        text.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        text.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         parentNode!.addChild(text)
-    }
-    
-    func setupPhysicsBody() {
-        parentNode!.physicsBody = SKPhysicsBody(circleOfRadius: parentNode!.frame.size.width / 2)
-        physicsBody!.friction = physicsFriction
-        physicsBody!.restitution = physicsRestitution
-        physicsBody!.mass = physicsMass
-        
-    }
-    
-    func setPosition(x: CGFloat, y: CGFloat) {
-        parentNode?.position = CGPoint(x: x, y: y)
     }
 }

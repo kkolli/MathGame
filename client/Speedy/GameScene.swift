@@ -25,7 +25,11 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     let Node:UInt32 = 0x1 << 0;
     let NonNode:UInt32 = 0x1 << 1;
     
+    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
+    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
+    
     var contentCreated = false
+    var wayPoints: [CGPoint] = []
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -44,6 +48,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
         physicsBody.dynamic = false
         self.physicsBody = physicsBody
+        self.physicsBody?.restitution = 0.1
+        self.physicsBody?.friction = 0.0
         self.physicsWorld.contactDelegate = self;
         
         let physField = SKFieldNode.springField()
@@ -90,49 +96,23 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let baseOrigin = CGPoint(x:leftColumn, y:startHeight - 530)  //Starting position to create Grid
         for var row = 1; row <= RowCount; row++ {
 
-            
             // 3
             let PositionY = CGFloat(row) * (Size.height * 2) + baseOrigin.y
             var Position = CGPoint(x:baseOrigin.x, y:PositionY)
             
             // 4
             for var col = 1; col <= ColCount; col++ {
-                
-                let shape = SKShapeNode(circleOfRadius: 20)
-                shape.strokeColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.5)
-                shape.lineWidth = 4
-                shape.antialiased = true
-                
-                let text = SKLabelNode(text: String(3))
-                text.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-                text.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-                
-                // we set the font
-                text.fontSize = 16.0
-                // we nest the text label in our circle
-                shape.addChild(text)
-                shape.physicsBody = SKPhysicsBody(circleOfRadius: shape.frame.size.width/2)
-                // this defines the mass, roughness and bounciness
-                shape.physicsBody?.friction = 3.8
-                shape.physicsBody?.restitution = 0.8
-                shape.physicsBody?.mass = 1
-                // this will allow the balls to rotate when bouncing off each other
-                shape.physicsBody?.allowsRotation = false
-                
-                //Physics to check collision
-                shape.physicsBody?.contactTestBitMask = Node
-                shape.physicsBody?.collisionBitMask = Node
-                
-                shape.physicsBody?.dynamic = true
-                //shape.physicsBody?.affectedByGravity = true
-                
-                
-                // we set initial random positions
-                shape.position = Position
-                // we add each circle to the display list
-                self.addChild(shape)
-                
-                
+                if col % 2 == 0{
+                    let op = OperatorCircle(col: col, operatorSymbol: randomOperators.generateOperator())
+                    op.setPosition(Position)
+                    
+                    self.addChild(op)
+                }else{
+                    let number = NumberCircle(num: randomNumbers.generateNumber(), col: col)
+                    number.setPosition(Position)
+                    
+                    self.addChild(number)
+                }
                 
                 Position = CGPoint(x: Position.x + Size.width + GridSpacing.width, y: PositionY)
             }
@@ -140,21 +120,73 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("CONTACT")
-        //var myJoint = SKPhysicsJointSpring.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB,
-        //    anchorA: contact.bodyA.node!.position, anchorB: contact.bodyB.node!.position)
-        var myJoint = SKPhysicsJointPin.jointWithBodyA(contact.bodyA,bodyB: contact.bodyB,
-            anchor: contact.bodyA.node!.position)
-        myJoint.frictionTorque = 1.0
-        self.physicsWorld.addJoint(myJoint)
+        var numberBody: SKPhysicsBody
+        var opBody: SKPhysicsBody
+        
+        //A neccessary check to prevent contacts from throwing runtime errors
+        if contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil{
+            //This is dependant on the order of the nodes
+            if contact.bodyA.node!.parent! is NumberCircle{
+                numberBody = contact.bodyA
+                
+                if contact.bodyB.node!.parent! is OperatorCircle{
+                    opBody = contact.bodyB
+                    
+                    let numberNode = numberBody.node!.parent! as NumberCircle
+                    let opNode     = opBody.node!.parent! as OperatorCircle
+                    
+                    if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
+                        var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
+                            anchor: numberBody.node!.position)
+                        
+                        numberNode.setNeighbor(opNode)
+                        opNode.setNeighbor(numberNode)
+                        
+                        myJoint.frictionTorque = 1.0
+                        self.physicsWorld.addJoint(myJoint)
+                    }else{
+                        let lhs = (opNode.neighbor as NumberCircle).number
+                        let op  = opNode.op
+                        
+                        numberNode.setResultLabel(lhs!, rhs: numberNode.number!, op: op!)
+                        opNode.removeFromParent()
+                        opNode.neighbor?.removeFromParent()
+                    }
+                }
+            }else{
+                if contact.bodyA.node!.parent! is OperatorCircle{
+                    opBody = contact.bodyA
+                    
+                    if contact.bodyB.node!.parent! is NumberCircle{
+                        numberBody = contact.bodyB
+                        
+                        let numberNode = numberBody.node!.parent! as NumberCircle
+                        let opNode     = opBody.node!.parent! as OperatorCircle
+                        
+                        if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
+                            var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
+                                anchor: numberBody.node!.position)
+                            
+                            numberNode.setNeighbor(opNode)
+                            opNode.setNeighbor(numberNode)
+                            
+                            myJoint.frictionTorque = 1.0
+                            self.physicsWorld.addJoint(myJoint)
+                        }else{
+                            let lhs = (opNode.neighbor as NumberCircle).number
+                            let op  = opNode.op
+                            
+                            numberNode.setResultLabel(lhs!, rhs: numberNode.number!, op: op!)
+                            opNode.removeFromParent()
+                            opNode.neighbor?.removeFromParent()
+                        }
+                    }
+                }
+            }
+        }
     }
     
-     func didEndContact(contact: SKPhysicsContact) {
-        println("Contact 2")
-    }
-    
-    
-    
+    func didEndContact(contact: SKPhysicsContact) {}
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
@@ -165,7 +197,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }*/
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        let touchedNode = nodeAtPoint(touchLocation)
+        let touchedNode = nodeAtPoint(touchLocation).parent
+
         /*Make the touched node do something*/
     }
     
@@ -184,9 +217,56 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         touchedNode.position.x = touchLocation.x
         touchedNode.position.y = touchLocation.y
         
+        addPoint(touchLocation)
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        wayPoints.removeAll(keepCapacity: false)
+        
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* called before each frame is rendered */
+    }
+    
+    func drawLine(){
+        enumerateChildNodesWithName("line", usingBlock: {node, stop in
+            node.removeFromParent()
+        })
+            
+        if let path = createPath(){
+            let shapeNode = SKShapeNode()
+            shapeNode.path = path
+            shapeNode.name = "line"
+            shapeNode.strokeColor = UIColor.blueColor()
+            shapeNode.lineWidth = 2
+            shapeNode.zPosition = 1
+            
+            self.addChild(shapeNode)
+        }
+    }
+    
+    func createPath() -> CGPathRef? {
+        if wayPoints.count <= 1 {
+            return nil
+        }
+        
+        var ref = CGPathCreateMutable()
+        
+        for var i = 0; i < wayPoints.count; ++i{
+            let p = wayPoints[i]
+            
+            if i == 0{
+                CGPathMoveToPoint(ref, nil, p.x, p.y)
+            }else{
+                CGPathAddLineToPoint(ref, nil, p.x, p.y)
+            }
+        }
+        
+        return ref
+    }
+    
+    func addPoint(point: CGPoint){
+        wayPoints.append(point)
     }
 }
