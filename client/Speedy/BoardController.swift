@@ -33,6 +33,11 @@ class BoardController {
     
     let debug: Bool
     
+    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
+    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
+    
+    var nodeRestPositions: [CGPoint] = []
+    
     init(scene s: SKScene, debug d: Bool) {
         scene = s
         frame = scene.frame
@@ -40,12 +45,13 @@ class BoardController {
         
         if debug {
             drawDebugLines()
-            addDebugPhysBodies()
+            //addDebugPhysBodies()
         }
         
         setupBoard()
         setupLongColFieldNodes()
         setupShortColFieldNodes()
+        addGameCircles()
     }
     
     convenience init(scene: SKScene) {
@@ -70,6 +76,20 @@ class BoardController {
         scene.addChild(node)
     }
     
+    private func addGameCircles() {
+        var physCategory: UInt32 = 0
+        for i in 0...(2 * longColNodes + shortColNodes - 1) {
+            let node = (i >= 2 * longColNodes) ? OperatorCircle(operatorSymbol: randomOperators.generateOperator()) : NumberCircle(num: randomNumbers.generateNumber())
+            //let node = NumberCircle(num: i)
+            //node.fillColor = UIColor.redColor()
+            node.physicsBody = createGameCirclePhysBody(1 << physCategory)
+            node.position = nodeRestPositions[i]
+            physCategory++
+            
+            scene.addChild(node)
+        }
+    }
+    
     private func addDebugPhysBodies() {
         var physCategory: UInt32 = 0
         for i in 0...(2 * longColNodes + shortColNodes - 1) {
@@ -81,6 +101,32 @@ class BoardController {
             
             scene.addChild(node)
         }
+    }
+    
+    private func createGameCirclePhysBody(category: UInt32) -> SKPhysicsBody {
+        let physBody = SKPhysicsBody(circleOfRadius: 20.0)
+        
+        // friction when sliding against this physics body
+        physBody.friction = 3.8
+        
+        // bounciness of this physics body when colliding
+        physBody.restitution = 0.8
+        
+        // mass (and hence inertia) of this physics body
+        physBody.mass = 1
+        
+        // this will allow the balls to rotate when bouncing off each other
+        physBody.allowsRotation = false
+        
+        physBody.dynamic = true
+        physBody.fieldBitMask = category
+        
+        physBody.linearDamping = 2.0
+        
+        // check for contact with other game circle phys bodies
+        physBody.contactTestBitMask = 1
+        
+        return physBody
     }
     
     private func createTestPhysBody(category: UInt32) -> SKPhysicsBody {
@@ -207,6 +253,9 @@ class BoardController {
             
             scene.addChild(leftFieldNode)
             scene.addChild(rightFieldNode)
+            
+            nodeRestPositions.append(leftFieldNode.position)
+            nodeRestPositions.append(rightFieldNode.position)
         }
     }
     
@@ -236,6 +285,7 @@ class BoardController {
             curOffset += yDist
             
             scene.addChild(fieldNode)
+            nodeRestPositions.append(fieldNode.position)
         }
     }
     
