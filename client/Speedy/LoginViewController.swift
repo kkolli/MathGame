@@ -2,8 +2,8 @@
 // ViewController.swift
 // SwiftBook
 //
-// Created by Brian Coleman on 2014-07-07.
-// Copyright (c) 2014 Brian Coleman. All rights reserved.
+// Created by Krishna Kolli on 2014-07-07.
+// Copyright (c) 2014 Krishna Kolli. All rights reserved.
 //import UIKit
 
 import UIKit
@@ -118,7 +118,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "login_segue" {
             println("performing segue")
-            let vc = segue.destinationViewController as ViewController2
+            let vc = segue.destinationViewController as PageViewController
             vc.user = user
             
         }

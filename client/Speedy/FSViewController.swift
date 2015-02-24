@@ -31,9 +31,12 @@ class FSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        tableView.backgroundColor = UIColor.clearColor()
         var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
         
         cell.textLabel?.text = self.friendScores[indexPath.row]
+        cell.textLabel?.textColor = UIColor.lightTextColor()
+        cell.backgroundColor = UIColor.clearColor()
         
         return cell
     }
@@ -41,16 +44,5 @@ class FSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
