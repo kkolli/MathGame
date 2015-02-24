@@ -10,6 +10,7 @@ import SpriteKit
 
 class OperatorCircle: GameCircle{
     var op: Operator?
+    let multiplier_factor: [Operator: Int] = [.PLUS: 1, .MINUS: 2, .MULTIPLY: 1, .DIVIDE: 2]
     
     convenience init(col: Int, operatorSymbol: Operator){
         self.init(col: col)
@@ -26,6 +27,14 @@ class OperatorCircle: GameCircle{
         parentNode!.physicsBody!.categoryBitMask = OperatorMask
         parentNode!.physicsBody!.contactTestBitMask = NumberMask | OperatorMask
         parentNode!.physicsBody!.collisionBitMask = NumberMask | OperatorMask
+    }
+    
+    func getMultiplierFactor() -> Int {
+        if multiplier_factor[self.op!] != nil {
+            return multiplier_factor[self.op!]!
+        } else {
+            return 1
+        }
     }
     
     func setLabel(op: Operator){

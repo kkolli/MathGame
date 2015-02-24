@@ -30,6 +30,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     var contentCreated = false
     var wayPoints: [CGPoint] = []
+    var scoreHandler: ((node: NumberCircle, op1: Int, op2: Int, oper: OperatorCircle) -> ())?
+
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -127,6 +129,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil{
             //This is dependant on the order of the nodes
             if contact.bodyA.node!.parent! is NumberCircle{
+                println("CONTACT NUMBER CIRCLE")
                 numberBody = contact.bodyA
                 
                 if contact.bodyB.node!.parent! is OperatorCircle{
@@ -154,6 +157,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }else{
+                println("CONTACT OPERATOR CIRCLE")
+
                 if contact.bodyA.node!.parent! is OperatorCircle{
                     opBody = contact.bodyA
                     
@@ -163,6 +168,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                         let numberNode = numberBody.node!.parent! as NumberCircle
                         let opNode     = opBody.node!.parent! as OperatorCircle
                         
+                        // all nodes touching together have no neighbors (1st contact)
                         if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
                             var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
                                 anchor: numberBody.node!.position)
@@ -173,6 +179,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                             myJoint.frictionTorque = 1.0
                             self.physicsWorld.addJoint(myJoint)
                         }else{
+                            // if hitting all 3
                             let lhs = (opNode.neighbor as NumberCircle).number
                             let op  = opNode.op
                             

@@ -14,6 +14,8 @@ import UIKit
 class GameViewController : UIViewController {
     
     @IBOutlet weak var GameTimerLabel: UILabel!
+    @IBOutlet weak var GameScoreLabel: UILabel!
+    @IBOutlet weak var GameTargetNumLabel: UILabel!
     var timer = NSTimer()
     var counter = 0
     var game_max_time = 60 // TODO - modify this somehow later
@@ -38,10 +40,30 @@ class GameViewController : UIViewController {
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
+            scene.scoreHandler = scoreHandler;
             
             skView.presentScene(scene)
         }
+        
     }
+    
+    // BEGIN -- SCORE HANDLING
+    /*
+    takes in the target node that everything gets merged into, 
+    two operands and an operatorCircle
+    
+    Whether or not this new node is the designated target number should be handled elsewhere
+    */
+    func scoreHandler(node: NumberCircle, op1: Int, op2: Int, oper: OperatorCircle) {
+        var newScore = (op1 + op2) * oper.getMultiplierFactor()
+        node.setScore(node.getScore() + newScore)
+    }
+    
+    func checkTargetNumber() {
+        
+    }
+    
+    // END-- SCORE HANDLING
     
     func startTimer() {
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
