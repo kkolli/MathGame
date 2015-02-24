@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene : SKScene, SKPhysicsContactDelegate {
     //TODO: Put constant numbers in CAPS
+    /*
     let canvasHeight: UInt32 = 800 //CHANGE MAGIC NUMBER
     let canvasWidth:UInt32 = 800   //CHANGE MAGIC NUMBER
     let leftColumn:CGFloat = 50    //CHANGE MAGIC NUMBER
@@ -22,14 +23,16 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     let RowCount = 8
     let ColCount = 3
     
-    let Node:UInt32 = 0x1 << 0;
-    let NonNode:UInt32 = 0x1 << 1;
+    //let Node:UInt32 = 0x1 << 0
+    //let NonNode:UInt32 = 0x1 << 1
     
+    */
     let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
     let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
     
-    var contentCreated = false
-    var wayPoints: [CGPoint] = []
+    //var contentCreated = false
+    //var wayPoints: [CGPoint] = []
+    var activeNode: SKNode?
     
     override func didMoveToView(view: SKView) {
         let boardController = BoardController(scene: self, debug: true)
@@ -54,19 +57,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.restitution = 0.1
         self.physicsBody?.friction = 0.0
         self.physicsWorld.contactDelegate = self;
-/*
-        let physField = SKFieldNode.springField()
-        physField.position = CGPointMake(self.size.width / 2, self.size.height / 2)
-        physField.exclusive = true
-        // disable for now, we know it works
-        physField.enabled = false
-        physField.falloff = 0.001
-        physField.strength = 20
-        physField.region = SKRegion(size: self.frame.size)
-        self.addChild(physField)
-*/
     }
-    
+   /*
     func drawSpeedy(){
         //Draw Column1
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
@@ -118,6 +110,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+    */
     
     func didBeginContact(contact: SKPhysicsContact) {
         println("CONTACT")
@@ -125,7 +118,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
         
-        if contact.bodyA.joints.count <= 1 && contact.bodyB.joints.count <= 1{
+        if contact.bodyA.joints.count <= 1 && contact.bodyB.joints.count <= 1 {
             var myJoint = SKPhysicsJointPin.jointWithBodyA(contact.bodyA, bodyB: contact.bodyB,
                 anchor: contact.bodyA.node!.position)
             myJoint.frictionTorque = 1.0
@@ -134,7 +127,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         
     }
     
-     func didEndContact(contact: SKPhysicsContact) {
+    func didEndContact(contact: SKPhysicsContact) {
         println("Contact 2")
     }
     
@@ -147,8 +140,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }*/
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        let touchedNode = nodeAtPoint(touchLocation)
+        var touchedNode = nodeAtPoint(touchLocation)
         
+        /*
         if touchedNode is GameCircle {
             println("GameCircle touched")
         }
@@ -156,32 +150,57 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if touchedNode is SKLabelNode {
             println("Label node touched")
         }
+        */
+        
+        while !(touchedNode is GameCircle) {
+            if touchedNode is SKScene {
+                // can't move the scene, finger probably fell off a circle?
+                if let physBody = activeNode?.physicsBody {
+                    physBody.dynamic = true
+                }
+                return
+            }
+            touchedNode = touchedNode.parent!
+        }
+        
         /*Make the touched node do something*/
+        if let physBody = touchedNode.physicsBody {
+            physBody.dynamic = false
+        }
+        activeNode = touchedNode
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
-        if touchedNode is SKLabelNode {
+        while !(touchedNode is GameCircle) {
+            if touchedNode is SKScene {
+                // can't move the scene, finger probably fell off a circle?
+                if let physBody = activeNode?.physicsBody {
+                    physBody.dynamic = true
+                }
+                return
+            }
             touchedNode = touchedNode.parent!
         }
         
-        if touchedNode is SKScene {
-            // can't move the scene, finger probably fell off a circle?
-            return
-        }
-//        touchedNode.position.x = touchLocation.x
-//        touchedNode.position.y = touchLocation.y
+        touchedNode.position.x = touchLocation.x
+        touchedNode.position.y = touchLocation.y
         
-        addPoint(touchLocation)
+        //addPoint(touchLocation)
     }
-    
+
+
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        wayPoints.removeAll(keepCapacity: false)
+       // wayPoints.removeAll(keepCapacity: false)
+        if let physBody = activeNode?.physicsBody {
+            physBody.dynamic = true
+        }
         
+        activeNode = nil
     }
-    
+    /*
     override func update(currentTime: CFTimeInterval) {
         /* called before each frame is rendered */
         drawLine()
@@ -227,4 +246,5 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     func addPoint(point: CGPoint){
         wayPoints.append(point)
     }
+*/
 }
