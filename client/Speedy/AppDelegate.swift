@@ -3,8 +3,8 @@
 // AppDelegate.swift
 // SwiftBook
 //
-// Created by Brian Coleman on 2014-07-07.
-// Copyright (c) 2014 Brian Coleman. All rights reserved.
+// Created by Krishna Kolli
+// Copyright (c) Krishna Kolli. All rights reserved.
 //import UIKit
 
 @UIApplicationMain
