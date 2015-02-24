@@ -10,8 +10,10 @@ import UIKit
 import SpriteKit
 import Alamofire
 
-class LoginViewController: UIViewController {
-
+class LoginViewController: UIViewController, FBLoginViewDelegate {
+    @IBOutlet var fbLoginView : FBLoginView!
+    var alreadyFetched = false
+    var user: FBGraphUser!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
