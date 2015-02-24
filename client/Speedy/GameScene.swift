@@ -22,9 +22,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     let RowCount = 8
     let ColCount = 3
     
-    let Node:UInt32 = 0x1 << 0;
-    let NonNode:UInt32 = 0x1 << 1;
-    
     let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
     let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
     
@@ -148,12 +145,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                         self.physicsWorld.addJoint(myJoint)
                         currentJoint = myJoint
                     }else{
-                        let lhs = (opNode.neighbor as NumberCircle).number
-                        let op  = opNode.op
+                        let leftNumberCircle = opNode.neighbor as NumberCircle
+                        let opCircle  = opNode
                         
-                        numberNode.setResultLabel(lhs!, rhs: numberNode.number!, op: op!)
-                        opNode.removeFromParent()
-                        opNode.neighbor?.removeFromParent()
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
             }else{
@@ -181,12 +176,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                             currentJoint = myJoint
                         }else{
                             // if hitting all 3
-                            let lhs = (opNode.neighbor as NumberCircle).number
-                            let op  = opNode.op
+                            let leftNumberCircle = opNode.neighbor as NumberCircle
+                            let opCircle  = opNode
                             
-                            numberNode.setResultLabel(lhs!, rhs: numberNode.number!, op: op!)
-                            opNode.removeFromParent()
-                            opNode.neighbor?.removeFromParent()
+                            mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                         }
                     }
                 }
@@ -246,6 +239,31 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if currentJoint != nil{
             self.physicsWorld.removeJoint(currentJoint!)
             currentJoint = nil
+        }
+    }
+    
+    func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
+        let leftNumber = leftNumberCircle.number!
+        let rightNumber = rightNumberCircle.number!
+        let op = opCircle.op!
+        
+        var result: Int
+        switch op{
+        case .PLUS: result = leftNumber + rightNumber
+        case .MINUS: result = leftNumber - rightNumber
+        case .MULTIPLY: result = leftNumber * rightNumber
+        case .DIVIDE: result = leftNumber/rightNumber
+        }
+        
+        if result == 0{
+            leftNumberCircle.removeFromParent()
+            rightNumberCircle.removeFromParent()
+            opCircle.removeFromParent()
+        }else{
+            rightNumberCircle.setResultLabel(result)
+            
+            leftNumberCircle.removeFromParent()
+            opCircle.removeFromParent()
         }
     }
 }

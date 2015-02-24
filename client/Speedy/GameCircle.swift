@@ -75,17 +75,9 @@ class GameCircle: SKNode{
         }
     }
     
-    func setResultLabel(lhs: Int, rhs: Int, op: Operator){
+    func setResultLabel(result: Int){
         if parentNode!.children.count > 0{
             parentNode!.removeAllChildren()
-        }
-        
-        var result: Int
-        switch op{
-        case .PLUS: result = lhs + rhs
-        case .MINUS: result = lhs - rhs
-        case .MULTIPLY: result = lhs * rhs
-        case .DIVIDE: result = lhs/rhs
         }
         
         let resultLabel = SKLabelNode(text: String(result))
