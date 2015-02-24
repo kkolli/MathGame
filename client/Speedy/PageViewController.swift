@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class ViewController2: UIViewController, UIPageViewControllerDataSource {
+class PageViewController: UIViewController, UIPageViewControllerDataSource {
     var user : FBGraphUser!
     var friendScoreMap: [String]!
 
