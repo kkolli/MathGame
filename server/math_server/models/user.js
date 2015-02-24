@@ -11,7 +11,6 @@ var UserSchema = new Schema({
   score: {type: [Number]}
 });
 
-
 UserSchema.pre('save', function(next) {
   var user = this;
   next();
