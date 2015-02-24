@@ -7,14 +7,13 @@
 //
 
 import UIKit
-<<<<<<< HEAD
-=======
 import SpriteKit
 import Alamofire
->>>>>>> adding facebook integration for friends request and almos post request to heroku
 
-class LoginViewController: UIViewController {
-
+class LoginViewController: UIViewController, FBLoginViewDelegate {
+    @IBOutlet var fbLoginView : FBLoginView!
+    var alreadyFetched = false
+    var user: FBGraphUser!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
