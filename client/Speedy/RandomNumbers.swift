@@ -42,6 +42,15 @@ class RandomNumbers {
      * We want 1-10 to appear more than 11-100, so 1-10 is assigned a 
      * higher probability.
      */
+    func generateGeometricDist() -> Int{
+        let p = 0.25
+        var random = Double(arc4random() / UInt32.max)
+        var denom = log(1.0 - p)
+        var exponentialDist = log(random) / denom
+        
+        return Int(floor(exponentialDist))
+    }
+    
     func generateWeights() -> [Double]{
         let primaryProbability = 0.055
         let secondaryProbability = 0.005

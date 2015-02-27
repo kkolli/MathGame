@@ -381,6 +381,39 @@
                             <constraint firstAttribute="centerY" secondItem="uk7-bg-DND" secondAttribute="centerY" constant="223.25" id="CxZ-0P-WFX"/>
                             <constraint firstAttribute="centerX" secondItem="uk7-bg-DND" secondAttribute="centerX" constant="-0.75" id="hlr-eZ-2bE"/>
                         </constraints>
+                        <variation key="heightClass=compact-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="Smh-58-gy4"/>
+                                <include reference="0Cy-1Q-4az"/>
+                                <include reference="z5f-Kc-JhE"/>
+                                <include reference="J0i-IG-hj4"/>
+                                <include reference="U4y-Kf-ark"/>
+                                <include reference="cU5-1T-gvz"/>
+                                <include reference="ViC-Gp-5fi"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="Smh-58-gy4"/>
+                                <include reference="0Cy-1Q-4az"/>
+                                <include reference="z5f-Kc-JhE"/>
+                                <include reference="J0i-IG-hj4"/>
+                                <include reference="U4y-Kf-ark"/>
+                                <include reference="cU5-1T-gvz"/>
+                                <include reference="ViC-Gp-5fi"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <include reference="Smh-58-gy4"/>
+                                <include reference="0Cy-1Q-4az"/>
+                                <include reference="z5f-Kc-JhE"/>
+                                <include reference="J0i-IG-hj4"/>
+                                <include reference="U4y-Kf-ark"/>
+                                <include reference="cU5-1T-gvz"/>
+                                <include reference="ViC-Gp-5fi"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="iMX-fr-pFg" id="rzI-mf-6Ga"/>
