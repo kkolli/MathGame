@@ -26,8 +26,7 @@ class GameCenterController: UIViewController, MCBrowserViewControllerDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
-        //        self.gameCenter = GameCenter(rootViewController: self)
-        //        self.gameCenter.loginToGameCenter()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
     }
     @IBAction func connectWithPlayer(sender: AnyObject) {
         if appDelegate.mpcHandler.session != nil{
@@ -47,6 +46,34 @@ class GameCenterController: UIViewController, MCBrowserViewControllerDelegate {
         
         if state != MCSessionState.Connecting.rawValue{
             self.navigationItem.title = "Connected"
+            performSegueToMultiplayer()
+        }
+        
+    }
+    
+    func handleReceivedDataWithNotification(notification:NSNotification){
+        let userInfo = notification.userInfo! as Dictionary
+        let receivedData:NSData = userInfo["data"] as NSData
+        
+        let message = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+        let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
+        let senderDisplayName = senderPeerId.displayName
+        
+        if message.objectForKey("string")?.isEqualToString("New Game") == true{
+            
+        }
+        
+        
+    }
+    
+    func performSegueToMultiplayer() {
+        self.performSegueWithIdentifier("multiplayer_segue", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "multiplayer_segue" {
+            println("performing segue to multiplayer")
+            let vc = segue.destinationViewController as MultiplayerViewController
         }
         
     }
