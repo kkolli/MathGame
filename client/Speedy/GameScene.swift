@@ -26,9 +26,14 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
     
     var contentCreated = false
-    var scoreHandler: ((node: NumberCircle, op1: Int, op2: Int, oper: OperatorCircle) -> ())?
+    var scoreHandler: ((op1: Int, op2: Int, oper: Operator) -> ((Int, Bool)))?
 
     var currentJoint: SKPhysicsJoint?
+    var joinedNodeA: GameCircle?
+    var joinedNodeB: GameCircle?
+    
+    var targetNumber: Int?
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         drawSpeedy()
@@ -89,6 +94,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
     
     func setupColumns() {
+        targetNumber = randomNumbers.generateTarget()
         
         // 1
         let baseOrigin = CGPoint(x:leftColumn, y:startHeight - 530)  //Starting position to create Grid
@@ -144,6 +150,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                         myJoint.frictionTorque = 1.0
                         self.physicsWorld.addJoint(myJoint)
                         currentJoint = myJoint
+                        joinedNodeA = numberNode
+                        joinedNodeB = opNode
                     }else{
                         let leftNumberCircle = opNode.neighbor as NumberCircle
                         let opCircle  = opNode
@@ -174,6 +182,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
                             myJoint.frictionTorque = 1.0
                             self.physicsWorld.addJoint(myJoint)
                             currentJoint = myJoint
+                            joinedNodeA = numberNode
+                            joinedNodeB = opNode
                         }else{
                             // if hitting all 3
                             let leftNumberCircle = opNode.neighbor as NumberCircle
@@ -239,6 +249,14 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if currentJoint != nil{
             self.physicsWorld.removeJoint(currentJoint!)
             currentJoint = nil
+            
+            if joinedNodeA != nil{
+                joinedNodeA!.neighbor = nil
+            }
+            
+            if joinedNodeB != nil{
+                joinedNodeB!.neighbor = nil
+            }
         }
     }
     
@@ -247,20 +265,15 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let rightNumber = rightNumberCircle.number!
         let op = opCircle.op!
         
-        var result: Int
-        switch op{
-        case .PLUS: result = leftNumber + rightNumber
-        case .MINUS: result = leftNumber - rightNumber
-        case .MULTIPLY: result = leftNumber * rightNumber
-        case .DIVIDE: result = leftNumber/rightNumber
-        }
+        let (result, removeNode) = scoreHandler!(op1: leftNumber, op2: rightNumber, oper: op)
         
-        if result == 0{
+        if removeNode{
             leftNumberCircle.removeFromParent()
             rightNumberCircle.removeFromParent()
             opCircle.removeFromParent()
         }else{
             rightNumberCircle.setResultLabel(result)
+            rightNumberCircle.neighbor = nil
             
             leftNumberCircle.removeFromParent()
             opCircle.removeFromParent()

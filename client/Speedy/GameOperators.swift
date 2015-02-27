@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Operator {
+enum Operator{
     case PLUS
     case MINUS
     case MULTIPLY
