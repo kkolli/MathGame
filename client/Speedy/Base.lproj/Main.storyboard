@@ -337,6 +337,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="s4c-WK-bYu"/>
                     <connections>
+                        <outlet property="NavBar" destination="s4c-WK-bYu" id="VYq-Dg-Zr6"/>
                         <outlet property="fbLoginView" destination="kf1-EM-FMd" id="WAL-bA-n0w"/>
                         <segue destination="OxY-fG-A3V" kind="show" identifier="login_segue" id="fHu-Ph-b1t"/>
                     </connections>
