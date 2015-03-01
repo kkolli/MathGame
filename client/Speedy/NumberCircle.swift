@@ -8,14 +8,16 @@
 import SpriteKit
 
 class NumberCircle : GameCircle {
+    
     var number: Int?
     var score: Int?
     
     let nodeFont = "AmericanTypewriter-Bold"
     let leftNode: Operator?
     let rightNode: Operator?
-    
     var text: SKLabelNode?
+    var scoreMultiplier = 3
+    var upgraded = false
     
     convenience init(num: Int)    {
         self.init()
@@ -37,6 +39,18 @@ class NumberCircle : GameCircle {
     func setNumber(num: Int) {
         number = num
         setLabel()
+    }
+    
+    func setIsUpgraded(isUpgraded: Bool){
+        self.upgraded = isUpgraded
+    }
+    
+    func isUpgraded() -> Bool{
+        return upgraded
+    }
+    
+    func resetFillColor(){
+        shapeNode!.fillColor = UIColor.redColor()
     }
     
     func setLabel(){

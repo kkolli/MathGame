@@ -141,6 +141,14 @@ class PageViewController: UIViewController, UIPageViewControllerDataSource {
         }
         return max
     }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    }
 }
 
 

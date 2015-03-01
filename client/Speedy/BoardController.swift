@@ -36,6 +36,8 @@ class BoardController {
     let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
     let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
     
+    var circleList: [GameCircle] = []
+    
     var nodeRestPositions: [CGPoint] = []
     
     init(scene s: SKScene, debug d: Bool) {
@@ -87,6 +89,7 @@ class BoardController {
             physCategory++
             
             scene.addChild(node)
+            circleList.append(node)
         }
     }
     
@@ -295,4 +298,7 @@ class BoardController {
         drawShortColLine()
     }
     
+    func getCircleList() -> [GameCircle]{
+        return circleList
+    }
 }

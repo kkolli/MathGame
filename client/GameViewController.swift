@@ -21,6 +21,7 @@ class GameViewController : UIViewController {
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
     var targetNumber: Int?
+    var scene: GameScene!
     let TIME_DEBUG = false
     
     override func viewDidLoad() {
@@ -28,25 +29,24 @@ class GameViewController : UIViewController {
         println("In Game View controller")
         
         // start the counter to go!
+        GameScoreLabel.text = String(score)
         GameTimerLabel.text = convertIntToTime(counter)
         startTimer()
         
-        if let scene = GameScene(size: view.frame.size) as GameScene? {
-            // Configure the view.
-            let skView = self.view as SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-            //skView.showsPhysics = true
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = false
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            scene.scoreHandler = handleMerge
-            
-            skView.presentScene(scene)
-        }
+        scene = GameScene(size: view.frame.size)
+        // Configure the view.
+        let skView = self.view as SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        //skView.showsPhysics = true
+        /* Sprite Kit applies additional optimizations to improve rendering performance */
+        skView.ignoresSiblingOrder = false
         
+        /* Set the scale mode to scale to fit the window */
+        scene.scaleMode = .AspectFill
+        scene.scoreHandler = handleMerge
+            
+        skView.presentScene(scene)
     }
     
     // BEGIN -- SCORE HANDLING
@@ -68,6 +68,8 @@ class GameViewController : UIViewController {
         
         if result == targetNumber{
             score += result * ScoreMultiplier.getMultiplierFactor(oper)
+            updateScore()
+            updateTargetNumber()
         }
         
         let removeNode = (result == targetNumber || result == 0)
@@ -75,10 +77,21 @@ class GameViewController : UIViewController {
         return (result, removeNode)
     }
     
-    // END-- SCORE HANDLING
+    func updateScore(){
+        GameScoreLabel.text = String(score)
+    }
+    
+    func updateTargetNumber(){
+        GameTargetNumLabel.text = String(targetNumber!)
+    }
     
     func startTimer() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("onTick"), userInfo: nil, repeats: true)
+    }
+    
+    func onTick() {
+        updateCounter()
+        scene.upgradeCircle()
     }
     
     func updateCounter() {
@@ -135,6 +148,13 @@ class GameViewController : UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning();
-        
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
     }
 }

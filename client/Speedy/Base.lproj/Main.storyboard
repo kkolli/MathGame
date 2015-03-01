@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -398,39 +398,9 @@
                             <constraint firstItem="mFo-Jm-g6s" firstAttribute="top" secondItem="Pnm-cW-EAG" secondAttribute="bottom" constant="-20" id="ncV-Y4-41G"/>
                             <constraint firstItem="iy0-v1-xgh" firstAttribute="centerX" secondItem="iMX-fr-pFg" secondAttribute="centerX" constant="0.5" id="pKv-Kv-hCb"/>
                         </constraints>
-                        <variation key="heightClass=compact-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="Smh-58-gy4"/>
-                                <include reference="0Cy-1Q-4az"/>
-                                <include reference="z5f-Kc-JhE"/>
-                                <include reference="J0i-IG-hj4"/>
-                                <include reference="U4y-Kf-ark"/>
-                                <include reference="cU5-1T-gvz"/>
-                                <include reference="ViC-Gp-5fi"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="Smh-58-gy4"/>
-                                <include reference="0Cy-1Q-4az"/>
-                                <include reference="z5f-Kc-JhE"/>
-                                <include reference="J0i-IG-hj4"/>
-                                <include reference="U4y-Kf-ark"/>
-                                <include reference="cU5-1T-gvz"/>
-                                <include reference="ViC-Gp-5fi"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="constraints">
-                                <include reference="Smh-58-gy4"/>
-                                <include reference="0Cy-1Q-4az"/>
-                                <include reference="z5f-Kc-JhE"/>
-                                <include reference="J0i-IG-hj4"/>
-                                <include reference="U4y-Kf-ark"/>
-                                <include reference="cU5-1T-gvz"/>
-                                <include reference="ViC-Gp-5fi"/>
-                            </mask>
-                        </variation>
+                        <variation key="heightClass=compact-widthClass=compact"/>
+                        <variation key="heightClass=regular-widthClass=compact"/>
+                        <variation key="heightClass=regular-widthClass=regular"/>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="iMX-fr-pFg" id="rzI-mf-6Ga"/>
@@ -655,22 +625,22 @@
                                     <segue destination="8bK-Y6-6GN" kind="showDetail" id="S8O-M2-spD"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ef3-N4-yis">
-                                <rect key="frame" x="10" y="540" width="80" height="52"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUH-GN-V7B">
-                                <rect key="frame" x="79" y="555" width="42" height="21"/>
+                                <rect key="frame" x="107" y="25" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lva-Cn-tb7">
-                                <rect key="frame" x="145" y="554" width="42" height="21"/>
+                                <rect key="frame" x="448" y="28" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ef3-N4-yis">
+                                <rect key="frame" x="260" y="10" width="80" height="52"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

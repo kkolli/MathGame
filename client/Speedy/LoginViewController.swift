@@ -22,7 +22,6 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         println("loaded login view controller")
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -130,9 +129,14 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             println("performing segue")
             let vc = segue.destinationViewController as PageViewController
             vc.user = user
-            
         }
-        
     }
     
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return UIInterfaceOrientation.Portrait.rawValue
+    }
 }

@@ -9,9 +9,6 @@
 import SpriteKit
 
 class GameScene : SKScene, SKPhysicsContactDelegate {
-    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
-    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
-    
     var contentCreated = false
     var scoreHandler: ((op1: Int, op2: Int, oper: Operator) -> ((Int, Bool)))?
 
@@ -20,12 +17,12 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     var joinedNodeB: GameCircle?
     
     var targetNumber: Int?
-
-
     var activeNode: SKNode?
     
+    var boardController: BoardController?
+    
     override func didMoveToView(view: SKView) {
-        let boardController = BoardController(scene: self, debug: true)
+        boardController = BoardController(scene: self, debug: true)
         
         setUpPhysics()
     }
@@ -121,16 +118,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
         
-        /*
-        if touchedNode is GameCircle {
-            println("GameCircle touched")
-        }
-        
-        if touchedNode is SKLabelNode {
-            println("Label node touched")
-        }
-        */
-        
         while !(touchedNode is GameCircle) {
             if touchedNode is SKScene {
                 // can't move the scene, finger probably fell off a circle?
@@ -147,6 +134,11 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             physBody.dynamic = false
         }
         activeNode = touchedNode
+        
+        if touchedNode is NumberCircle{
+            let liftup = SKAction.scaleTo(1.2, duration: 0.2)
+            touchedNode.runAction(liftup, withKey: "pickup")
+        }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
@@ -165,10 +157,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             touchedNode = touchedNode.parent!
         }
         
+        //Only number circles can be moved
         if touchedNode is NumberCircle{
-            //Only number circles can be moved
-            touchedNode.position.x = touchLocation.x
-            touchedNode.position.y = touchLocation.y
+            touchedNode.position = touchLocation
         }
     }
 
@@ -179,18 +170,21 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         
         if touchedNode is SKLabelNode {
             touchedNode = touchedNode.parent!.parent!
-            
         }
         
         //Break the node joint if touch is released
         breakJoint()
 
-       // wayPoints.removeAll(keepCapacity: false)
         if let physBody = activeNode?.physicsBody {
             physBody.dynamic = true
         }
         
         activeNode = nil
+        
+        if touchedNode is NumberCircle{
+            let dropDown = SKAction.scaleTo(1.0, duration: 0.2)
+            touchedNode.runAction(dropDown, withKey: "drop")
+        }
     }
 
     func breakJoint(){
@@ -222,9 +216,49 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }else{
             rightNumberCircle.setNumber(result)
             rightNumberCircle.neighbor = nil
+            rightNumberCircle.setIsUpgraded(false)
+            rightNumberCircle.resetFillColor()
             
             leftNumberCircle.removeFromParent()
             opCircle.removeFromParent()
+        }
+    }
+    
+    /*
+    * Game will randomly choose a node at random intervals of time to "upgrade"
+    * the value of a node.
+    */
+    
+    //TODO: Move to GameViewController
+    func upgradeCircle(){
+        let shouldUpgrade = Int(arc4random_uniform(10) + 1)
+            
+        if shouldUpgrade == 1{
+            
+            let upgradeOption = Int(arc4random_uniform(2))
+            
+            let numberCircles = boardController!.getCircleList().filter{$0 is NumberCircle}
+            let upgradedCircles = numberCircles.filter{($0 as NumberCircle).isUpgraded()}
+            let unUpgradedCircles = numberCircles.filter{!($0 as NumberCircle).isUpgraded()}
+            
+            if upgradeOption == 0 {
+                if upgradedCircles.count < 2{
+                    let index = Int(arc4random_uniform(UInt32(unUpgradedCircles.count)))
+                    
+                    var nodeToUpgrade = unUpgradedCircles[index] as NumberCircle
+                    if nodeToUpgrade !== activeNode{
+                        nodeToUpgrade.score = nodeToUpgrade.score! * nodeToUpgrade.scoreMultiplier
+                        nodeToUpgrade.shapeNode!.fillColor = SKColor.greenColor()
+                        nodeToUpgrade.setIsUpgraded(true)
+                    }
+                }
+            }else if upgradeOption == 1{
+                if upgradedCircles.count < 2{
+                    let index = Int(arc4random_uniform(UInt32(unUpgradedCircles.count)))
+                    
+                    //Add 5 seconds to time
+                }
+            }
         }
     }
 }
