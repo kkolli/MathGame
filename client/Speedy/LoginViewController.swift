@@ -11,13 +11,13 @@ import SpriteKit
 import Alamofire
 
 class LoginViewController: UIViewController, FBLoginViewDelegate {
+    @IBOutlet weak var NavBar: UINavigationItem!
     
     @IBOutlet var fbLoginView : FBLoginView!
     var alreadyFetched = false
     var user: FBGraphUser!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view, typically from a nib.
         println("loaded login view controller")
         self.fbLoginView.delegate = self
@@ -25,11 +25,21 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        if(user != nil){
+            var rightButton = UIBarButtonItem(title: "Continue", style: .Plain, target: self, action: "moveToPageViewController:")
+            NavBar.rightBarButtonItem = rightButton
+        }
+    }
+    
+    func moveToPageViewController(sender: UIBarButtonItem){
+        self.performSegueWithIdentifier("login_segue", sender: nil)
+    }
+    
     // Facebook Delegate Methods
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         println("User Logged In")
-        
     }
     
     /*

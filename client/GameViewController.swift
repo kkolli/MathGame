@@ -14,9 +14,13 @@ import UIKit
 class GameViewController : UIViewController {
     
     @IBOutlet weak var GameTimerLabel: UILabel!
+    @IBOutlet weak var GameScoreLabel: UILabel!
+    @IBOutlet weak var GameTargetNumLabel: UILabel!
     var timer = NSTimer()
     var counter = 0
     var game_max_time = 60 // TODO - modify this somehow later
+    var score = 0
+    var targetNumber: Int?
     let TIME_DEBUG = false
     
     override func viewDidLoad() {
@@ -38,10 +42,40 @@ class GameViewController : UIViewController {
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
+            scene.scoreHandler = handleMerge
             
             skView.presentScene(scene)
         }
+        
     }
+    
+    // BEGIN -- SCORE HANDLING
+    /*
+    takes in the target node that everything gets merged into, 
+    two operands and an operatorCircle
+    
+    Whether or not this new node is the designated target number should be handled elsewhere
+    */
+    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
+        var result: Int
+        
+        switch oper{
+        case .PLUS: result = op1 + op2
+        case .MINUS: result = op1 - op2
+        case .MULTIPLY: result = op1 * op2
+        case .DIVIDE: result = op1 / op2
+        }
+        
+        if result == targetNumber{
+            score += result * ScoreMultiplier.getMultiplierFactor(oper)
+        }
+        
+        let removeNode = (result == targetNumber || result == 0)
+        
+        return (result, removeNode)
+    }
+    
+    // END-- SCORE HANDLING
     
     func startTimer() {
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
