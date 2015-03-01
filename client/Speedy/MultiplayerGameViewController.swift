@@ -33,6 +33,8 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
         initialCountDown("3",changedType: "init_state")
        
         println("in multiplayer view controller")
+        // hardcode a targetNumber for now
+        setTargetNumber(10)
         if let scene = GameScene(size: view.frame.size) as GameScene? {
             // Configure the view.
             let skView = self.view as SKView
@@ -44,10 +46,48 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
+            scene.scoreHandler = handleMerge
             
             skView.presentScene(scene)
         }
         // Do any additional setup after loading the view.
+        
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
+        setScoreLabels()
+    }
+    
+    func peerChangedStateWithNotification(notification:NSNotification){
+        println("PEER CHANGED STATE?!?!")
+        let userInfo = NSDictionary(dictionary: notification.userInfo!)
+        
+        let state = userInfo.objectForKey("state") as Int
+        let otherUserPID = userInfo.objectForKey("peerID") as MCPeerID
+        if state != MCSessionState.Connecting.rawValue {
+//            self.navigationItem.title = "Connected"
+        }
+        
+    }
+    
+    func handleReceivedDataWithNotification(notification:NSNotification){
+        println("received some data with notification!")
+        let userInfo = notification.userInfo! as Dictionary
+        let receivedData:NSData = userInfo["data"] as NSData
+        
+        let message = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+        let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
+        let senderDisplayName = senderPeerId.displayName
+        let msg_type: AnyObject? = message.objectForKey("type")
+        
+        if msg_type?.isEqualToString("score_update") == true {
+            // if this is a score_update, then unwrap for the score changes to the peer
+            peer_score = message.objectForKey("score") as Int
+            setScoreLabels()
+        }
+        
+        
     }
     
     func handleReceivedDataWithNotification(notification:NSNotification){
@@ -95,6 +135,8 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
     }
 
 
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
