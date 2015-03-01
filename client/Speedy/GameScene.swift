@@ -21,11 +21,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     var targetNumber: Int?
 
-
     var activeNode: SKNode?
     
     override func didMoveToView(view: SKView) {
-        let boardController = BoardController(scene: self, debug: true)
         
         setUpPhysics()
     }
@@ -39,81 +37,42 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         self.physicsBody = physicsBody
         self.physicsBody?.restitution = 0.1
         self.physicsBody?.friction = 0.0
-        self.physicsWorld.contactDelegate = self;
+        //self.physicsWorld.contactDelegate = self;
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
-        var numberBody: SKPhysicsBody
-        var opBody: SKPhysicsBody
-        
-        //A neccessary check to prevent contacts from throwing runtime errors
-        if contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil{
-            //This is dependant on the order of the nodes
-            if contact.bodyA.node! is NumberCircle{
-                numberBody = contact.bodyA
-                
-                if contact.bodyB.node! is OperatorCircle{
-                    opBody = contact.bodyB
-                    
-                    let numberNode = numberBody.node! as NumberCircle
-                    let opNode     = opBody.node! as OperatorCircle
-                    
-                    if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
-                        var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
-                            anchor: numberBody.node!.position)
-                        
-                        numberNode.setNeighbor(opNode)
-                        opNode.setNeighbor(numberNode)
-                        
-                        myJoint.frictionTorque = 1.0
-                        self.physicsWorld.addJoint(myJoint)
-                        currentJoint = myJoint
-                        joinedNodeA = numberNode
-                        joinedNodeB = opNode
-                    }else{
-                        let leftNumberCircle = opNode.neighbor as NumberCircle
-                        let opCircle  = opNode
-                        
-                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
-                    }
-                }
-            }else{
-                if contact.bodyA.node! is OperatorCircle{
-                    opBody = contact.bodyA
-                    
-                    if contact.bodyB.node! is NumberCircle{
-                        numberBody = contact.bodyB
-                        
-                        let numberNode = numberBody.node! as NumberCircle
-                        let opNode     = opBody.node! as OperatorCircle
-                        
-                        // all nodes touching together have no neighbors (1st contact)
-                        if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
-                            var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
-                                anchor: numberBody.node!.position)
-                            
-                            numberNode.setNeighbor(opNode)
-                            opNode.setNeighbor(numberNode)
-                            
-                            myJoint.frictionTorque = 1.0
-                            self.physicsWorld.addJoint(myJoint)
-                            currentJoint = myJoint
-                            joinedNodeA = numberNode
-                            joinedNodeB = opNode
-                        }else{
-                            // if hitting all 3
-                            let leftNumberCircle = opNode.neighbor as NumberCircle
-                            let opCircle  = opNode
-                            
-                            mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
-                        }
-                    }
-                }
-            }
+    func determineClosestAnchorPair(position: CGPoint, nodeA: GameCircle, nodeB: GameCircle) -> (CGPoint, CGPoint) {
+        func distBetweenPoints(pointA: CGPoint, pointB: CGPoint) -> CGFloat {
+            let dx = CGFloat(abs(pointA.x - pointB.x))
+            let dy = CGFloat(abs(pointA.y - pointB.y))
+            
+            let sumSquares = dx * dx + dy * dy
+            
+            return sqrt(sumSquares)
         }
+        
+        let aLeftAnchor = nodeA.getLeftAnchor()
+        let aRightAnchor = nodeA.getRightAnchor()
+        let bLeftAnchor = nodeB.getLeftAnchor()
+        let bRightAnchor = nodeB.getRightAnchor()
+        
+        let aLeftDist = distBetweenPoints(position, aLeftAnchor)
+        let bLeftDist = distBetweenPoints(position, bLeftAnchor)
+        let aRightDist = distBetweenPoints(position, aRightAnchor)
+        let bRightDist = distBetweenPoints(position, bRightAnchor)
+        
+        let d1 = aLeftDist + bRightDist
+        let d2 = aRightDist + bLeftDist
+        
+        return (d1 < d2) ? (nodeA.getLeftAnchor(), nodeB.getRightAnchor()) : (nodeA.getRightAnchor(),nodeB.getLeftAnchor())
     }
     
-    func didEndContact(contact: SKPhysicsContact) {}
+    func createBestJoint(touchPoint: CGPoint, nodeA: GameCircle, nodeB: GameCircle) -> SKPhysicsJoint {
+        let (anchorPointA, anchorPointB) = determineClosestAnchorPair(touchPoint, nodeA: nodeA, nodeB: nodeB)
+        let myJoint = SKPhysicsJointPin.jointWithBodyA(nodeA.physicsBody, bodyB: nodeB.physicsBody, anchor: anchorPointA)
+        myJoint.frictionTorque = 1.0
+        currentJoint = myJoint
+        return myJoint
+    }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* touch has begun */
@@ -177,11 +136,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
         
-        if touchedNode is SKLabelNode {
-            touchedNode = touchedNode.parent!.parent!
-            
-        }
-        
         //Break the node joint if touch is released
         breakJoint()
 
@@ -194,7 +148,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
 
     func breakJoint(){
-        if currentJoint != nil{
+        if currentJoint != nil {
             self.physicsWorld.removeJoint(currentJoint!)
             currentJoint = nil
             
@@ -208,23 +162,4 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
-        let leftNumber = leftNumberCircle.number!
-        let rightNumber = rightNumberCircle.number!
-        let op = opCircle.op!
-        
-        let (result, removeNode) = scoreHandler!(op1: leftNumber, op2: rightNumber, oper: op)
-        
-        if removeNode{
-            leftNumberCircle.removeFromParent()
-            rightNumberCircle.removeFromParent()
-            opCircle.removeFromParent()
-        }else{
-            rightNumberCircle.setNumber(result)
-            rightNumberCircle.neighbor = nil
-            
-            leftNumberCircle.removeFromParent()
-            opCircle.removeFromParent()
-        }
-    }
 }
