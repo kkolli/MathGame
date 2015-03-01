@@ -18,7 +18,6 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     var user: FBGraphUser!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view, typically from a nib.
         println("loaded login view controller")
         self.fbLoginView.delegate = self
