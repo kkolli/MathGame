@@ -12,8 +12,6 @@ class NumberCircle : GameCircle {
     var score: Int?
     
     let nodeFont = "AmericanTypewriter-Bold"
-    let leftNode: Operator?
-    let rightNode: Operator?
     
     var text: SKLabelNode?
     
