@@ -10,9 +10,7 @@ import SpriteKit
 import UIKit
 import MultipeerConnectivity
 
-class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDelegate  {
-    
-    var appDelegate:AppDelegate!
+class MultiplayerGameViewController: UIViewController {
     var timer = NSTimer()
     var counter = 0
     var game_max_time = 60 // TODO - modify this somehow later
@@ -20,7 +18,10 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
     var peer_score = 0
     var targetNumber: Int?
     let TIME_DEBUG = false
+    var appDelegate:AppDelegate!
     
+    @IBOutlet weak var PeerCurrentScore: UILabel!
+    @IBOutlet weak var MyCurrentScore: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,7 +67,6 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
         let state = userInfo.objectForKey("state") as Int
         let otherUserPID = userInfo.objectForKey("peerID") as MCPeerID
         if state != MCSessionState.Connecting.rawValue {
-//            self.navigationItem.title = "Connected"
         }
         
     }
@@ -80,23 +80,13 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
         let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
         let senderDisplayName = senderPeerId.displayName
         let msg_type: AnyObject? = message.objectForKey("type")
-        
+        var msg_val:AnyObject?  = message.objectForKey("value")
         if msg_type?.isEqualToString("score_update") == true {
             // if this is a score_update, then unwrap for the score changes to the peer
             peer_score = message.objectForKey("score") as Int
             setScoreLabels()
         }
-        
-        
-    }
-    
-    func handleReceivedDataWithNotification(notification:NSNotification){
-        println("Here in the main game")
-        let userInfo = notification.userInfo! as Dictionary
-        let receivedData = userInfo["data"] as NSData
-        let message = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
-        let msg_type: AnyObject? = message.objectForKey("type")
-        var msg_val:AnyObject?  = message.objectForKey("value")
+
         if msg_type?.isEqualToString("init_state") == true{
             //Do everything here for beginning countdown
             
@@ -112,11 +102,6 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
                 initialCountDown(String(counter), changedType: "init_state")
             }
         }
-        
-    }
-    
-    func peerChangedStateWithNotification(notification:NSNotification){
-        println("PEER CHANGED IN Main GAME")
         
     }
 
@@ -135,21 +120,61 @@ class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDe
     }
 
 
-
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
-        appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+    func setTargetNumber(num: Int) {
+        self.targetNumber = num
+    }
+    func setScoreLabels() {
+        PeerCurrentScore.text = String(peer_score)
+        MyCurrentScore.text = String(score)
     }
     
-    func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
-        appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+    func notifyScoreChanged() {
+        var msg = ["type" : "score_update", "score": self.score]
+        let messageData = NSJSONSerialization.dataWithJSONObject(msg, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        var error:NSError?
+        
+        appDelegate.mpcHandler.session.sendData(messageData, toPeers: appDelegate.mpcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        
+        println("just sent data: \(messageData)")
+        if error != nil{
+            println("error: \(error?.localizedDescription)")
+        }
     }
-
+    
+    // BEGIN -- SCORE HANDLING
+    /*
+    takes in the target node that everything gets merged into,
+    two operands and an operatorCircle
+    
+    Whether or not this new node is the designated target number should be handled elsewhere
+    */
+    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
+        var result: Int
+        
+        switch oper{
+        case .PLUS: result = op1 + op2
+        case .MINUS: result = op1 - op2
+        case .MULTIPLY: result = op1 * op2
+        case .DIVIDE: result = op1 / op2
+        }
+        
+        if result == targetNumber{
+            score += result * ScoreMultiplier.getMultiplierFactor(oper)
+            setTargetNumber(10)
+            
+            // communicate that score has changed
+            notifyScoreChanged()
+            setScoreLabels()
+        }
+        
+        let removeNode = (result == targetNumber || result == 0)
+        
+        return (result, removeNode)
+    }
 
 }
