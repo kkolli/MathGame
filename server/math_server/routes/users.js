@@ -223,12 +223,12 @@ res.end(JSON.stringify(obj))
 
 
 exports.getHighScores = function(req,res){
-  Users.findOneAndUpdate({fbID: req.params.fbID}, {$push: {"score": {
+  Users.findOneAndUpdate({fbID: req.params.fbID},{$push: {"score": {
         $each:[],
         $sort: -1,
         $slice: 1
-    }}} , 
-    function(err,users){ //get users score based on fb idea
+    }}} ,
+  function(err,users){ //get users score based on fb idea
     if(err) return res.end(JSON.stringify(err));
     console.log("users: " + JSON.stringify(users));
      return res.end(JSON.stringify(users));
@@ -239,6 +239,7 @@ exports.getHighScores = function(req,res){
 //Post a Score
 exports.sendHighScores = function(req,res){
   Users.findOneAndUpdate({fbID: req.params.fbID} ,{$push: {"score": req.body.score}},
+
     function(err,user){
       if(err) {
         res.sendStatus(400);
@@ -284,9 +285,8 @@ exports.getFriendScores = function(req, res) {
       res.end(JSON.stringify({friends : []}));
     } else {
       Users.find({
-        '_id' : {
-          $in: friends
-        }
+        '_id' : {$in: friends},
+
       }, function(err, myFriends) {
         res.status(200);
         var result = {
