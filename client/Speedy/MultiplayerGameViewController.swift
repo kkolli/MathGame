@@ -13,10 +13,17 @@ import MultipeerConnectivity
 class MultiplayerGameViewController: UIViewController, MCBrowserViewControllerDelegate  {
     
     var appDelegate:AppDelegate!
+    var timer = NSTimer()
+    var counter = 0
+    var game_max_time = 60 // TODO - modify this somehow later
+    var score = 0
+    var peer_score = 0
+    var targetNumber: Int?
+    let TIME_DEBUG = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("IN GAME CENTER CONTROLLER")
+
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
