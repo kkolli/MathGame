@@ -20,6 +20,7 @@ class MultiplayerGameViewController: UIViewController {
     let TIME_DEBUG = false
     var appDelegate:AppDelegate!
     
+    @IBOutlet weak var counterTimer: UILabel!
     @IBOutlet weak var PeerCurrentScore: UILabel!
     @IBOutlet weak var MyCurrentScore: UILabel!
     override func viewDidLoad() {
@@ -49,6 +50,7 @@ class MultiplayerGameViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
+        initialCountDown("3", changedType: "init_state")
         setScoreLabels()
     }
     
@@ -73,11 +75,30 @@ class MultiplayerGameViewController: UIViewController {
         let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
         let senderDisplayName = senderPeerId.displayName
         let msg_type: AnyObject? = message.objectForKey("type")
+        let msg_type_init: AnyObject? = message.objectForKey("type_init")
+        let msg_val: AnyObject? = message.objectForKey("value")
         
         if msg_type?.isEqualToString("score_update") == true {
             // if this is a score_update, then unwrap for the score changes to the peer
             peer_score = message.objectForKey("score") as Int
             setScoreLabels()
+        }
+        else if msg_type_init?.isEqualToString("init_state") == true{
+            //Do everything here for beginning countdown
+            
+            var counter:Int = msg_val!.integerValue
+            counter--
+            
+            if(counter == 0){
+                //start the game
+                initialCountDown(String(counter), changedType: "not_init_state")
+                
+            }
+            else{
+                initialCountDown(String(counter), changedType: "init_state")
+                counterTimer.text = String(counter)
+                NSThread.sleepForTimeInterval(3)
+            }
         }
         
         
@@ -96,6 +117,7 @@ class MultiplayerGameViewController: UIViewController {
     func setScoreLabels() {
         PeerCurrentScore.text = String(peer_score)
         MyCurrentScore.text = String(score)
+        counterTimer.text = "3"
     }
     
     func notifyScoreChanged() {
@@ -109,6 +131,19 @@ class MultiplayerGameViewController: UIViewController {
         if error != nil{
             println("error: \(error?.localizedDescription)")
         }
+    }
+    
+    func initialCountDown(val:String, changedType:String){
+        var msg = ["value" : val, "type_init": changedType]
+        let messageData = NSJSONSerialization.dataWithJSONObject(msg, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        var error:NSError?
+        
+        appDelegate.mpcHandler.session.sendData(messageData, toPeers: appDelegate.mpcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        
+        if error != nil{
+            println("error: \(error?.localizedDescription)")
+        }
+        
     }
     
     // BEGIN -- SCORE HANDLING
