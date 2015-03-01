@@ -11,11 +11,15 @@ class NumberCircle : GameCircle {
     var number: Int?
     var score: Int?
     
-    convenience init(num: Int, col: Int)    {
-        self.init(col: col)
+    let nodeFont = "AmericanTypewriter-Bold"
+    let leftNode: Operator?
+    let rightNode: Operator?
+    
+    var text: SKLabelNode?
+    
+    convenience init(num: Int)    {
+        self.init()
         setNumber(num)
-        setLabel()
-        setCollision()
         initScore()
     }
     
@@ -32,21 +36,20 @@ class NumberCircle : GameCircle {
     
     func setNumber(num: Int) {
         number = num
-    }
-    
-    
-    
-    func setCollision(){
-        parentNode!.physicsBody!.categoryBitMask = NumberMask
-        parentNode!.physicsBody!.contactTestBitMask = NumberMask | OperatorMask
-        parentNode!.physicsBody!.collisionBitMask = NumberMask | OperatorMask
+        setLabel()
     }
     
     func setLabel(){
-        let text = SKLabelNode(text: String(number!))
-        text.fontSize = nodeTextFontSize
-        text.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        text.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        parentNode!.addChild(text)
+        if text != nil{
+            text!.text = "\(number!)"
+        }else{
+            text = SKLabelNode(text: "\(number!)")
+            text!.fontSize = nodeTextFontSize
+            text!.fontName = nodeFont
+            text!.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+            text!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+            shapeNode!.addChild(text!)
+        }
+       
     }
 }
