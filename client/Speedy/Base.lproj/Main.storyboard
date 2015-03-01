@@ -398,39 +398,6 @@
                             <constraint firstItem="mFo-Jm-g6s" firstAttribute="top" secondItem="Pnm-cW-EAG" secondAttribute="bottom" constant="-20" id="ncV-Y4-41G"/>
                             <constraint firstItem="iy0-v1-xgh" firstAttribute="centerX" secondItem="iMX-fr-pFg" secondAttribute="centerX" constant="0.5" id="pKv-Kv-hCb"/>
                         </constraints>
-                        <variation key="heightClass=compact-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="Smh-58-gy4"/>
-                                <include reference="0Cy-1Q-4az"/>
-                                <include reference="z5f-Kc-JhE"/>
-                                <include reference="J0i-IG-hj4"/>
-                                <include reference="U4y-Kf-ark"/>
-                                <include reference="cU5-1T-gvz"/>
-                                <include reference="ViC-Gp-5fi"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="Smh-58-gy4"/>
-                                <include reference="0Cy-1Q-4az"/>
-                                <include reference="z5f-Kc-JhE"/>
-                                <include reference="J0i-IG-hj4"/>
-                                <include reference="U4y-Kf-ark"/>
-                                <include reference="cU5-1T-gvz"/>
-                                <include reference="ViC-Gp-5fi"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="constraints">
-                                <include reference="Smh-58-gy4"/>
-                                <include reference="0Cy-1Q-4az"/>
-                                <include reference="z5f-Kc-JhE"/>
-                                <include reference="J0i-IG-hj4"/>
-                                <include reference="U4y-Kf-ark"/>
-                                <include reference="cU5-1T-gvz"/>
-                                <include reference="ViC-Gp-5fi"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="iMX-fr-pFg" id="rzI-mf-6Ga"/>
@@ -501,12 +468,30 @@
                     <view key="view" contentMode="scaleToFill" id="U63-Eo-q7O" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocx-mf-GFf">
+                                <rect key="frame" x="30" y="289" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-85-3lf">
+                                <rect key="frame" x="104" y="289" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
+                        <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ca1-uk-TMO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2347" y="1367"/>
+            <point key="canvasLocation" x="2351" y="1375"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="dya-Li-ERY">

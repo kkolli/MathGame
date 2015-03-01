@@ -66,6 +66,7 @@ class GameViewController : UIViewController {
         case .DIVIDE: result = op1 / op2
         }
         
+        println("targetnum: \(targetNumber) and result: \(result)")
         if result == targetNumber{
             score += result * ScoreMultiplier.getMultiplierFactor(oper)
         }
