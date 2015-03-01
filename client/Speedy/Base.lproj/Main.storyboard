@@ -408,10 +408,10 @@
             </objects>
             <point key="canvasLocation" x="2169" y="437"/>
         </scene>
-        <!--Game Center Controller-->
+        <!--Multiplayer Setup View Controller-->
         <scene sceneID="tQm-EQ-Qrn">
             <objects>
-                <viewController id="be5-pX-IFK" customClass="GameCenterController" customModule="Speedy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="be5-pX-IFK" customClass="MultiplayerSetupViewController" customModule="Speedy" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kAs-Jf-7mU"/>
                         <viewControllerLayoutGuide type="bottom" id="he6-jX-fY7"/>
@@ -438,17 +438,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sg8-Q0-g7f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1461" y="1421"/>
+            <point key="canvasLocation" x="1453" y="1421"/>
         </scene>
-        <!--Multiplayer View Controller-->
+        <!--Multiplayer Game View Controller-->
         <scene sceneID="RPf-Nf-cku">
             <objects>
-                <viewController id="Gou-v7-nn8" customClass="MultiplayerViewController" customModule="Speedy" sceneMemberID="viewController">
+                <viewController id="Gou-v7-nn8" customClass="MultiplayerGameViewController" customModule="Speedy" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sHS-u5-gSh"/>
                         <viewControllerLayoutGuide type="bottom" id="hAl-YI-2mA"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="U63-Eo-q7O">
+                    <view key="view" contentMode="scaleToFill" id="U63-Eo-q7O" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
