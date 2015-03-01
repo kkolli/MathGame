@@ -224,7 +224,7 @@ res.end(JSON.stringify(obj))
 
 exports.getHighScores = function(req,res){
   Users.findOneAndUpdate({fbID: req.params.fbID}, {$push: {"score": {
-        $each:[20,30],
+        $each:[],
         $sort: -1,
         $slice: 1
     }}} , 
