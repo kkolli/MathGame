@@ -11,7 +11,7 @@
 import SpriteKit
 import UIKit
 
-class GameViewController : UIViewController {
+class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var GameScoreLabel: UILabel!
@@ -21,8 +21,9 @@ class GameViewController : UIViewController {
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
     var targetNumber: Int?
-    var scene: GameScene!
     let TIME_DEBUG = false
+    var scene: GameScene?
+    var boardController: BoardController?
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -34,6 +35,10 @@ class GameViewController : UIViewController {
         startTimer()
         
         scene = GameScene(size: view.frame.size)
+        boardController = BoardController(scene: scene!)
+        scene!.boardController = boardController
+        updateTargetNumber()
+        
         // Configure the view.
         let skView = self.view as SKView
         skView.showsFPS = true
@@ -43,38 +48,11 @@ class GameViewController : UIViewController {
         skView.ignoresSiblingOrder = false
         
         /* Set the scale mode to scale to fit the window */
-        scene.scaleMode = .AspectFill
-        scene.scoreHandler = handleMerge
-            
+
+        scene!.scaleMode = .AspectFill
+        //scene!.scoreHandler = handleMerge
+        scene!.physicsWorld.contactDelegate = self
         skView.presentScene(scene)
-    }
-    
-    // BEGIN -- SCORE HANDLING
-    /*
-    takes in the target node that everything gets merged into, 
-    two operands and an operatorCircle
-    
-    Whether or not this new node is the designated target number should be handled elsewhere
-    */
-    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
-        var result: Int
-        
-        switch oper{
-        case .PLUS: result = op1 + op2
-        case .MINUS: result = op1 - op2
-        case .MULTIPLY: result = op1 * op2
-        case .DIVIDE: result = op1 / op2
-        }
-        
-        if result == targetNumber{
-            score += result * ScoreMultiplier.getMultiplierFactor(oper)
-            updateScore()
-            updateTargetNumber()
-        }
-        
-        let removeNode = (result == targetNumber || result == 0)
-        
-        return (result, removeNode)
     }
     
     func updateScore(){
@@ -82,6 +60,15 @@ class GameViewController : UIViewController {
     }
     
     func updateTargetNumber(){
+        if targetNumber != nil{
+            let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
+            let numberList = numberCircleList.map{($0 as NumberCircle).number!}
+            targetNumber = boardController!.randomNumbers.generateTarget(numberList)
+            println(targetNumber)
+        }else{
+            targetNumber = boardController!.randomNumbers.generateTarget()
+        }
+        
         GameTargetNumLabel.text = String(targetNumber!)
     }
     
@@ -91,7 +78,7 @@ class GameViewController : UIViewController {
     
     func onTick() {
         updateCounter()
-        scene.upgradeCircle()
+        scene!.upgradeCircle()
     }
     
     func updateCounter() {
@@ -141,6 +128,130 @@ class GameViewController : UIViewController {
         }
         return minute_display + ":" + second_display
     }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        var numberBody: SKPhysicsBody
+        var opBody: SKPhysicsBody
+        
+        //A neccessary check to prevent contacts from throwing runtime errors
+        if !(contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil) {
+            return;
+        }
+        
+        //This is dependant on the order of the nodes
+        if contact.bodyA.node! is NumberCircle{
+            numberBody = contact.bodyA
+            
+            if contact.bodyB.node! is OperatorCircle{
+                opBody = contact.bodyB
+                
+                let numberNode = numberBody.node! as NumberCircle
+                let opNode     = opBody.node! as OperatorCircle
+                
+                if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
+                    if numberNode == scene!.releaseNumber && opNode == scene!.releaseOperator{
+                        scene!.releaseNumber = nil
+                        scene!.releaseOperator = nil
+                    }else{
+                        numberNode.setNeighbor(opNode)
+                        opNode.setNeighbor(numberNode)
+                        
+                        let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                        scene!.physicsWorld.addJoint(joint)
+                        scene!.joinedNodeA = numberNode
+                        scene!.joinedNodeB = opNode
+                    }
+                }else{
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
+                }
+            }
+        }else if contact.bodyA.node! is OperatorCircle{
+            opBody = contact.bodyA
+            
+            if contact.bodyB.node! is NumberCircle{
+                numberBody = contact.bodyB
+                
+                let numberNode = numberBody.node! as NumberCircle
+                let opNode     = opBody.node! as OperatorCircle
+                
+                // all nodes touching together have no neighbors (1st contact)
+                if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
+                    var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
+                        anchor: numberBody.node!.position)
+                    
+                    numberNode.setNeighbor(opNode)
+                    opNode.setNeighbor(numberNode)
+                    
+                    myJoint.frictionTorque = 1.0
+                    scene!.physicsWorld.addJoint(myJoint)
+                    scene!.currentJoint = myJoint
+                    scene!.joinedNodeA = numberNode
+                    scene!.joinedNodeB = opNode
+                }else{
+                    // if hitting all 3
+                    let leftNumberCircle = opNode.neighbor as NumberCircle
+                    let opCircle  = opNode
+                    
+                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                }
+            }
+        }
+    }
+    
+    func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
+        let (result, removeNode) = handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
+        
+        let op1Upgrade = leftNumberCircle.upgrade
+        let op2Upgrade = rightNumberCircle.upgrade
+        
+        if removeNode {
+            rightNumberCircle.removeFromParent()
+            boardController!.nodeRemoved(rightNumberCircle.boardPos!)
+        } else {
+            rightNumberCircle.setNumber(result)
+            rightNumberCircle.neighbor = nil
+        }
+        
+        leftNumberCircle.removeFromParent()
+        opCircle.removeFromParent()
+        
+        boardController!.nodeRemoved(leftNumberCircle.boardPos!)
+        boardController!.nodeRemoved(opCircle.boardPos!)
+        
+        boardController!.replaceMissingNodes()
+    }
+    
+    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
+        var result: Int
+        
+        let op1 = leftNumberCircle.number!
+        let op2 = rightNumberCircle.number!
+        let oper = opCircle.op!
+        
+        switch oper{
+        case .PLUS: result = op1 + op2
+        case .MINUS: result = op1 - op2
+        case .MULTIPLY: result = op1 * op2
+        case .DIVIDE: result = op1 / op2
+        }
+        
+        if result == targetNumber{
+            score += result * ScoreMultiplier.getMultiplierFactor(oper)
+            updateScore()
+            updateTargetNumber()
+        }
+        
+        let removeNode = (result == targetNumber || result == 0)
+        
+        return (result, removeNode)
+    }
+    
+    //func didEndContact(contact: SKPhysicsContact) {}
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         println("preparing for segue!!")

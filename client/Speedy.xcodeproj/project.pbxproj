@@ -186,7 +186,6 @@
 				A1DF2B6F1A96D08500446A7C /* FSViewController.swift */,
 				6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */,
 				6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */,
-				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
 				A19960D81A723D7600A327F6 /* Bridging-Header.h */,
 				6B5747A61A70BF2800D2756F /* AppDelegate.swift */,
 				1C88FC231A78223800509137 /* GameScene.swift */,
@@ -203,6 +202,7 @@
 				0AE71FFA1A904A230030705B /* GameCircle.swift */,
 				0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */,
 				0AE720001A9054870030705B /* GameOperators.swift */,
+				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
 				0AE720031A90698C0030705B /* RandomOperators.swift */,
 			);
 			path = Speedy;
@@ -297,6 +297,7 @@
 				TargetAttributes = {
 					6B5747A01A70BF2800D2756F = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = W8FMTE3P32;
 					};
 					6B5747B51A70BF2800D2756F = {
 						CreatedOnToolsVersion = 6.1.1;

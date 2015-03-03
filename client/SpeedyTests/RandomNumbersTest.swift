@@ -22,16 +22,6 @@ class RandomNumbersTest: XCTestCase {
         super.tearDown()
     }
     
-    func testInitDefault(){
-        XCTAssertEqual(10, randomDefault.target, "Default target not set to 1")
-        XCTAssertEqual(1, randomDefault.difficulty, "Default difficutly not set to 10")
-    }
-    
-    func testInit(){
-        XCTAssertGreaterThanOrEqual(30, random.target, "Generated target exceeds max target possible")
-        XCTAssertLessThanOrEqual(random.minTarget, random.target, "Generated target is less than min target possible")
-    }
-    
     func testGenerateTarget(){
         for(var i = 0; i < 100; ++i){
             var randomTarget = random.generateTarget()

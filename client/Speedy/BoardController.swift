@@ -10,19 +10,19 @@ import SpriteKit
 class BoardController {
     // defines board element positioning, in relative percents
     struct BoardConstraints {
-        let header_height: CGFloat = 0.1
-        let long_col_vert_padding: CGFloat = 0.05
-        let short_col_vert_padding: CGFloat = 0.10
+        let header_height: CGFloat = 0.15
+        let long_col_vert_padding: CGFloat = 0.10
+        let short_col_vert_padding: CGFloat = 0.15
         let col_horiz_padding: CGFloat = 0.15
     }
     
     let constraints = BoardConstraints()
     
     // this is the number of NumberCircles in the long columns (# of numbers)
-    let longColNodes = 6
+    let longColNodes = 5
     
     // this is the number of NumberCircles in the short columns (# of operators)
-    let shortColNodes = 5
+    let shortColNodes = 4
     
     // color to draw debug lines
     let debugColor = UIColor.yellowColor()
@@ -37,8 +37,8 @@ class BoardController {
     let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
     
     var circleList: [GameCircle] = []
-    
-    var nodeRestPositions: [CGPoint] = []
+    var nodeRestPositions = [CGPoint]()
+    var gameCircles = [GameCircle?]()
     
     init(scene s: SKScene, debug d: Bool) {
         scene = s
@@ -78,6 +78,67 @@ class BoardController {
         scene.addChild(node)
     }
     
+    func nodeRemoved(pos: Int) {
+        gameCircles[pos] = nil
+    }
+    
+    func replaceMissingNodes() {
+        func getTopOfColumn(posNum: Int) -> Int {
+            if posNum < 2 * longColNodes {
+                return posNum % 2
+            }
+            
+            return 10
+        }
+        
+        // move existing long column nodes down as far as possible
+        for (var i = 2 * longColNodes - 1; i > 1; i--) {
+            if gameCircles[i] != nil {
+                continue
+            }
+            
+            let nextNode = gameCircles[i - 2]
+            nextNode!.physicsBody?.fieldBitMask = 1 << UInt32(i)
+            nextNode!.boardPos = i
+            gameCircles[i] = nextNode
+            gameCircles[i - 2] = nil
+        }
+        
+        // move short column nodes down as far as possible
+        for (var i = gameCircles.count - 1; i > longColNodes * 2; i--) {
+            if gameCircles[i] != nil {
+                continue
+            }
+            
+            let nextNode = gameCircles[i - 1]
+            nextNode!.physicsBody?.fieldBitMask = 1 << UInt32(i)
+            nextNode!.boardPos = i
+            gameCircles[i] = nextNode
+            gameCircles[i - 1] = nil
+        }
+        
+        // bring in new nodes to fill the gaps at the top
+        let topIdxs = [0, 1, 2 * longColNodes]
+        for idx in topIdxs {
+            if gameCircles[idx] != nil {
+                continue
+            }
+            
+            let node = (idx == 0 || idx == 1) ? NumberCircle(num: randomNumbers.generateNumber()) :
+                OperatorCircle(operatorSymbol: randomOperators.generateOperator())
+            let restPosition = nodeRestPositions[idx]
+            
+            // cause node to start slightly above the rest position
+            node.position = CGPoint(x: restPosition.x, y: restPosition.y + node.nodeRadius)
+            
+            node.physicsBody = createGameCirclePhysBody(1 << UInt32(idx))
+            node.setBoardPosition(idx)
+            gameCircles[idx] = node
+            scene.addChild(node)
+        }
+        
+    }
+    
     private func addGameCircles() {
         var physCategory: UInt32 = 0
         for i in 0...(2 * longColNodes + shortColNodes - 1) {
@@ -88,11 +149,14 @@ class BoardController {
             node.position = nodeRestPositions[i]
             physCategory++
             
+            node.setBoardPosition(i)
+            gameCircles.append(node)
             scene.addChild(node)
             circleList.append(node)
         }
     }
     
+    /*
     private func addDebugPhysBodies() {
         var physCategory: UInt32 = 0
         for i in 0...(2 * longColNodes + shortColNodes - 1) {
@@ -105,9 +169,10 @@ class BoardController {
             scene.addChild(node)
         }
     }
+*/
     
     private func createGameCirclePhysBody(category: UInt32) -> SKPhysicsBody {
-        let physBody = SKPhysicsBody(circleOfRadius: 20.0)
+        let physBody = SKPhysicsBody(circleOfRadius: 30.0)
         
         // friction when sliding against this physics body
         physBody.friction = 3.8
@@ -132,6 +197,7 @@ class BoardController {
         return physBody
     }
     
+    /*
     private func createTestPhysBody(category: UInt32) -> SKPhysicsBody {
         let physBody = SKPhysicsBody(circleOfRadius: 20.0)
         
@@ -158,6 +224,7 @@ class BoardController {
         
         return physBody
     }
+*/
     
     private func drawLongColLines() {
         let starty = frame.height - (constraints.header_height + constraints.long_col_vert_padding) * frame.height

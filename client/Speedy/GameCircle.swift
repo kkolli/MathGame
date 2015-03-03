@@ -13,11 +13,13 @@ class GameCircle: SKNode{
     var shapeNode: SKShapeNode?
     var neighbor: GameCircle?
     
-    let nodeRadius: CGFloat = 20
+    let nodeRadius: CGFloat = 30
     let nodeStrokeColor = UIColor.yellowColor()
     let nodeTextFontSize: CGFloat = 16.0
     let nodeLineWidth: CGFloat = 4
     let nodeFillColor = UIColor.redColor()
+    
+    var boardPos: Int?
     
     override init() {
         super.init()
@@ -43,10 +45,18 @@ class GameCircle: SKNode{
     }
     
     func hasNeighbor() -> Bool{
-        if let neighbor = self.neighbor{
-            return true
-        }else{
-            return false
-        }
+        return self.neighbor != nil;
+    }
+    
+    func getLeftAnchor() -> CGPoint {
+        return CGPoint(x: self.position.x - nodeRadius, y: self.position.y)
+    }
+    
+    func getRightAnchor() -> CGPoint {
+        return CGPoint(x: self.position.x + nodeRadius, y: self.position.y)
+    }
+    
+    func setBoardPosition(pos: Int) {
+        boardPos = pos
     }
 }
