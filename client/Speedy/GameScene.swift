@@ -106,22 +106,23 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        var touchedNode = nodeAtPoint(touchLocation)
-        
-        while !(touchedNode is GameCircle) {
-            if touchedNode is SKScene {
-                // can't move the scene, finger probably fell off a circle?
-                if let physBody = activeNode?.physicsBody {
-                    physBody.dynamic = true
+
+        if activeNode != nil{
+            while !(activeNode is GameCircle) {
+                if activeNode is SKScene {
+                    // can't move the scene, finger probably fell off a circle?
+                    if let physBody = activeNode?.physicsBody {
+                        physBody.dynamic = true
+                    }
+                    return
                 }
-                return
+                activeNode = activeNode!.parent!
             }
-            touchedNode = touchedNode.parent!
-        }
-        
-        //Only number circles can be moved
-        if touchedNode is NumberCircle{
-            touchedNode.position = touchLocation
+            
+            //Only number circles can be moved
+            if activeNode is NumberCircle{
+                activeNode!.position = touchLocation
+            }
         }
     }
 
