@@ -10,7 +10,7 @@ import SpriteKit
 import UIKit
 import MultipeerConnectivity
 
-class MultiplayerGameViewController: UIViewController {
+class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate {
     var timer = NSTimer()
     var counter = 0
     var game_max_time = 60 // TODO - modify this somehow later
@@ -19,6 +19,8 @@ class MultiplayerGameViewController: UIViewController {
     var targetNumber: Int?
     let TIME_DEBUG = false
     var appDelegate:AppDelegate!
+    var scene: GameScene?
+    var boardController: BoardController?
     
     @IBOutlet weak var PeerCurrentScore: UILabel!
     @IBOutlet weak var MyCurrentScore: UILabel!
@@ -28,21 +30,23 @@ class MultiplayerGameViewController: UIViewController {
         println("in multiplayer view controller")
         // hardcode a targetNumber for now
         setTargetNumber(10)
-        if let scene = GameScene(size: view.frame.size) as GameScene? {
-            // Configure the view.
-            let skView = self.view as SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-            //skView.showsPhysics = true
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = false
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            scene.scoreHandler = handleMerge
-            
-            skView.presentScene(scene)
-        }
+        scene = GameScene(size: view.frame.size)
+        boardController = BoardController(scene: scene!)
+        
+        // Configure the view.
+        let skView = self.view as SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        //skView.showsPhysics = true
+        /* Sprite Kit applies additional optimizations to improve rendering performance */
+        skView.ignoresSiblingOrder = false
+        
+        /* Set the scale mode to scale to fit the window */
+        scene!.scaleMode = .AspectFill
+        //scene!.scoreHandler = handleMerge
+        scene!.physicsWorld.contactDelegate = self
+        
+        skView.presentScene(scene)
         // Do any additional setup after loading the view.
         
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -153,5 +157,104 @@ class MultiplayerGameViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func didBeginContact(contact: SKPhysicsContact) {
+        var numberBody: SKPhysicsBody
+        var opBody: SKPhysicsBody
+        
+        //A neccessary check to prevent contacts from throwing runtime errors
+        if !(contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil) {
+            return;
+        }
+        
+        //This is dependant on the order of the nodes
+        if contact.bodyA.node! is NumberCircle{
+            numberBody = contact.bodyA
+            
+            if contact.bodyB.node! is OperatorCircle{
+                opBody = contact.bodyB
+                
+                let numberNode = numberBody.node! as NumberCircle
+                let opNode     = opBody.node! as OperatorCircle
+                
+                if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
+                    numberNode.setNeighbor(opNode)
+                    opNode.setNeighbor(numberNode)
+                    
+                    let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                    scene!.physicsWorld.addJoint(joint)
+                    scene!.joinedNodeA = numberNode
+                    scene!.joinedNodeB = opNode
+                }else{
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
+                }
+            }
+        }else if contact.bodyA.node! is OperatorCircle{
+            opBody = contact.bodyA
+            
+            if contact.bodyB.node! is NumberCircle{
+                numberBody = contact.bodyB
+                
+                let numberNode = numberBody.node! as NumberCircle
+                let opNode     = opBody.node! as OperatorCircle
+                
+                // all nodes touching together have no neighbors (1st contact)
+                if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
+                    var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
+                        anchor: numberBody.node!.position)
+                    
+                    numberNode.setNeighbor(opNode)
+                    opNode.setNeighbor(numberNode)
+                    
+                    myJoint.frictionTorque = 1.0
+                    scene!.physicsWorld.addJoint(myJoint)
+                    scene!.currentJoint = myJoint
+                    scene!.joinedNodeA = numberNode
+                    scene!.joinedNodeB = opNode
+                }else{
+                    // if hitting all 3
+                    let leftNumberCircle = opNode.neighbor as NumberCircle
+                    let opCircle  = opNode
+                    
+                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                }
+            }
+        }
+    }
+    
+    func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
+        let leftNumber = leftNumberCircle.number!
+        let rightNumber = rightNumberCircle.number!
+        let op = opCircle.op!
+        
+        let (result, removeNode) = handleMerge(leftNumber, op2: rightNumber, oper: op)
+        
+        if removeNode {
+            rightNumberCircle.removeFromParent()
+            boardController!.nodeRemoved(rightNumberCircle.boardPos!)
+        } else {
+            rightNumberCircle.setNumber(result)
+            rightNumberCircle.neighbor = nil
+        }
+        
+        leftNumberCircle.removeFromParent()
+        opCircle.removeFromParent()
+        
+        boardController!.nodeRemoved(leftNumberCircle.boardPos!)
+        boardController!.nodeRemoved(opCircle.boardPos!)
+        
+        boardController!.replaceMissingNodes()
+        
+        /*
+        if let num = rightNumberCircle.number {
+        if num == self.targetNumber {
+        println("YOU WIN")
+        }
+        }
+        */
+    }
 
 }

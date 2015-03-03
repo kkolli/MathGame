@@ -155,7 +155,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    
+
                     let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
                     scene!.physicsWorld.addJoint(joint)
                     scene!.joinedNodeA = numberNode
@@ -184,7 +184,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    
+                    println("psych")
                     myJoint.frictionTorque = 1.0
                     scene!.physicsWorld.addJoint(myJoint)
                     scene!.currentJoint = myJoint
@@ -192,6 +192,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     scene!.joinedNodeB = opNode
                 }else{
                     // if hitting all 3
+                    println("Kappa")
                     let leftNumberCircle = opNode.neighbor as NumberCircle
                     let opCircle  = opNode
                     
