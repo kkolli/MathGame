@@ -12,7 +12,7 @@ import MultipeerConnectivity
 
 class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate {
     var timer = NSTimer()
-    var counter = 0
+    var countDown = 3
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
     var peer_score = 0
@@ -46,6 +46,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         scene!.scaleMode = .AspectFill
         //scene!.scoreHandler = handleMerge
         scene!.physicsWorld.contactDelegate = self
+        // start off frozen
+        scene!.freezeAction = true
         
         skView.presentScene(scene)
         // Do any additional setup after loading the view.
@@ -54,7 +56,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
-        initialCountDown("3", changedType: "init_state")
+        initialCountDown(String(countDown), changedType: "init_state")
         setScoreLabels()
     }
     
@@ -79,7 +81,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
         let senderDisplayName = senderPeerId.displayName
         let msg_type: AnyObject? = message.objectForKey("type")
-        let msg_type_init: AnyObject? = message.objectForKey("type_init")
+//        let msg_type_init: AnyObject? = message.objectForKey("type_init")
         let msg_val: AnyObject? = message.objectForKey("value")
         
         if msg_type?.isEqualToString("score_update") == true {
@@ -87,26 +89,60 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
             peer_score = message.objectForKey("score") as Int
             setScoreLabels()
         }
-        else if msg_type_init?.isEqualToString("init_state") == true{
+        else if msg_type?.isEqualToString("init_state") == true{
             //Do everything here for beginning countdown
+            var recv_counter:Int = msg_val!.integerValue
+            var old_counter = countDown
+            println("I just received value: " + String(recv_counter) + " while counter is : " + String(countDown))
+            if recv_counter > countDown || countDown <= 0 {
+                if recv_counter == 0 && self.scene!.freezeAction == true {
+                    println("about to unfreeze!")
+                    //start the game
+                    self.scene!.freezeAction = false
+                }
+                return
+            }
             
-            var counter:Int = msg_val!.integerValue
-            counter--
+            countDown = countDown-1
+            setScoreLabels()
             
-            if(counter == 0){
+            if recv_counter == 0 {
+                println("about to unfreeze!")
                 //start the game
-                initialCountDown(String(counter), changedType: "not_init_state")
-                
+                self.scene!.freezeAction = false
             }
-            else{
-                initialCountDown(String(counter), changedType: "init_state")
-                counterTimer.text = String(counter)
-                NSThread.sleepForTimeInterval(3)
-            }
+            println("counter is now at: " + String(countDown) + "ready to timeout")
+            
+            timeoutCtr("timing out initialization at: " + String(msg_val!.integerValue),
+                resolve: {
+                    println("finished timeout-- counter is at: " + String(self.countDown))
+                    if(self.countDown == 0){
+                            self.initialCountDown(String(self.countDown), changedType: "init_state")
+                    }
+                    else{
+                        self.initialCountDown(String(self.countDown), changedType: "init_state")
+                    }
+                },
+                reject: {
+                    // handle errors
+            })
+            
         }
         
         
     }
+    
+    func timeoutCtr(txt: String, resolve: () -> (), reject: () -> ()) {
+        var delta: Int64 = 1 * Int64(NSEC_PER_SEC)
+        var time = dispatch_time(DISPATCH_TIME_NOW, delta)
+        
+        dispatch_after(time, dispatch_get_main_queue(), {
+            println("closures are " + txt)
+            resolve()
+        });
+    }
+    
+   
 
 
     
@@ -121,7 +157,11 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     func setScoreLabels() {
         PeerCurrentScore.text = String(peer_score)
         MyCurrentScore.text = String(score)
-        counterTimer.text = "3"
+        if (countDown == 0) {
+            counterTimer.hidden = true
+        } else {
+          counterTimer.text = String(countDown)
+        }
     }
     
     func notifyScoreChanged() {
@@ -138,7 +178,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     }
     
     func initialCountDown(val:String, changedType:String){
-        var msg = ["value" : val, "type_init": changedType]
+        println("sending initial count down: " + val)
+        var msg = ["value" : val, "type": changedType]
         let messageData = NSJSONSerialization.dataWithJSONObject(msg, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         var error:NSError?
         
