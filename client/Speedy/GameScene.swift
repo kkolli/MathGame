@@ -95,12 +95,13 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if let physBody = touchedNode.physicsBody {
             physBody.dynamic = false
         }
+        
         activeNode = touchedNode
-//        
-//        if touchedNode is NumberCircle{
-//            let liftup = SKAction.scaleTo(1.2, duration: 0.2)
-//            touchedNode.runAction(liftup, withKey: "pickup")
-//        }
+        
+        if activeNode! is NumberCircle{
+            let liftup = SKAction.scaleTo(1.2, duration: 0.2)
+            activeNode!.runAction(liftup, withKey: "pickup")
+        }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
@@ -138,12 +139,12 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             physBody.dynamic = true
         }
         
-        activeNode = nil
+        if activeNode != nil && activeNode! is NumberCircle{
+            let dropDown = SKAction.scaleTo(1.0, duration: 0.2)
+            activeNode!.runAction(dropDown, withKey: "drop")
+        }
         
-//        if touchedNode is NumberCircle{
-//            let dropDown = SKAction.scaleTo(1.0, duration: 0.2)
-//            touchedNode.runAction(dropDown, withKey: "drop")
-//        }
+        activeNode = nil
     }
 
     func breakJoint(){

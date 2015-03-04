@@ -114,6 +114,8 @@ class RandomNumbers {
             generatedTarget = generateTarget()
             filteredNumbers = numbers.filter{$0 == generatedTarget}
         }
+        
+        target = generatedTarget
         return generatedTarget
     }
 }

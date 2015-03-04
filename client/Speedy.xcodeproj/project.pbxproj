@@ -159,6 +159,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A71D4F91AA692BD0076FD58 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1C88FC251A78239B00509137 /* GameViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		6B5747981A70BF2800D2756F = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +191,7 @@
 		6B5747A31A70BF2800D2756F /* Speedy */ = {
 			isa = PBXGroup;
 			children = (
+				0A71D4F91AA692BD0076FD58 /* Controllers */,
 				A1DF2B6F1A96D08500446A7C /* FSViewController.swift */,
 				6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */,
 				6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */,
@@ -190,7 +199,6 @@
 				6B5747A61A70BF2800D2756F /* AppDelegate.swift */,
 				1C88FC231A78223800509137 /* GameScene.swift */,
 				1C667FEA1A8C9E4D0035A402 /* BoardController.swift */,
-				1C88FC251A78239B00509137 /* GameViewController.swift */,
 				6B5747A81A70BF2800D2756F /* LoginViewController.swift */,
 				6B5747AA1A70BF2800D2756F /* Main.storyboard */,
 				A19960D91A724EB600A327F6 /* PageViewController.swift */,
