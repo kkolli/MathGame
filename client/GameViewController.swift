@@ -16,8 +16,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var GameScoreLabel: UILabel!
     @IBOutlet weak var GameTargetNumLabel: UILabel!
-    var timer = NSTimer()
-    var counter = 0
+    var timer: Timer!
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
     var targetNumber: Int?
@@ -30,8 +29,19 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         println("In Game View controller")
         
         // start the counter to go!
-        GameTimerLabel.text = convertIntToTime(counter)
-        startTimer()
+        timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
+            if self.timer.getTime() < 0 {
+                self.GameTimerLabel.text = "done"
+            } else {
+                if self.TIME_DEBUG {
+                  println("time printout: " + String(self.timer.getTime()))
+                }
+                self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
+            }
+        })
+        
+        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
+        timer.start()
         
         scene = GameScene(size: view.frame.size)
         boardController = BoardController(scene: scene!)
@@ -79,58 +89,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     }
     
     // END-- SCORE HANDLING
-    
-    func startTimer() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
-    }
-    
-    func updateCounter() {
-        counter++;
-        if (game_max_time - counter < 0) {
-            // Stop the timer completely
-            GameTimerLabel.text = "Done"
-            stopPauseTimer()
-        } else {
-            GameTimerLabel.text = convertIntToTime(counter)
-        }
-    }
-    
-    func stopPauseTimer() {
-        timer.invalidate()
-    }
-    
-    /*
-    this takes something like 0 and turns it into 00:00
-    and if it takes something like 60 -> 01:00
-    if it takes 170 -> 02:10
-    */
-    func convertIntToTime(secondsPassed: Int) -> String {
-        var count = game_max_time - secondsPassed
-        
-        let seconds_per_minute = 60
-        var minutes = count / seconds_per_minute
-        var seconds = count % seconds_per_minute
-        
-        var minute_display = "", second_display = ""
-        
-        if (minutes >= 10) {
-            minute_display = String(minutes)
-        } else {
-            minute_display = "0" + String(minutes)
-        }
-        
-        if (seconds >= 10) {
-            second_display = String(seconds)
-        } else {
-            second_display = "0" + String(seconds)
-        }
-        
-        if (TIME_DEBUG) {
-            println("seconds: \(seconds)" + " second display : " + second_display)
-            println("displaying: " + minute_display + ":" + second_display)
-        }
-        return minute_display + ":" + second_display
-    }
     
     func didBeginContact(contact: SKPhysicsContact) {
         var numberBody: SKPhysicsBody

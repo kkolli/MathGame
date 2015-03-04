@@ -8,17 +8,19 @@
 
 import Foundation
 
-class Timer{
-    var timer = NSTimer()
+class Timer : NSObject{
+    var timer: NSTimer!
     var handler: (Int) -> ()
     var duration: Int
-    var elapsedTime = 0
+    var elapsedTime: Int
     
     let TIME_DEBUG = false
     
     init(duration: Int, handler: (Int) -> ()){
         self.duration = duration
         self.handler = handler
+        self.timer = NSTimer()
+        self.elapsedTime = 0
     }
     
     deinit {
@@ -46,13 +48,17 @@ class Timer{
         timer.invalidate()
     }
     
+    func getTime() -> Int {
+        return duration-elapsedTime
+    }
+    
     /*
     This takes something like 0 and turns it into 00:00
     and if it takes something like 60 -> 01:00
     if it takes 170 -> 02:10
     */
-    func convertIntToTime(secondsPassed: Int) -> String {
-        var count = duration - secondsPassed
+    func convertIntToTime(count: Int) -> String {
+        // var count = duration - secondsPassed
         
         let seconds_per_minute = 60
         var minutes = count / seconds_per_minute
