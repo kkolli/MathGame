@@ -33,8 +33,8 @@ class BoardController {
     
     let debug: Bool
     
-    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
-    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
+    let randomNumbers = RandomNumbers()
+    let randomOperators = RandomOperators()
     
     var circleList: [GameCircle] = []
     var nodeRestPositions = [CGPoint]()

@@ -64,7 +64,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
             let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
             let numberList = numberCircleList.map{($0 as NumberCircle).number!}
             targetNumber = boardController!.randomNumbers.generateTarget(numberList)
-            println(targetNumber)
         }else{
             targetNumber = boardController!.randomNumbers.generateTarget()
         }
@@ -202,6 +201,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         }
     }
     
+    //TODO: Refactor mergeNodes and handleMerge together
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
         let (result, removeNode) = handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
         
@@ -227,22 +227,30 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
         var result: Int
+        var nodeScore: Int
         
         let op1 = leftNumberCircle.number!
         let op2 = rightNumberCircle.number!
         let oper = opCircle.op!
         
         switch oper{
-        case .PLUS: result = op1 + op2
-        case .MINUS: result = op1 - op2
-        case .MULTIPLY: result = op1 * op2
-        case .DIVIDE: result = op1 / op2
+        case .PLUS:
+            result = op1 + op2
+        case .MINUS:
+            result = op1 - op2
+        case .MULTIPLY:
+            result = op1 * op2
+        case .DIVIDE:
+            result = op1 / op2
         }
         
+        nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
         if result == targetNumber{
-            score += result * ScoreMultiplier.getMultiplierFactor(oper)
+            score += nodeScore
             updateScore()
             updateTargetNumber()
+        }else{
+            rightNumberCircle.setScore(nodeScore)
         }
         
         let removeNode = (result == targetNumber || result == 0)

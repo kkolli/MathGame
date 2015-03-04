@@ -10,7 +10,6 @@ import Foundation
 
 class RandomNumbers {
     var target: Int?
-    var difficulty: Int
     var weights: [Double]
     var weightedList: [Int]
     
@@ -20,15 +19,6 @@ class RandomNumbers {
     let maxRange = 95
     
     init(){
-        target = 10
-        difficulty = 1
-        weights = []
-        weightedList = []
-    }
-    
-    //Use this constructor
-    init(difficulty: Int){
-        self.difficulty = difficulty
         self.weights = []
         self.weightedList = []
         
@@ -102,7 +92,6 @@ class RandomNumbers {
     }
     
     func generateTarget() -> Int{
-        let range = difficulty * targetRange > maxRange ? maxRange : difficulty * targetRange
         return Int(arc4random_uniform(UInt32(maxRange))) + minTarget
     }
     

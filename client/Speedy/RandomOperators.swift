@@ -9,7 +9,6 @@
 import Foundation
 
 class RandomOperators{
-    var difficulty: Int
     var weights: [Operator: Double] = [:]
     var weightedList: [Operator] = []
     
@@ -23,11 +22,6 @@ class RandomOperators{
     let divideProb = 0.2
     
     init(){
-        self.difficulty = 1
-    }
-    
-    init(difficulty: Int){
-        self.difficulty = difficulty
         self.weights = generateWeights()
         self.weightedList = generateWeightedList()
     }

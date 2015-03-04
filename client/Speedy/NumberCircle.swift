@@ -19,11 +19,7 @@ class NumberCircle : GameCircle {
     convenience init(num: Int)    {
         self.init()
         setNumber(num)
-        initScore()
-    }
-    
-    func initScore() {
-        score = 0
+        setScore(num)
     }
     
     func setScore(num: Int) {
