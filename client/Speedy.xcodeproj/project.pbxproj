@@ -162,9 +162,28 @@
 		0A71D4F91AA692BD0076FD58 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1C667FEA1A8C9E4D0035A402 /* BoardController.swift */,
+				6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */,
+				A1DF2B6F1A96D08500446A7C /* FSViewController.swift */,
+				A1DF2B681A968BB000446A7C /* IntroViewController.swift */,
+				A19960D91A724EB600A327F6 /* PageViewController.swift */,
+				6B5747A81A70BF2800D2756F /* LoginViewController.swift */,
 				1C88FC251A78239B00509137 /* GameViewController.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		0A71D4FA1AA69BC90076FD58 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */,
+				1CBCA2371A83FF8A00036F67 /* NumberCircle.swift */,
+				0AE71FFA1A904A230030705B /* GameCircle.swift */,
+				0AE720031A90698C0030705B /* RandomOperators.swift */,
+				0AE720001A9054870030705B /* GameOperators.swift */,
+				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		6B5747981A70BF2800D2756F = {
@@ -191,27 +210,16 @@
 		6B5747A31A70BF2800D2756F /* Speedy */ = {
 			isa = PBXGroup;
 			children = (
+				0A71D4FA1AA69BC90076FD58 /* Models */,
 				0A71D4F91AA692BD0076FD58 /* Controllers */,
-				A1DF2B6F1A96D08500446A7C /* FSViewController.swift */,
-				6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */,
 				6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */,
 				A19960D81A723D7600A327F6 /* Bridging-Header.h */,
 				6B5747A61A70BF2800D2756F /* AppDelegate.swift */,
 				1C88FC231A78223800509137 /* GameScene.swift */,
-				1C667FEA1A8C9E4D0035A402 /* BoardController.swift */,
-				6B5747A81A70BF2800D2756F /* LoginViewController.swift */,
 				6B5747AA1A70BF2800D2756F /* Main.storyboard */,
-				A19960D91A724EB600A327F6 /* PageViewController.swift */,
-				A1DF2B681A968BB000446A7C /* IntroViewController.swift */,
 				6B5747AD1A70BF2800D2756F /* Images.xcassets */,
 				6B5747AF1A70BF2800D2756F /* LaunchScreen.xib */,
 				6B5747A41A70BF2800D2756F /* Supporting Files */,
-				1CBCA2371A83FF8A00036F67 /* NumberCircle.swift */,
-				0AE71FFA1A904A230030705B /* GameCircle.swift */,
-				0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */,
-				0AE720001A9054870030705B /* GameOperators.swift */,
-				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
-				0AE720031A90698C0030705B /* RandomOperators.swift */,
 			);
 			path = Speedy;
 			sourceTree = "<group>";
