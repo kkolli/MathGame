@@ -166,6 +166,7 @@
 		0A71D4F91AA692BD0076FD58 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1C88FC251A78239B00509137 /* GameViewController.swift */,
 				A139BA511AA2E7D800CF740E /* MultiplayerSetupViewController.swift */,
 				A139BA501AA2E7D800CF740E /* MultiplayerGameViewController.swift */,
 				A1DF2B6F1A96D08500446A7C /* FSViewController.swift */,
@@ -173,7 +174,6 @@
 				A1DF2B681A968BB000446A7C /* IntroViewController.swift */,
 				A19960D91A724EB600A327F6 /* PageViewController.swift */,
 				6B5747A81A70BF2800D2756F /* LoginViewController.swift */,
-				1C88FC251A78239B00509137 /* GameViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -580,6 +580,7 @@
 					/Users/choucalate/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(PROJECT_DIR)/FacebookSDK";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -607,6 +608,7 @@
 					/Users/choucalate/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(PROJECT_DIR)/FacebookSDK";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
