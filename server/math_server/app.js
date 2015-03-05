@@ -67,7 +67,6 @@ app.post('/create_check_user', function(req, res) {
     });
 });
 
-
 app.post('/post', function(req, res) { 
     res.end(JSON.stringify(req.body));
 })

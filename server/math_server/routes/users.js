@@ -176,16 +176,70 @@ exports.list = function(req, res){
 }
 
 //Get the HighScores
+/*
+{
+        "_id": "54d1d9a823883d0300e6456a",
+        "fbID": "987654321",
+        "firstName": "test1",
+        "lastName": "test1pw",
+        "__v": 1,
+        "score": [1, 2, 3, 4],
+        "friends": [
+            "54d3bb8f643155030037eb75"
+        ],
+        "createdAt": "2015-02-04T08:34:48.669Z"
+    }
+
+
+currently - [1, 2, 3, 4]
+obj = { 
+   "user": fbid,
+   "highscore": .... 
+}
+
+res.end(JSON.stringify(obj))
+*/
+
+
+/*Array.max = function(array){
+  return Math.max.apply(Math, array);
+
+};
+*/
+
+/*function highestScore(array)
+{
+    var m = -Infinity, i = 0, n = a.length;
+
+    for (; i != n; ++i) {
+        if (a[i] > m) {
+            m = a[i];
+        }
+    }
+    return m;
+}
+*/
+
+
+
 exports.getHighScores = function(req,res){
-  Users.find({fbID:req.params.fbID},function(err,user){
+  Users.findOneAndUpdate({fbID: req.params.fbID},{$push: {"score": {
+        $each:[],
+        $sort: -1,
+        $slice: 1
+    }}} ,
+  function(err,users){ //get users score based on fb idea
     if(err) return res.end(JSON.stringify(err));
-    return res.end(JSON.stringify(user.score));
+    console.log("users: " + JSON.stringify(users));
+     return res.end(JSON.stringify(users));
+    
   });
 }
 
 //Post a Score
 exports.sendHighScores = function(req,res){
   Users.findOneAndUpdate({fbID: req.params.fbID} ,{$push: {"score": req.body.score}},
+
     function(err,user){
       if(err) {
         res.sendStatus(400);
@@ -231,9 +285,8 @@ exports.getFriendScores = function(req, res) {
       res.end(JSON.stringify({friends : []}));
     } else {
       Users.find({
-        '_id' : {
-          $in: friends
-        }
+        '_id' : {$in: friends},
+
       }, function(err, myFriends) {
         res.status(200);
         var result = {
