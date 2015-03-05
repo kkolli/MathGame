@@ -487,6 +487,12 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzZ-CR-ZCo">
+                                <rect key="frame" x="30" y="552" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -495,6 +501,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="GameTimerLabel" destination="gzZ-CR-ZCo" id="EtH-8v-Kk1"/>
                         <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
                         <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
                         <outlet property="counterTimer" destination="4ND-DL-wxI" id="BWy-Re-VEP"/>

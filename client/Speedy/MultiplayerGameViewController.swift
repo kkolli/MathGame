@@ -11,7 +11,7 @@ import UIKit
 import MultipeerConnectivity
 
 class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate {
-    var timer = NSTimer()
+    var timer: Timer!
     var countDown = 3
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
@@ -22,9 +22,12 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     var scene: GameScene?
     var boardController: BoardController?
     
+    @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var counterTimer: UILabel!
     @IBOutlet weak var PeerCurrentScore: UILabel!
     @IBOutlet weak var MyCurrentScore: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +61,20 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
         initialCountDown(String(countDown), changedType: "init_state")
         setScoreLabels()
+        
+        // start the counter to go!
+        timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
+            if self.timer.getTime() < 0 {
+                self.GameTimerLabel.text = "done"
+            } else {
+                if self.TIME_DEBUG {
+                    println("time printout: " + String(self.timer.getTime()))
+                }
+                self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
+            }
+        })
+        
+        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
     }
     
     func peerChangedStateWithNotification(notification:NSNotification){
@@ -110,6 +127,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                 println("about to unfreeze!")
                 //start the game
                 self.scene!.freezeAction = false
+                timer.start()
             }
             println("counter is now at: " + String(countDown) + "ready to timeout")
             
@@ -126,10 +144,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                 reject: {
                     // handle errors
             })
-            
         }
-        
-        
     }
     
     func timeoutCtr(txt: String, resolve: () -> (), reject: () -> ()) {
