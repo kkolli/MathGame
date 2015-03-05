@@ -79,6 +79,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         case .DIVIDE: result = op1 / op2
         }
         
+        println("targetnum: \(targetNumber) and result: \(result)")
         if result == targetNumber{
             score += result * ScoreMultiplier.getMultiplierFactor(oper)
         }
@@ -112,7 +113,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    
+
                     let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
                     scene!.physicsWorld.addJoint(joint)
                     scene!.joinedNodeA = numberNode
@@ -141,7 +142,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    
                     myJoint.frictionTorque = 1.0
                     scene!.physicsWorld.addJoint(myJoint)
                     scene!.currentJoint = myJoint

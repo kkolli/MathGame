@@ -32,7 +32,10 @@
 		6B5747BD1A70BF2800D2756F /* SpeedyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */; };
 		6B83B8AF1A8D3917008C7FE0 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B83B8AE1A8D3917008C7FE0 /* GameKit.framework */; };
 		6B83B8B41A8D3A76008C7FE0 /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */; };
-		6B83B8B61A8D3ADE008C7FE0 /* GameCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */; };
+		A12D20CB1A9FBA2700DCA69A /* MPCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12D20CA1A9FBA2700DCA69A /* MPCHandler.swift */; };
+		A139BA521AA2E7D800CF740E /* MultiplayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139BA501AA2E7D800CF740E /* MultiplayerGameViewController.swift */; };
+		A139BA531AA2E7D800CF740E /* MultiplayerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139BA511AA2E7D800CF740E /* MultiplayerSetupViewController.swift */; };
+		A140BC0C1AA2D58B00BD753C /* MultiplayerStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140BC0B1AA2D58B00BD753C /* MultiplayerStates.swift */; };
 		A15D6B171A83FECA00105413 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15D6B161A83FECA00105413 /* FacebookSDK.framework */; };
 		A19960DA1A724EB600A327F6 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19960D91A724EB600A327F6 /* PageViewController.swift */; };
 		A1DF2B691A968BB000446A7C /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF2B681A968BB000446A7C /* IntroViewController.swift */; };
@@ -131,7 +134,10 @@
 		6B5747BC1A70BF2800D2756F /* SpeedyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedyTests.swift; sourceTree = "<group>"; };
 		6B83B8AE1A8D3917008C7FE0 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenter.swift; sourceTree = "<group>"; };
-		6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterController.swift; sourceTree = "<group>"; };
+		A12D20CA1A9FBA2700DCA69A /* MPCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCHandler.swift; sourceTree = "<group>"; };
+		A139BA501AA2E7D800CF740E /* MultiplayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameViewController.swift; sourceTree = "<group>"; };
+		A139BA511AA2E7D800CF740E /* MultiplayerSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerSetupViewController.swift; sourceTree = "<group>"; };
+		A140BC0B1AA2D58B00BD753C /* MultiplayerStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerStates.swift; sourceTree = "<group>"; };
 		A15D6B161A83FECA00105413 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		A19960D81A723D7600A327F6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
 		A19960D91A724EB600A327F6 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
@@ -186,9 +192,11 @@
 			isa = PBXGroup;
 			children = (
 				A1DF2B6F1A96D08500446A7C /* FSViewController.swift */,
-				6B83B8B51A8D3ADE008C7FE0 /* GameCenterController.swift */,
+				A12D20CA1A9FBA2700DCA69A /* MPCHandler.swift */,
 				6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */,
 				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
+				A139BA501AA2E7D800CF740E /* MultiplayerGameViewController.swift */,
+				A139BA511AA2E7D800CF740E /* MultiplayerSetupViewController.swift */,
 				A19960D81A723D7600A327F6 /* Bridging-Header.h */,
 				6B5747A61A70BF2800D2756F /* AppDelegate.swift */,
 				1C88FC231A78223800509137 /* GameScene.swift */,
@@ -205,6 +213,7 @@
 				0AE71FFA1A904A230030705B /* GameCircle.swift */,
 				0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */,
 				0AE720001A9054870030705B /* GameOperators.swift */,
+				A140BC0B1AA2D58B00BD753C /* MultiplayerStates.swift */,
 				0AE720031A90698C0030705B /* RandomOperators.swift */,
 				0A71D4FD1AA6A6500076FD58 /* Timer.swift */,
 			);
@@ -304,6 +313,7 @@
 					};
 					6B5747B51A70BF2800D2756F = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = W8FMTE3P32;
 						TestTargetID = 6B5747A01A70BF2800D2756F;
 					};
 				};
@@ -391,14 +401,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CBCA2381A83FF8A00036F67 /* NumberCircle.swift in Sources */,
-				6B83B8B61A8D3ADE008C7FE0 /* GameCenterController.swift in Sources */,
 				A1DF2B691A968BB000446A7C /* IntroViewController.swift in Sources */,
+				A140BC0C1AA2D58B00BD753C /* MultiplayerStates.swift in Sources */,
 				0AE720041A90698C0030705B /* RandomOperators.swift in Sources */,
 				1C88FC261A78239B00509137 /* GameViewController.swift in Sources */,
 				0AE71FFE1A904F1D0030705B /* OperatorCircle.swift in Sources */,
+				A139BA521AA2E7D800CF740E /* MultiplayerGameViewController.swift in Sources */,
+				A139BA531AA2E7D800CF740E /* MultiplayerSetupViewController.swift in Sources */,
 				1C88FC241A78223800509137 /* GameScene.swift in Sources */,
 				6B5747A91A70BF2800D2756F /* LoginViewController.swift in Sources */,
 				A1DF2B701A96D08500446A7C /* FSViewController.swift in Sources */,
+				A12D20CB1A9FBA2700DCA69A /* MPCHandler.swift in Sources */,
 				6B5747A71A70BF2800D2756F /* AppDelegate.swift in Sources */,
 				A19960DA1A724EB600A327F6 /* PageViewController.swift in Sources */,
 				6B83B8B41A8D3A76008C7FE0 /* GameCenter.swift in Sources */,
@@ -548,6 +561,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -563,6 +578,7 @@
 					"$(PROJECT_DIR)/FacebookSDK.framework/Versions/A",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -572,6 +588,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -587,6 +605,7 @@
 					"$(PROJECT_DIR)/FacebookSDK.framework/Versions/A",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -596,6 +615,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -607,6 +628,7 @@
 				INFOPLIST_FILE = SpeedyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Speedy.app/Speedy";
 			};
 			name = Debug;
@@ -615,6 +637,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -622,6 +646,7 @@
 				INFOPLIST_FILE = SpeedyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Speedy.app/Speedy";
 			};
 			name = Release;
