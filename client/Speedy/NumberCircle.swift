@@ -12,12 +12,19 @@ class NumberCircle : GameCircle {
     var score: Int?
     
     let nodeFont = "AmericanTypewriter-Bold"
+<<<<<<< HEAD
     
     var text: SKLabelNode?
+=======
+    var text: SKLabelNode?
+    var scoreMultiplier = 1
+    var upgrade: UpgradeOptions = UpgradeOptions.None
+>>>>>>> d114428d3121e6ebbee48463ab847e5a4d2e2f8f
     
     convenience init(num: Int)    {
         self.init()
         setNumber(num)
+<<<<<<< HEAD
         initScore()
     }
     
@@ -35,6 +42,37 @@ class NumberCircle : GameCircle {
     func setNumber(num: Int) {
         number = num
         setLabel()
+=======
+        setScore(num)
+    }
+    
+    func setScore(num: Int) {
+        score = num
+    }
+    func getScore() -> Int {
+        return score!
+    }
+    
+    func setNumber(num: Int) {
+        number = num
+        setLabel()
+    }
+    
+    func setScoreMultiplier(multiplier: Int){
+        scoreMultiplier = multiplier
+    }
+    
+    func setUpgrade(upgrade: UpgradeOptions){
+        self.upgrade = upgrade
+    }
+    
+    func setFillColor(color: UIColor){
+        shapeNode!.fillColor = color
+    }
+    
+    func resetFillColor(){
+        shapeNode!.fillColor = UIColor.redColor()
+>>>>>>> d114428d3121e6ebbee48463ab847e5a4d2e2f8f
     }
     
     func setLabel(){

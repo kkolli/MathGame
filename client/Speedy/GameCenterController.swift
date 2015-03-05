@@ -17,4 +17,12 @@ class GameCenterController: UIViewController {
         self.gameCenter = GameCenter(rootViewController: self)
         self.gameCenter.loginToGameCenter()
     }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return UIInterfaceOrientation.Portrait.rawValue
+    }
 }
