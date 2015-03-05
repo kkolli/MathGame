@@ -18,6 +18,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     var targetNumber: Int?
     var activeNode: SKNode?
+    var freezeAction = false
     
     var releaseNumber: NumberCircle?
     var releaseOperator: OperatorCircle?
@@ -75,6 +76,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        // println("in touchesbegan and freezeaction is: " + String(freezeAction.description))
+        if (freezeAction == true) {
+            return
+        }
         /* touch has begun */
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
@@ -105,6 +110,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        // println("in touchesmoved and freezeaction is: " + String(freezeAction.description))
+        if (freezeAction == true) {
+            return
+        }
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
 

@@ -66,6 +66,19 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
             targetNumber = boardController!.randomNumbers.generateTarget(numberList)
         }else{
             targetNumber = boardController!.randomNumbers.generateTarget()
+
+    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
+        var result: Int
+        
+        switch oper{
+        case .PLUS: result = op1 + op2
+        case .MINUS: result = op1 - op2
+        case .MULTIPLY: result = op1 * op2
+        case .DIVIDE: result = op1 / op2
+        }
+        
+        if result == targetNumber{
+            score += result * ScoreMultiplier.getMultiplierFactor(oper)
         }
         
         GameTargetNumLabel.text = String(targetNumber!)
@@ -148,18 +161,14 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 let opNode     = opBody.node! as OperatorCircle
                 
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
-                    if numberNode == scene!.releaseNumber && opNode == scene!.releaseOperator{
-                        scene!.releaseNumber = nil
-                        scene!.releaseOperator = nil
-                    }else{
-                        numberNode.setNeighbor(opNode)
-                        opNode.setNeighbor(numberNode)
-                        
-                        let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
-                        scene!.physicsWorld.addJoint(joint)
-                        scene!.joinedNodeA = numberNode
-                        scene!.joinedNodeB = opNode
-                    }
+                    numberNode.setNeighbor(opNode)
+                    opNode.setNeighbor(numberNode)
+
+                    let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                    scene!.physicsWorld.addJoint(joint)
+                    scene!.joinedNodeA = numberNode
+                    scene!.joinedNodeB = opNode
+
                 }else{
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
@@ -184,7 +193,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    
                     myJoint.frictionTorque = 1.0
                     scene!.physicsWorld.addJoint(myJoint)
                     scene!.currentJoint = myJoint
