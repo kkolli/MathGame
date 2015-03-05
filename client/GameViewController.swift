@@ -66,21 +66,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
             targetNumber = boardController!.randomNumbers.generateTarget(numberList)
         }else{
             targetNumber = boardController!.randomNumbers.generateTarget()
-
-    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
-        var result: Int
-        
-        switch oper{
-        case .PLUS: result = op1 + op2
-        case .MINUS: result = op1 - op2
-        case .MULTIPLY: result = op1 * op2
-        case .DIVIDE: result = op1 / op2
         }
-        
-        if result == targetNumber{
-            score += result * ScoreMultiplier.getMultiplierFactor(oper)
-        }
-        
         GameTargetNumLabel.text = String(targetNumber!)
     }
     
