@@ -16,6 +16,7 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
     var appDelegate:AppDelegate!
     var id = UIDevice.currentDevice().identifierForVendor.UUIDString.utf8
     var isServer:Bool!
+    var hasSeguedToMP: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
-        
+        hasSeguedToMP = false
         
     }
     @IBAction func connectWithPlayer(sender: AnyObject) {
@@ -49,7 +50,9 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
         let otherUserPID = userInfo.objectForKey("peerID") as MCPeerID
         if state != MCSessionState.Connecting.rawValue {
             self.navigationItem.title = "Connected"
-            determineServer(otherUserPID)
+            if !hasSeguedToMP {
+              determineServer(otherUserPID)
+            }
         }
         
     }
@@ -93,7 +96,7 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
     }
     
     func handleReceivedDataWithNotification(notification:NSNotification){
-        println("received some data with notification!")
+        println("received some data with notification! mcsetupview")
         let userInfo = notification.userInfo! as Dictionary
         let receivedData:NSData = userInfo["data"] as NSData
         
@@ -110,18 +113,12 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
                 if appDelegate.mpcHandler.browser != nil {
                   appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
                 }
+                hasSeguedToMP = true
                 performSegueToMultiplayer()
             } else {
                 println("there was an error for client server resolution- client: \(self.isServer) serveR: \(isPeerServer)")
             }
         }
-        
-        
-        
-    }
-    
-    func sendInitializationData() {
-        
     }
     
     func performSegueToMultiplayer() {

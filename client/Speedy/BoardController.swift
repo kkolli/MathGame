@@ -172,7 +172,7 @@ class BoardController {
 */
     
     private func createGameCirclePhysBody(category: UInt32) -> SKPhysicsBody {
-        let physBody = SKPhysicsBody(circleOfRadius: 30.0)
+        let physBody = SKPhysicsBody(circleOfRadius: 23.0)
         
         // friction when sliding against this physics body
         physBody.friction = 3.8
