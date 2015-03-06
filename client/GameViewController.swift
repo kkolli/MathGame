@@ -23,6 +23,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     let TIME_DEBUG = false
     var scene: GameScene?
     var boardController: BoardController?
+    var operatorsUsed: [Operator]!
+    var numTargetNumbersMatched = 0
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -30,8 +32,9 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         
         // start the counter to go!
         timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
-            if self.timer.getTime() < 0 {
+            if self.timer.getTime() <= 0 {
                 self.GameTimerLabel.text = "done"
+                self.performSegueToSummary()
             } else {
                 if self.TIME_DEBUG {
                   println("time printout: " + String(self.timer.getTime()))
@@ -48,6 +51,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         boardController = BoardController(scene: scene!)
         scene!.boardController = boardController
         updateTargetNumber()
+        operatorsUsed = []
         
         // Configure the view.
         let skView = self.view as SKView
@@ -223,6 +227,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         let op1 = leftNumberCircle.number!
         let op2 = rightNumberCircle.number!
         let oper = opCircle.op!
+        operatorsUsed.append(oper)
         
         switch oper{
         case .PLUS:
@@ -250,9 +255,19 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     }
     
     func didEndContact(contact: SKPhysicsContact) {}
+    //func didEndContact(contact: SKPhysicsContact) {}
+    func performSegueToSummary() {
+        self.performSegueWithIdentifier("segueToSummary", sender: nil)
+    }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        println("preparing for segue!!")
+        if segue.identifier == "segueToSummary" {
+            println("performing segue to summary")
+            let vc = segue.destinationViewController as SummaryViewController
+            vc.operatorsUsed = operatorsUsed
+            vc.score = score
+        }
     }
     
     override func didReceiveMemoryWarning() {
