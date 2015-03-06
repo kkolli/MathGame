@@ -27,13 +27,21 @@ class IntroViewController: UIViewController {
     }
     
     func getHighscores(){
-        var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
+        var uri = "http://mathisspeedy.herokuapp.com/OneHighScore/" + user.objectID
         Alamofire.request(.GET, uri)
             .responseJSON { (request, response, data, error) in
                 println("request: \(request)")
                 println("response: \(response)")
                 println("data: \(data)")
                 println("error: \(error)")
+                if error != nil || data == nil ||  data!.objectForKey("highscore") == nil {
+                    println(" errors found")
+                } else {
+                    var highscoreValue:NSInteger = data!.objectForKey("highscore") as NSInteger
+                    println(highscoreValue)
+                    self.yourHighScore.text = "Your Score: " + String(highscoreValue)
+                    
+                }
         }
         
     }
