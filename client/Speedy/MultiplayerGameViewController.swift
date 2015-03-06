@@ -9,6 +9,7 @@
 import SpriteKit
 import UIKit
 import MultipeerConnectivity
+import Alamofire
 
 class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate {
     var timer: Timer!
@@ -22,6 +23,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     var scene: GameScene?
     var boardController: BoardController?
     var finishedInit: Bool!
+    var user : FBGraphUser!
     
     @IBOutlet weak var GameTargetNumLabel: UILabel!
     @IBOutlet weak var GameTimerLabel: UILabel!
@@ -32,6 +34,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
+
         
         println("in multiplayer view controller")
 
@@ -60,6 +63,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         // Do any additional setup after loading the view.
         
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.user = appDelegate.user
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
@@ -71,8 +76,9 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
             if self.TIME_DEBUG {
                 println("time printout: " + String(self.timer.getTime()))
             }
-            if self.timer.getTime() < 0 {
+            if self.timer.getTime() <=  0 {
                 self.GameTimerLabel.text = "done"
+                self.postScore(self.MyCurrentScore.text!)
             } else {
                 self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
@@ -91,6 +97,14 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
 //            self.navigationItem.title = "Connected"
         }
         
+    }
+    
+    func postScore(score:String){
+        var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
+        let parameters = [
+            "score": score
+        ]
+        Alamofire.request(.POST, uri, parameters: parameters, encoding: .JSON)
     }
     
     func handleReceivedDataWithNotification(notification:NSNotification){
