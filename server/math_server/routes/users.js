@@ -10,7 +10,7 @@ exports.createFbUser = function(req, cb){
   console.log("JSON from create: " + JSON.stringify(req.body, null, '\t'));
   var newUser = null;
   if (validateFields(req.body)) {
-  	console.log("VALIDATED FIELDS!");
+    console.log("VALIDATED FIELDS!");
 
     /*
     Now I have to do 2 things- 
@@ -21,7 +21,7 @@ exports.createFbUser = function(req, cb){
     
     */
 
-  	fbUserExists(req.body.fbID, function(err, exists) {
+    fbUserExists(req.body.fbID, function(err, exists) {
       if(err) return cb(err);
       if (exists) return cb("Duplicate User");
 
@@ -49,16 +49,16 @@ exports.createFbUser = function(req, cb){
         });
       } else {
         newUser = new Users(req.body);
-    	  console.log("this new user has id: " + newUser.id);
-    	  newUser.save(function(err, user){
-    	    if(err) return cb(err);
-    	    console.log("created user!");
-    	    return cb();
-    	  });
+        console.log("this new user has id: " + newUser.id);
+        newUser.save(function(err, user){
+          if(err) return cb(err);
+          console.log("created user!");
+          return cb();
+        });
       }
     });
   } else {
-  	return cb("Could Not Validate Fields");
+    return cb("Could Not Validate Fields");
   }
 
 }
@@ -175,14 +175,39 @@ exports.list = function(req, res){
   });
 }
 
-//Get the HighScores
+
 exports.getHighScores = function(req,res){
-  Users.find({fbID:req.params.fbID},function(err,user){
+  Users.findOne({fbID:req.params.fbID},function(err,user){
     if(err) return res.end(JSON.stringify(err));
+    // console.log("here: " + JSON.stringify(user.score, null , '\t'));
     return res.end(JSON.stringify(user.score));
   });
 }
 
+
+exports.getOneHighScore = function(req, res) {
+
+   Users.findOne( { fbID: req.params.fbID},
+  function(err,user){ //get users score based on fb idea
+    if(err) return res.end(JSON.stringify(err));
+    var scores = user.score; 
+    n = scores.length;
+    var max = 0;
+
+    for ( var i = 0; i < n; ++i) {
+        if (scores[i] > max) {
+            max = scores[i];
+        }
+    }
+    var obj = {
+      "user": req.params.fbID,
+      "highscore": max
+    }
+
+    res.end(JSON.stringify(obj))
+    });
+}
+  
 //Post a Score
 exports.sendHighScores = function(req,res){
   Users.findOneAndUpdate({fbID: req.params.fbID} ,{$push: {"score": req.body.score}},
@@ -231,9 +256,8 @@ exports.getFriendScores = function(req, res) {
       res.end(JSON.stringify({friends : []}));
     } else {
       Users.find({
-        '_id' : {
-          $in: friends
-        }
+        '_id' : {$in: friends},
+
       }, function(err, myFriends) {
         res.status(200);
         var result = {
