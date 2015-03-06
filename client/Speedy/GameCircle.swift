@@ -13,7 +13,7 @@ class GameCircle: SKNode{
     var shapeNode: SKShapeNode?
     var neighbor: GameCircle?
     
-    let nodeRadius: CGFloat = 30
+    let nodeRadius: CGFloat = 23
     let nodeStrokeColor = UIColor.yellowColor()
     let nodeTextFontSize: CGFloat = 16.0
     let nodeLineWidth: CGFloat = 4
