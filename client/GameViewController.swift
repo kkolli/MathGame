@@ -173,10 +173,11 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     scene!.joinedNodeB = opNode
                 }else{
                     // if hitting all 3
-                    let leftNumberCircle = opNode.neighbor as NumberCircle
-                    let opCircle  = opNode
-                    
-                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
                 }
             }
         }
