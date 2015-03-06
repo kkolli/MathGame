@@ -55,7 +55,7 @@ class NumberCircle : GameCircle {
             text!.text = "\(number!)"
         }else{
             text = SKLabelNode(text: "\(number!)")
-            text!.fontSize = nodeTextFontSize
+            text!.fontSize = GameCircleProperties.nodeTextFontSize
             text!.fontName = nodeFont
             text!.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
             text!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center

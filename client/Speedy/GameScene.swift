@@ -23,22 +23,17 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     var releaseNumber: NumberCircle?
     var releaseOperator: OperatorCircle?
     
+    // this shouldn't be here?
     var boardController: BoardController?
     
+    var gameFrame: CGRect?
+    
     override func didMoveToView(view: SKView) {
-        setUpPhysics()
+        //setUpPhysics()
     }
     
-    func setUpPhysics(){
-        self.physicsWorld.gravity = CGVectorMake(0, 0)
-        // we put contraints on the top, left, right, bottom so that our balls can bounce off them
-        let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
-        physicsBody.dynamic = false
-        physicsBody.categoryBitMask = 0xFFFFFFFF
-        self.physicsBody = physicsBody
-        self.physicsBody?.restitution = 0.1
-        self.physicsBody?.friction = 0.0
-        //self.physicsWorld.contactDelegate = self;
+    func setGameFrame(frame: CGRect) {
+        gameFrame = frame
     }
     
     func determineClosestAnchorPair(position: CGPoint, nodeA: GameCircle, nodeB: GameCircle) -> (CGPoint, CGPoint) {
@@ -104,9 +99,21 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         activeNode = touchedNode
         
         if activeNode! is NumberCircle{
-            let liftup = SKAction.scaleTo(1.2, duration: 0.2)
-            activeNode!.runAction(liftup, withKey: "pickup")
+            let liftup = SKAction.scaleTo(GameCircleProperties.pickupScaleFactor, duration: 0.2)
+            activeNode!.runAction(liftup)
         }
+    }
+    
+    func adjustPositionIntoGameFrame(position: CGPoint) -> CGPoint {
+        if let frame = gameFrame {
+            let nodeRadius = GameCircleProperties.nodeRadius * GameCircleProperties.pickupScaleFactor
+            let maxHeight = frame.height - nodeRadius
+            if maxHeight < position.y {
+                return CGPointMake(position.x, maxHeight)
+            }
+        }
+        
+        return position
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
@@ -134,7 +141,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             
             //Only number circles can be moved
             if activeNode is NumberCircle{
-                activeNode!.position = touchLocation
+                activeNode!.position = adjustPositionIntoGameFrame(touchLocation)
             }
         }
     }
