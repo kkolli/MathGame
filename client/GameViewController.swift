@@ -24,7 +24,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     var scene: GameScene?
     var boardController: BoardController?
     var operatorsUsed: [Operator]!
-    var numTargetNumbersMatched = 0
+    var numTargetNumbersMatched:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -42,6 +42,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
+        numTargetNumbersMatched = 0
         
         GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
         timer.start()
@@ -52,6 +53,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         scene!.boardController = boardController
         updateTargetNumber()
         operatorsUsed = []
+       
         
         // Configure the view.
         let skView = self.view as SKView
@@ -69,8 +71,14 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         skView.presentScene(scene)
     }
     
-    func updateScore(){
+    func updateScoreAndTime(){
         GameScoreLabel.text = String(score)
+        if numTargetNumbersMatched > 0 {
+            timer.addTime(timer.getExtraTimeFirst())
+        } else {
+            timer.addTime(timer.getExtraTimeSub())
+        }
+        numTargetNumbersMatched!++
     }
     
     func updateTargetNumber(){
@@ -243,7 +251,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
         if result == targetNumber{
             score += nodeScore
-            updateScore()
+            updateScoreAndTime()
             updateTargetNumber()
         }else{
             rightNumberCircle.setScore(nodeScore)
@@ -267,6 +275,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
             let vc = segue.destinationViewController as SummaryViewController
             vc.operatorsUsed = operatorsUsed
             vc.score = score
+            vc.numTargetNumbersMatched = numTargetNumbersMatched
         }
     }
     

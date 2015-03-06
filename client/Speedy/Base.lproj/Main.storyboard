@@ -493,6 +493,12 @@
                                 <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1B9-1L-gY0">
+                                <rect key="frame" x="104" y="552" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -501,10 +507,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="GameTargetNumLabel" destination="1B9-1L-gY0" id="Axs-VJ-ecH"/>
                         <outlet property="GameTimerLabel" destination="gzZ-CR-ZCo" id="EtH-8v-Kk1"/>
                         <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
                         <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
                         <outlet property="counterTimer" destination="4ND-DL-wxI" id="BWy-Re-VEP"/>
+                        <segue destination="8bK-Y6-6GN" kind="show" identifier="multiplayerSegueToSummary" id="AdL-6T-hqH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ca1-uk-TMO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -736,27 +744,33 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgZ-sI-W6G">
+                                <rect key="frame" x="79" y="91" width="178" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Operator Win label" lineBreakMode="wordWrap" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB6-gg-mpR">
+                                <rect key="frame" x="79" y="203" width="448" height="194"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Num Target Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edQ-nY-2sv">
+                                <rect key="frame" x="79" y="151" width="258" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zc9-sD-4tg">
-                                <rect key="frame" x="538" y="562" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                                <rect key="frame" x="209" y="102" width="41" height="30"/>
+                                <state key="normal" title="Home">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="uUX-1h-LFA"/>
+                                    <segue destination="xfK-l9-L2b" kind="show" id="kpS-h4-aTe"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgZ-sI-W6G">
-                                <rect key="frame" x="79" y="101" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rcz-qV-xbe">
-                                <rect key="frame" x="79" y="197" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -765,7 +779,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="OperatorResultLabel" destination="Rcz-qV-xbe" id="yrL-aE-ZGS"/>
+                        <outlet property="NumTargetResultLabel" destination="edQ-nY-2sv" id="HRN-ss-Fya"/>
+                        <outlet property="OperatorResultLabel" destination="FB6-gg-mpR" id="vf9-ug-Mqg"/>
                         <outlet property="ScoreResultLabel" destination="ZgZ-sI-W6G" id="C5k-47-7C3"/>
                     </connections>
                 </viewController>
@@ -1542,6 +1557,6 @@
         <image name="16" width="400" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uUX-1h-LFA"/>
+        <segue reference="AdL-6T-hqH"/>
     </inferredMetricsTieBreakers>
 </document>

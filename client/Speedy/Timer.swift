@@ -15,6 +15,8 @@ class Timer : NSObject{
     var elapsedTime: Int
     
     let TIME_DEBUG = false
+    let EXTRA_TIME_FIRST = 30
+    let EXTRA_TIME_SUBSEQUENT = 15
     
     init(duration: Int, handler: (Int) -> ()){
         self.duration = duration
@@ -29,6 +31,14 @@ class Timer : NSObject{
     
     func start(){
         self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("tick"), userInfo: nil, repeats: true)
+    }
+    
+    func getExtraTimeFirst() -> Int {
+        return EXTRA_TIME_FIRST
+    }
+    
+    func getExtraTimeSub() -> Int {
+        return EXTRA_TIME_SUBSEQUENT
     }
     
     func addTime(seconds: Int){
