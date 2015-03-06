@@ -10,12 +10,15 @@
 
 import SpriteKit
 import UIKit
+import Alamofire
 
 class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var GameScoreLabel: UILabel!
     @IBOutlet weak var GameTargetNumLabel: UILabel!
+    var user : FBGraphUser!
+    var appDelegate:AppDelegate!
     var timer: Timer!
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
@@ -26,12 +29,16 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.user = appDelegate.user
         println("In Game View controller")
         
         // start the counter to go!
         timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
-            if self.timer.getTime() < 0 {
+            if self.timer.getTime() <= 0 {
                 self.GameTimerLabel.text = "done"
+                self.postScore(self.GameScoreLabel.text!)
+                
             } else {
                 if self.TIME_DEBUG {
                   println("time printout: " + String(self.timer.getTime()))
@@ -67,6 +74,14 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     func updateScore(){
         GameScoreLabel.text = String(score)
+    }
+    
+    func postScore(score:String){
+        var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
+        let parameters = [
+            "score": score
+        ]
+        Alamofire.request(.POST, uri, parameters: parameters, encoding: .JSON)
     }
     
     func updateTargetNumber(){
