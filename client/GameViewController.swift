@@ -120,10 +120,9 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         
         //A neccessary check to prevent contacts from throwing runtime errors
         if !(contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil) {
-            return;
+            return
         }
         
-        //This is dependant on the order of the nodes
         if contact.bodyA.node! is NumberCircle{
             numberBody = contact.bodyA
             
@@ -134,11 +133,16 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 let opNode     = opBody.node! as OperatorCircle
                 
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        println("NO")
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
 
                     let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
                     scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
 
@@ -149,6 +153,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                         mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
+            }else{
+                return
             }
         }else if contact.bodyA.node! is OperatorCircle{
             opBody = contact.bodyA
@@ -161,14 +167,15 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 
                 // all nodes touching together have no neighbors (1st contact)
                 if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
-                    var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
-                        anchor: numberBody.node!.position)
-                    
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    myJoint.frictionTorque = 1.0
-                    scene!.physicsWorld.addJoint(myJoint)
-                    scene!.currentJoint = myJoint
+                    
+                    let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                    scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
                 }else{
@@ -179,6 +186,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                         mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
+            }else{
+                return
             }
         }
     }
@@ -240,8 +249,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         return (result, removeNode)
     }
     
-    //func didEndContact(contact: SKPhysicsContact) {}
-    
+    func didEndContact(contact: SKPhysicsContact) {}
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         println("preparing for segue!!")
