@@ -16,8 +16,10 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     @IBOutlet var fbLoginView : FBLoginView!
     var alreadyFetched = false
     var user: FBGraphUser!
+    var appDelegate:AppDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         // Do any additional setup after loading the view, typically from a nib.
         println("loaded login view controller")
         self.fbLoginView.delegate = self
@@ -47,6 +49,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     */
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         self.user = user
+        appDelegate.user = user
         println("User: \(user)")
         println("User ID: \(user.objectID)")
         println("User Name: \(user.name)")
