@@ -23,7 +23,7 @@ exports.createFbUser = function(req, cb){
 
     fbUserExists(req.body.fbID, function(err, exists) {
       if(err) return cb(err);
-      if (exists) return cb("Duplicate User");
+      if (exists) return cb(null,"Duplicate User");
 
       // if not duplicate, find all of users' friends and create the new user
       // req.body.friends = [12345, 123456, 1234567];
