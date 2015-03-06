@@ -29,7 +29,6 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     @IBOutlet weak var PeerCurrentScore: UILabel!
     @IBOutlet weak var MyCurrentScore: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
@@ -276,10 +275,9 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         
         //A neccessary check to prevent contacts from throwing runtime errors
         if !(contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil) {
-            return;
+            return
         }
         
-        //This is dependant on the order of the nodes
         if contact.bodyA.node! is NumberCircle{
             numberBody = contact.bodyA
             
@@ -290,13 +288,19 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                 let opNode     = opBody.node! as OperatorCircle
                 
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        println("NO")
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
                     
                     let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
                     scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
+                    
                 }else{
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
@@ -304,6 +308,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                         mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
+            }else{
+                return
             }
         }else if contact.bodyA.node! is OperatorCircle{
             opBody = contact.bodyA
@@ -316,24 +322,27 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                 
                 // all nodes touching together have no neighbors (1st contact)
                 if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
-                    var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
-                        anchor: numberBody.node!.position)
-                    
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
                     
-                    myJoint.frictionTorque = 1.0
-                    scene!.physicsWorld.addJoint(myJoint)
-                    scene!.currentJoint = myJoint
+                    let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                    scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
                 }else{
                     // if hitting all 3
-                    let leftNumberCircle = opNode.neighbor as NumberCircle
-                    let opCircle  = opNode
-                    
-                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
                 }
+            }else{
+                return
             }
         }
     }
