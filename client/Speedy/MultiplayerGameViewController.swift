@@ -29,7 +29,6 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     @IBOutlet weak var PeerCurrentScore: UILabel!
     @IBOutlet weak var MyCurrentScore: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
