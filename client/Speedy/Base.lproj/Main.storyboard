@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -361,9 +361,9 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="16" translatesAutoresizingMaskIntoConstraints="NO" id="mFo-Jm-g6s" userLabel="BackgroundImage">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="670"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High Scores" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uk7-bg-DND">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="High Scores" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uk7-bg-DND">
                                 <rect key="frame" x="200" y="52" width="201.5" height="49.5"/>
-                                <fontDescription key="fontDescription" name="Didot-Italic" family="Didot" pointSize="40"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
@@ -487,6 +487,12 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzZ-CR-ZCo">
+                                <rect key="frame" x="30" y="552" width="62" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -495,6 +501,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="GameTargetNumLabel" destination="q6I-HN-wpn" id="PcI-8J-Bsa"/>
+                        <outlet property="GameTimerLabel" destination="gzZ-CR-ZCo" id="EtH-8v-Kk1"/>
                         <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
                         <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
                         <outlet property="counterTimer" destination="4ND-DL-wxI" id="BWy-Re-VEP"/>
@@ -586,7 +594,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdz-bn-Hwh">
                                 <rect key="frame" x="210" y="83" width="180" height="83"/>
-                                <fontDescription key="fontDescription" name="Didot-Italic" family="Didot" pointSize="40"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -730,23 +738,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="16" translatesAutoresizingMaskIntoConstraints="NO" id="IXq-Pp-T3H">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="16" translatesAutoresizingMaskIntoConstraints="NO" id="IXq-Pp-T3H">
                                 <rect key="frame" x="0.0" y="0.0" width="611" height="600"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Summary" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQA-qw-kKb">
-                                <rect key="frame" x="197" y="28" width="233" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="74" id="2mX-6z-dmr"/>
-                                    <constraint firstAttribute="height" constant="21" id="Dal-QG-PbV"/>
+                                    <constraint firstAttribute="width" constant="611" id="fKq-tO-wfY"/>
+                                    <constraint firstAttribute="height" constant="600" id="udp-Te-Bgn"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Didot-Italic" family="Didot" pointSize="40"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Summary" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQA-qw-kKb">
+                                <rect key="frame" x="197" y="28" width="233" height="55"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IQA-qw-kKb" firstAttribute="top" secondItem="vvg-br-qLy" secondAttribute="bottom" constant="37" id="MCp-QI-OIx"/>
+                            <constraint firstItem="IXq-Pp-T3H" firstAttribute="top" secondItem="IQA-qw-kKb" secondAttribute="top" constant="-28" id="12J-5A-k0a"/>
                             <constraint firstAttribute="centerX" secondItem="IQA-qw-kKb" secondAttribute="centerX" constant="-16" id="l1J-Nj-AhK"/>
                         </constraints>
                     </view>
@@ -816,7 +824,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1h-dJ-KgU">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1h-dJ-KgU">
                                 <rect key="frame" x="150" y="412" width="300" height="76"/>
                                 <color key="backgroundColor" red="0.13944704150000001" green="0.7685462945" blue="1" alpha="0.65000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -962,7 +970,7 @@
                                     <segue destination="be5-pX-IFK" kind="show" id="xi2-Fw-zB2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="25" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oyc-kN-sX6">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="25" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oyc-kN-sX6">
                                 <rect key="frame" x="150" y="320" width="300" height="75"/>
                                 <color key="backgroundColor" red="0.13309460379999999" green="0.74541552870000005" blue="1" alpha="0.65000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1170,7 +1178,7 @@
                                     <constraint firstAttribute="width" secondItem="xwG-Sn-AE7" secondAttribute="height" multiplier="113:49" id="n8e-Hl-vIA"/>
                                     <constraint firstAttribute="width" secondItem="xwG-Sn-AE7" secondAttribute="height" multiplier="213:49" id="xJV-ey-mjj"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Didot-Italic" family="Didot" pointSize="40"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <color key="textColor" red="0.97060448229999996" green="0.94877327970000003" blue="0.96203607120000001" alpha="0.93000000000000005" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">

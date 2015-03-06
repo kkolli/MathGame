@@ -16,8 +16,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var GameScoreLabel: UILabel!
     @IBOutlet weak var GameTargetNumLabel: UILabel!
-    var timer = NSTimer()
-    var counter = 0
+    var timer: Timer!
     var game_max_time = 60 // TODO - modify this somehow later
     var score = 0
     var targetNumber: Int?
@@ -30,9 +29,20 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         println("In Game View controller")
         
         // start the counter to go!
+        timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
+            if self.timer.getTime() < 0 {
+                self.GameTimerLabel.text = "done"
+            } else {
+                if self.TIME_DEBUG {
+                  println("time printout: " + String(self.timer.getTime()))
+                }
+                self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
+            }
+        })
+        
+        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
+        timer.start()
         GameScoreLabel.text = String(score)
-        GameTimerLabel.text = convertIntToTime(counter)
-        startTimer()
         
         scene = GameScene(size: view.frame.size)
         boardController = BoardController(scene: scene!)
@@ -70,29 +80,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         GameTargetNumLabel.text = String(targetNumber!)
     }
     
-    func startTimer() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("onTick"), userInfo: nil, repeats: true)
-    }
-    
-    func onTick() {
-        updateCounter()
-        scene!.upgradeCircle()
-    }
-    
-    func updateCounter() {
-        counter++;
-        if (game_max_time - counter < 0) {
-            // Stop the timer completely
-            GameTimerLabel.text = "Done"
-            stopPauseTimer()
-        } else {
-            GameTimerLabel.text = convertIntToTime(counter)
-        }
-    }
-    
-    func stopPauseTimer() {
-        timer.invalidate()
-    }
     
     /*
     this takes something like 0 and turns it into 00:00
@@ -193,10 +180,11 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     scene!.joinedNodeB = opNode
                 }else{
                     // if hitting all 3
-                    let leftNumberCircle = opNode.neighbor as NumberCircle
-                    let opCircle  = opNode
-                    
-                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
                 }
             }else{
                 return

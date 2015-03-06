@@ -83,12 +83,14 @@ class BoardController {
     }
     
     func replaceMissingNodes() {
-        func getTopOfColumn(posNum: Int) -> Int {
-            if posNum < 2 * longColNodes {
-                return posNum % 2
+        func topColIdx(idx: Int) -> Int {
+            if idx < 2 * longColNodes {
+                // in a long column
+                return idx % 2
+            } else {
+                // in the short column
+                return 2 * longColNodes
             }
-            
-            return 10
         }
         
         // move existing long column nodes down as far as possible
@@ -97,11 +99,16 @@ class BoardController {
                 continue
             }
             
-            let nextNode = gameCircles[i - 2]
-            nextNode!.physicsBody?.fieldBitMask = 1 << UInt32(i)
-            nextNode!.boardPos = i
-            gameCircles[i] = nextNode
-            gameCircles[i - 2] = nil
+            for (var j = i - 2; j >= topColIdx(i); j -= 2) {
+                if let nextNode = gameCircles[j] {
+                    // move this node into the i'th spot
+                    nextNode.physicsBody?.fieldBitMask = 1 << UInt32(i)
+                    nextNode.boardPos = i
+                    gameCircles[i] = nextNode
+                    gameCircles[j] = nil
+                    break
+                }
+            }
         }
         
         // move short column nodes down as far as possible
@@ -117,23 +124,47 @@ class BoardController {
             gameCircles[i - 1] = nil
         }
         
+        var nodesAdded = (leftCol: 0.0, rightCol: 0.0)
+        
         // bring in new nodes to fill the gaps at the top
-        let topIdxs = [0, 1, 2 * longColNodes]
-        for idx in topIdxs {
+        for (var idx = gameCircles.count - 1; idx >= 0; idx--) {
             if gameCircles[idx] != nil {
                 continue
             }
             
-            let node = (idx == 0 || idx == 1) ? NumberCircle(num: randomNumbers.generateNumber()) :
+            println("replacing node \(idx)")
+            
+            let node = (idx < 2 * longColNodes) ? NumberCircle(num: randomNumbers.generateNumber()) :
                 OperatorCircle(operatorSymbol: randomOperators.generateOperator())
-            let restPosition = nodeRestPositions[idx]
+            
+            var delayMultiplier: CGFloat = 1.0
+            if node is NumberCircle {
+                if idx % 2 == 0 {
+                    nodesAdded.leftCol++
+                    delayMultiplier += CGFloat(2 * nodesAdded.leftCol)
+                } else {
+                    nodesAdded.rightCol++
+                    delayMultiplier += CGFloat(2 * nodesAdded.rightCol)
+                }
+            }
             
             // cause node to start slightly above the rest position
+            let restPosition = nodeRestPositions[topColIdx(idx)]
             node.position = CGPoint(x: restPosition.x, y: restPosition.y + node.nodeRadius)
-            
-            node.physicsBody = createGameCirclePhysBody(1 << UInt32(idx))
+            node.setScale(0.0)
             node.setBoardPosition(idx)
             gameCircles[idx] = node
+            
+            let delayAction = SKAction.waitForDuration(NSTimeInterval(0.1 * delayMultiplier))
+            let scaleAction = SKAction.scaleTo(1.0, duration: NSTimeInterval(0.2))
+            scaleAction.timingMode = SKActionTimingMode.EaseIn
+            let physBody = self.createGameCirclePhysBody(1 << UInt32(idx))
+            let bitmaskAction = SKAction.runBlock {
+                node.physicsBody = physBody
+            }
+            let seqAction = SKAction.sequence([delayAction, scaleAction, bitmaskAction])
+            node.runAction(seqAction)
+            
             scene.addChild(node)
         }
         
@@ -141,13 +172,31 @@ class BoardController {
     
     private func addGameCircles() {
         var physCategory: UInt32 = 0
+        var scaleDelay: CGFloat = 0.2
+        var scaleDelayIncrement: CGFloat = 0.1
+        var scaleDuration: CGFloat = 0.2
         for i in 0...(2 * longColNodes + shortColNodes - 1) {
             let node = (i >= 2 * longColNodes) ? OperatorCircle(operatorSymbol: randomOperators.generateOperator()) : NumberCircle(num: randomNumbers.generateNumber())
             //let node = NumberCircle(num: i)
             //node.fillColor = UIColor.redColor()
             node.physicsBody = createGameCirclePhysBody(1 << physCategory)
             node.position = nodeRestPositions[i]
+            node.setScale(0.0)
             physCategory++
+            
+            if i == 2 * longColNodes {
+                scaleDelay = 0.2
+            }
+            
+            let delayAction = SKAction.waitForDuration(NSTimeInterval(scaleDelay))
+            let scaleAction = SKAction.scaleTo(1.0, duration: NSTimeInterval(scaleDuration))
+            scaleAction.timingMode = SKActionTimingMode.EaseIn
+            let groupAction = SKAction.sequence([delayAction, scaleAction])
+            node.runAction(groupAction)
+            
+            if i % 2 == 1 {
+                scaleDelay += scaleDelayIncrement
+            }
             
             node.setBoardPosition(i)
             gameCircles.append(node)
@@ -172,7 +221,7 @@ class BoardController {
 */
     
     private func createGameCirclePhysBody(category: UInt32) -> SKPhysicsBody {
-        let physBody = SKPhysicsBody(circleOfRadius: 30.0)
+        let physBody = SKPhysicsBody(circleOfRadius: 23.0)
         
         // friction when sliding against this physics body
         physBody.friction = 3.8
