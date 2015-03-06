@@ -21,6 +21,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     var appDelegate:AppDelegate!
     var scene: GameScene?
     var boardController: BoardController?
+    var finishedInit: Bool!
     
     @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var counterTimer: UILabel!
@@ -36,6 +37,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         setTargetNumber(10)
         scene = GameScene(size: view.frame.size)
         boardController = BoardController(scene: scene!)
+        finishedInit = false
         
         // Configure the view.
         let skView = self.view as SKView
@@ -64,12 +66,12 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         
         // start the counter to go!
         timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
+            if self.TIME_DEBUG {
+                println("time printout: " + String(self.timer.getTime()))
+            }
             if self.timer.getTime() < 0 {
                 self.GameTimerLabel.text = "done"
             } else {
-                if self.TIME_DEBUG {
-                    println("time printout: " + String(self.timer.getTime()))
-                }
                 self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
@@ -106,16 +108,14 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
             peer_score = message.objectForKey("score") as Int
             setScoreLabels()
         }
-        else if msg_type?.isEqualToString("init_state") == true{
+        else if msg_type?.isEqualToString("init_state") == true && !self.finishedInit{
             //Do everything here for beginning countdown
             var recv_counter:Int = msg_val!.integerValue
             var old_counter = countDown
             println("I just received value: " + String(recv_counter) + " while counter is : " + String(countDown))
             if recv_counter > countDown || countDown <= 0 {
                 if recv_counter == 0 && self.scene!.freezeAction == true {
-                    println("about to unfreeze!")
-                    //start the game
-                    self.scene!.freezeAction = false
+                    startGame()
                 }
                 return
             }
@@ -124,10 +124,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
             setScoreLabels()
             
             if recv_counter == 0 {
-                println("about to unfreeze!")
-                //start the game
-                self.scene!.freezeAction = false
-                timer.start()
+                startGame()
+                return
             }
             println("counter is now at: " + String(countDown) + "ready to timeout")
             
@@ -145,6 +143,17 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                     // handle errors
             })
         }
+    }
+    
+    func startGame() {
+        println("about to unfreeze!")
+
+        self.timer.start()
+        //start the game
+        self.scene!.freezeAction = false
+        self.countDown = 0
+        self.initialCountDown(String(self.countDown), changedType: "init_state")
+        self.finishedInit = true
     }
     
     func timeoutCtr(txt: String, resolve: () -> (), reject: () -> ()) {
