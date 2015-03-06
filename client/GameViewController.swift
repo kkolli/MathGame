@@ -137,7 +137,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         }
         
         if contact.bodyA.node! is NumberCircle{
-            println("BodyA is NumberCircle")
             numberBody = contact.bodyA
             
             if contact.bodyB.node! is OperatorCircle{
@@ -170,7 +169,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 return
             }
         }else if contact.bodyA.node! is OperatorCircle{
-            println("BodyA is OperatorCircle")
             opBody = contact.bodyA
             
             if contact.bodyB.node! is NumberCircle{
