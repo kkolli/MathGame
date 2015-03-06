@@ -80,7 +80,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if (freezeAction == true) {
             return
         }
-        /* touch has begun */
+
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
@@ -137,10 +137,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     }
 
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        let touch = touches.anyObject() as UITouch
-        let touchLocation = touch.locationInNode(self)
-        var touchedNode = nodeAtPoint(touchLocation)
-        
         //Break the node joint if touch is released
         breakJoint()
 
@@ -158,6 +154,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
 
     func breakJoint(){
         if currentJoint != nil {
+            println("breakjoint")
             self.physicsWorld.removeJoint(currentJoint!)
             currentJoint = nil
             
@@ -171,6 +168,8 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             
             releaseNumber = joinedNodeA
             releaseOperator = joinedNodeB
+            joinedNodeA = nil
+            joinedNodeB = nil
         }
     }
     
