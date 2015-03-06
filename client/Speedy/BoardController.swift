@@ -33,9 +33,10 @@ class BoardController {
     
     let debug: Bool
     
-    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
-    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
+    let randomNumbers = RandomNumbers()
+    let randomOperators = RandomOperators()
     
+    var circleList: [GameCircle] = []
     var nodeRestPositions = [CGPoint]()
     var gameCircles = [GameCircle?]()
     
@@ -151,6 +152,7 @@ class BoardController {
             node.setBoardPosition(i)
             gameCircles.append(node)
             scene.addChild(node)
+            circleList.append(node)
         }
     }
     
@@ -363,4 +365,7 @@ class BoardController {
         drawShortColLine()
     }
     
+    func getCircleList() -> [GameCircle]{
+        return circleList
+    }
 }

@@ -42,9 +42,12 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         
         GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
         timer.start()
+        GameScoreLabel.text = String(score)
         
         scene = GameScene(size: view.frame.size)
         boardController = BoardController(scene: scene!)
+        scene!.boardController = boardController
+        updateTargetNumber()
         
         // Configure the view.
         let skView = self.view as SKView
@@ -55,41 +58,61 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         skView.ignoresSiblingOrder = false
         
         /* Set the scale mode to scale to fit the window */
+
         scene!.scaleMode = .AspectFill
         //scene!.scoreHandler = handleMerge
         scene!.physicsWorld.contactDelegate = self
-        
         skView.presentScene(scene)
     }
     
-    // BEGIN -- SCORE HANDLING
-    /*
-    takes in the target node that everything gets merged into, 
-    two operands and an operatorCircle
-    
-    Whether or not this new node is the designated target number should be handled elsewhere
-    */
-    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
-        var result: Int
-        
-        switch oper{
-        case .PLUS: result = op1 + op2
-        case .MINUS: result = op1 - op2
-        case .MULTIPLY: result = op1 * op2
-        case .DIVIDE: result = op1 / op2
-        }
-        
-        println("targetnum: \(targetNumber) and result: \(result)")
-        if result == targetNumber{
-            score += result * ScoreMultiplier.getMultiplierFactor(oper)
-        }
-        
-        let removeNode = (result == targetNumber || result == 0)
-        
-        return (result, removeNode)
+    func updateScore(){
+        GameScoreLabel.text = String(score)
     }
     
-    // END-- SCORE HANDLING
+    func updateTargetNumber(){
+        if targetNumber != nil{
+            let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
+            let numberList = numberCircleList.map{($0 as NumberCircle).number!}
+            targetNumber = boardController!.randomNumbers.generateTarget(numberList)
+        }else{
+            targetNumber = boardController!.randomNumbers.generateTarget()
+        }
+        GameTargetNumLabel.text = String(targetNumber!)
+    }
+    
+    
+    /*
+    this takes something like 0 and turns it into 00:00
+    and if it takes something like 60 -> 01:00
+    if it takes 170 -> 02:10
+    */
+    func convertIntToTime(secondsPassed: Int) -> String {
+        var count = game_max_time - secondsPassed
+        
+        let seconds_per_minute = 60
+        var minutes = count / seconds_per_minute
+        var seconds = count % seconds_per_minute
+        
+        var minute_display = "", second_display = ""
+        
+        if (minutes >= 10) {
+            minute_display = String(minutes)
+        } else {
+            minute_display = "0" + String(minutes)
+        }
+        
+        if (seconds >= 10) {
+            second_display = String(seconds)
+        } else {
+            second_display = "0" + String(seconds)
+        }
+        
+        if (TIME_DEBUG) {
+            println("seconds: \(seconds)" + " second display : " + second_display)
+            println("displaying: " + minute_display + ":" + second_display)
+        }
+        return minute_display + ":" + second_display
+    }
     
     func didBeginContact(contact: SKPhysicsContact) {
         var numberBody: SKPhysicsBody
@@ -118,6 +141,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     scene!.physicsWorld.addJoint(joint)
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
+
                 }else{
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
@@ -158,12 +182,12 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         }
     }
     
+    //TODO: Refactor mergeNodes and handleMerge together
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
-        let leftNumber = leftNumberCircle.number!
-        let rightNumber = rightNumberCircle.number!
-        let op = opCircle.op!
+        let (result, removeNode) = handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
         
-        let (result, removeNode) = handleMerge(leftNumber, op2: rightNumber, oper: op)
+        let op1Upgrade = leftNumberCircle.upgrade
+        let op2Upgrade = rightNumberCircle.upgrade
         
         if removeNode {
             rightNumberCircle.removeFromParent()
@@ -180,14 +204,39 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         boardController!.nodeRemoved(opCircle.boardPos!)
         
         boardController!.replaceMissingNodes()
+    }
+    
+    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
+        var result: Int
+        var nodeScore: Int
         
-        /*
-        if let num = rightNumberCircle.number {
-            if num == self.targetNumber {
-                println("YOU WIN")
-            }
+        let op1 = leftNumberCircle.number!
+        let op2 = rightNumberCircle.number!
+        let oper = opCircle.op!
+        
+        switch oper{
+        case .PLUS:
+            result = op1 + op2
+        case .MINUS:
+            result = op1 - op2
+        case .MULTIPLY:
+            result = op1 * op2
+        case .DIVIDE:
+            result = op1 / op2
         }
-        */
+        
+        nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
+        if result == targetNumber{
+            score += nodeScore
+            updateScore()
+            updateTargetNumber()
+        }else{
+            rightNumberCircle.setScore(nodeScore)
+        }
+        
+        let removeNode = (result == targetNumber || result == 0)
+        
+        return (result, removeNode)
     }
     
     //func didEndContact(contact: SKPhysicsContact) {}
@@ -199,6 +248,13 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning();
-        
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
     }
 }

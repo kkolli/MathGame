@@ -9,31 +9,19 @@
 import Foundation
 
 class RandomNumbers {
-    var target: Int
-    var difficulty: Int
+    var target: Int?
     var weights: [Double]
     var weightedList: [Int]
     
     //Bounds that determine how low/high the target value can be
-    let minTarget = 5
-    let targetRange = 5
-    let maxRange = 25
+    let minTarget = 10
+    let targetRange = 10
+    let maxRange = 95
     
     init(){
-        target = 10
-        difficulty = 1
-        weights = []
-        weightedList = []
-    }
-    
-    //Use this constructor
-    init(difficulty: Int){
-        self.difficulty = difficulty
-        self.target = 0
         self.weights = []
         self.weightedList = []
         
-        self.target = generateTarget()
         self.weights = generateWeights()
         self.weightedList = generateWeightedList(weights)
     }
@@ -96,11 +84,27 @@ class RandomNumbers {
     func generateNumber() -> Int{
         var randomNumber = Int(arc4random_uniform(UInt32(1000)))
         
+        while weightedList[randomNumber] == target{
+            randomNumber = Int(arc4random_uniform(UInt32(1000)))
+        }
+        
         return weightedList[randomNumber]
     }
     
     func generateTarget() -> Int{
-        let range = difficulty * targetRange > maxRange ? maxRange : difficulty * targetRange
-        return Int(arc4random_uniform(UInt32(range))) + minTarget
+        return Int(arc4random_uniform(UInt32(maxRange))) + minTarget
+    }
+    
+    func generateTarget(numbers: [Int]) -> Int{
+        var generatedTarget = generateTarget()
+        var filteredNumbers = numbers.filter{$0 == generatedTarget}
+        
+        while filteredNumbers.count > 0{
+            generatedTarget = generateTarget()
+            filteredNumbers = numbers.filter{$0 == generatedTarget}
+        }
+        
+        target = generatedTarget
+        return generatedTarget
     }
 }

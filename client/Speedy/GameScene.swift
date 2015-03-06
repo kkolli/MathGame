@@ -9,23 +9,23 @@
 import SpriteKit
 
 class GameScene : SKScene, SKPhysicsContactDelegate {
-    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
-    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
-    
     var contentCreated = false
     var scoreHandler: ((op1: Int, op2: Int, oper: Operator) -> ((Int, Bool)))?
 
     var currentJoint: SKPhysicsJoint?
-    var joinedNodeA: GameCircle?
-    var joinedNodeB: GameCircle?
+    var joinedNodeA: NumberCircle?
+    var joinedNodeB: OperatorCircle?
     
     var targetNumber: Int?
-
     var activeNode: SKNode?
     var freezeAction = false
     
+    var releaseNumber: NumberCircle?
+    var releaseOperator: OperatorCircle?
+    
+    var boardController: BoardController?
+    
     override func didMoveToView(view: SKView) {
-        
         setUpPhysics()
     }
     
@@ -85,16 +85,6 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
         
-        /*
-        if touchedNode is GameCircle {
-            println("GameCircle touched")
-        }
-        
-        if touchedNode is SKLabelNode {
-            println("Label node touched")
-        }
-        */
-        
         while !(touchedNode is GameCircle) {
             if touchedNode is SKScene {
                 // can't move the scene, finger probably fell off a circle?
@@ -110,7 +100,13 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if let physBody = touchedNode.physicsBody {
             physBody.dynamic = false
         }
+        
         activeNode = touchedNode
+        
+        if activeNode! is NumberCircle{
+            let liftup = SKAction.scaleTo(1.2, duration: 0.2)
+            activeNode!.runAction(liftup, withKey: "pickup")
+        }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
@@ -120,23 +116,23 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         }
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        var touchedNode = nodeAtPoint(touchLocation)
-        
-        while !(touchedNode is GameCircle) {
-            if touchedNode is SKScene {
-                // can't move the scene, finger probably fell off a circle?
-                if let physBody = activeNode?.physicsBody {
-                    physBody.dynamic = true
+
+        if activeNode != nil{
+            while !(activeNode is GameCircle) {
+                if activeNode is SKScene {
+                    // can't move the scene, finger probably fell off a circle?
+                    if let physBody = activeNode?.physicsBody {
+                        physBody.dynamic = true
+                    }
+                    return
                 }
-                return
+                activeNode = activeNode!.parent!
             }
-            touchedNode = touchedNode.parent!
-        }
-        
-        if touchedNode is NumberCircle{
+            
             //Only number circles can be moved
-            touchedNode.position.x = touchLocation.x
-            touchedNode.position.y = touchLocation.y
+            if activeNode is NumberCircle{
+                activeNode!.position = touchLocation
+            }
         }
     }
 
@@ -148,9 +144,13 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         //Break the node joint if touch is released
         breakJoint()
 
-       // wayPoints.removeAll(keepCapacity: false)
         if let physBody = activeNode?.physicsBody {
             physBody.dynamic = true
+        }
+        
+        if activeNode != nil && activeNode! is NumberCircle{
+            let dropDown = SKAction.scaleTo(1.0, duration: 0.2)
+            activeNode!.runAction(dropDown, withKey: "drop")
         }
         
         activeNode = nil
@@ -168,7 +168,37 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             if joinedNodeB != nil{
                 joinedNodeB!.neighbor = nil
             }
+            
+            releaseNumber = joinedNodeA
+            releaseOperator = joinedNodeB
         }
     }
     
+    /*
+    * Game will randomly choose a node at random intervals of time to "upgrade"
+    * the value of a node.
+    */
+    
+    //TODO: Move to GameViewController
+    func upgradeCircle(){
+        let shouldUpgrade = Int(arc4random_uniform(10) + 1)
+            
+        if shouldUpgrade == 1{
+            let upgradeOption = UpgradeOptions(rawValue: Int(arc4random_uniform(2)))
+            
+            let numberCircles = boardController!.getCircleList().filter{$0 is NumberCircle}
+            let upgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade != .None}
+            let unUpgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade == .None}
+            
+            if upgradeOption != .None && upgradedCircles.count < 2{
+                let index = Int(arc4random_uniform(UInt32(unUpgradedCircles.count)))
+                
+                var nodeToUpgrade = unUpgradedCircles[index] as NumberCircle
+                if nodeToUpgrade !== activeNode{
+                    nodeToUpgrade.setUpgrade(upgradeOption!)
+                    nodeToUpgrade.setFillColor(upgradeOption!.upgradeColor())
+                }
+            }
+        }
+    }
 }
