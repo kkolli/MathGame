@@ -362,13 +362,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="670"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="High Scores" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uk7-bg-DND">
-                                <rect key="frame" x="200" y="52" width="201.5" height="49.5"/>
+                                <rect key="frame" x="200" y="52" width="202" height="50"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="iy0-v1-xgh">
-                                <rect key="frame" x="281" y="563" width="39" height="37"/>
+                            <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="iy0-v1-xgh">
+                                <rect key="frame" x="282" y="563" width="39" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="39" id="Qnh-fu-2nT"/>
                                 </constraints>
@@ -1296,7 +1296,8 @@
                                         <exclude reference="xJV-ey-mjj"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=compact-widthClass=compact">
+                                <variation key="heightClass=compact-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="91" y="97" width="220" height="95"/>
                                     <mask key="constraints">
                                         <include reference="6ZD-ti-BoO"/>
                                         <include reference="Jas-i4-Bvt"/>
@@ -1310,8 +1311,9 @@
                                         <exclude reference="n8e-Hl-vIA"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular">
+                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
                                     <fontDescription key="fontDescription" name="Superclarendon-BoldItalic" family="Superclarendon" pointSize="44"/>
+                                    <rect key="frame" x="287" y="94" width="226" height="98"/>
                                     <mask key="constraints">
                                         <include reference="DMh-fo-384"/>
                                         <exclude reference="I83-OI-w5Z"/>
@@ -1324,7 +1326,13 @@
                                 </variation>
                             </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="kdy-sc-MPr">
-                                <rect key="frame" x="281" y="520" width="39" height="37"/>
+                                <rect key="frame" x="282" y="520" width="40" height="36"/>
+                                <variation key="heightClass=compact-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="190" y="520" width="23" height="37"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                    <rect key="frame" x="390" y="520" width="24" height="237"/>
+                                </variation>
                             </pageControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Your Score:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOl-wr-YWW">
                                 <rect key="frame" x="213" y="201" width="180" height="36"/>
