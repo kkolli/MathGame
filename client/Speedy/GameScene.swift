@@ -111,6 +111,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         // println("in touchesmoved and freezeaction is: " + String(freezeAction.description))
+        releaseNumber = nil
+        releaseOperator = nil
+        
         if (freezeAction == true) {
             return
         }

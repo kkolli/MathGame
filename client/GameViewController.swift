@@ -147,6 +147,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
                     if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        println("NO")
                         return
                     }
                     numberNode.setNeighbor(opNode)
