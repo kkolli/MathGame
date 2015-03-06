@@ -501,6 +501,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="GameTargetNumLabel" destination="q6I-HN-wpn" id="PcI-8J-Bsa"/>
                         <outlet property="GameTimerLabel" destination="gzZ-CR-ZCo" id="EtH-8v-Kk1"/>
                         <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
                         <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
