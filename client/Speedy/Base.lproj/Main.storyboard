@@ -362,7 +362,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="670"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High Scores" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uk7-bg-DND">
-                                <rect key="frame" x="200" y="52" width="201.5" height="49.5"/>
+                                <rect key="frame" x="200" y="52" width="202" height="50"/>
                                 <fontDescription key="fontDescription" name="Didot-Italic" family="Didot" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
