@@ -8,16 +8,19 @@
 
 import SpriteKit
 
+struct GameCircleProperties {
+    static let nodeRadius: CGFloat = 23
+    static let nodeStrokeColor = UIColor.yellowColor()
+    static let nodeTextFontSize: CGFloat = 16.0
+    static let nodeLineWidth: CGFloat = 4
+    static let nodeFillColor = UIColor.redColor()
+    static let pickupScaleFactor: CGFloat = 1.2
+}
+
 class GameCircle: SKNode{
     //var column: Int?
     var shapeNode: SKShapeNode?
     var neighbor: GameCircle?
-    
-    let nodeRadius: CGFloat = 23
-    let nodeStrokeColor = UIColor.yellowColor()
-    let nodeTextFontSize: CGFloat = 16.0
-    let nodeLineWidth: CGFloat = 4
-    let nodeFillColor = UIColor.redColor()
     
     var boardPos: Int?
     
@@ -31,11 +34,11 @@ class GameCircle: SKNode{
     }
     
     func setupNodes() {
-        shapeNode = SKShapeNode(circleOfRadius: nodeRadius)
-        shapeNode!.strokeColor = nodeStrokeColor
-        shapeNode!.lineWidth = nodeLineWidth
+        shapeNode = SKShapeNode(circleOfRadius: GameCircleProperties.nodeRadius)
+        shapeNode!.strokeColor = GameCircleProperties.nodeStrokeColor
+        shapeNode!.lineWidth = GameCircleProperties.nodeLineWidth
         shapeNode!.antialiased = true
-        shapeNode!.fillColor = nodeFillColor
+        shapeNode!.fillColor = GameCircleProperties.nodeFillColor
         
         self.addChild(shapeNode!)
     }
@@ -49,11 +52,11 @@ class GameCircle: SKNode{
     }
     
     func getLeftAnchor() -> CGPoint {
-        return CGPoint(x: self.position.x - nodeRadius, y: self.position.y)
+        return CGPoint(x: self.position.x - GameCircleProperties.nodeRadius, y: self.position.y)
     }
     
     func getRightAnchor() -> CGPoint {
-        return CGPoint(x: self.position.x + nodeRadius, y: self.position.y)
+        return CGPoint(x: self.position.x + GameCircleProperties.nodeRadius, y: self.position.y)
     }
     
     func setBoardPosition(pos: Int) {
