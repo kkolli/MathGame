@@ -11,15 +11,16 @@ import Foundation
 class RandomOperators{
     var weights: [Operator: Double] = [:]
     var weightedList: [Operator] = []
+    var prevOp: Operator?
     
     let numOfOperators = 4
     
     //Hardcoded probability values, will need to develop a way to scale
     //difficulty dynamically with difficulty
-    let plusProb = 0.3
-    let minusProb = 0.3
-    let multiplyProb = 0.2
-    let divideProb = 0.2
+    let plusProb = 0.25
+    let minusProb = 0.25
+    let multiplyProb = 0.25
+    let divideProb = 0.25
     
     init(){
         self.weights = generateWeights()
@@ -54,7 +55,14 @@ class RandomOperators{
     
     func generateOperator() -> Operator{
         var randomNumber = Int(arc4random_uniform(UInt32(1000)))
+        var randomOp = weightedList[randomNumber]
         
-        return weightedList[randomNumber]
+        while prevOp != nil && randomOp == prevOp{
+            randomNumber = Int(arc4random_uniform(UInt32(1000)))
+            randomOp = weightedList[randomNumber]
+        }
+        
+        prevOp = randomOp
+        return randomOp
     }
 }
