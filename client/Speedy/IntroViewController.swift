@@ -48,13 +48,16 @@ class IntroViewController: UIViewController {
         let url = NSURL(string:uri)
         let urlRequest = NSURLRequest(URL: url!)
         
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue()) { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue())
+            {
+                (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
             
-            // Display the image
-            let image = UIImage(data: data)
-            self.fbProfilePic.image = image
+                // Display the image
+                let image = UIImage(data: data)
+                self.fbProfilePic.image = image
             
-        }    }
+            }
+        }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
