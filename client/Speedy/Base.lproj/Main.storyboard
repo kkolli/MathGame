@@ -521,6 +521,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="GameTargetNumLabel" destination="xZC-kP-7w5" id="utL-ti-hUi"/>
                         <outlet property="GameTimerLabel" destination="gzZ-CR-ZCo" id="EtH-8v-Kk1"/>
                         <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
                         <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
@@ -1299,6 +1300,7 @@
                                         <exclude reference="Tkn-g3-7W1"/>
                                         <exclude reference="gQm-jj-EqA"/>
                                         <exclude reference="hIA-rW-lFp"/>
+                                        <exclude reference="n8e-Hl-vIA"/>
                                         <exclude reference="xJV-ey-mjj"/>
                                     </mask>
                                 </variation>
@@ -1399,6 +1401,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Oyc-kN-sX6" secondAttribute="trailing" constant="68" id="ach-63-o7c">
                                 <variation key="heightClass=regular-widthClass=compact" constant="36"/>
                             </constraint>
+                            <constraint firstItem="Fsk-1L-YuE" firstAttribute="centerY" secondItem="xwG-Sn-AE7" secondAttribute="centerY" constant="190.5" id="anW-9H-RIZ"/>
                             <constraint firstAttribute="centerX" secondItem="Fsk-1L-YuE" secondAttribute="centerX" id="bYa-UO-SOR"/>
                             <constraint firstItem="Y1h-dJ-KgU" firstAttribute="leading" secondItem="Obz-iJ-zKN" secondAttribute="leadingMargin" constant="69" id="cD6-qU-e4B">
                                 <variation key="heightClass=compact-widthClass=compact" constant="30"/>
@@ -1421,6 +1424,7 @@
                             <constraint firstAttribute="centerX" secondItem="Oyc-kN-sX6" secondAttribute="centerX" id="id8-iI-gHQ"/>
                             <constraint firstItem="Y1h-dJ-KgU" firstAttribute="top" secondItem="Oyc-kN-sX6" secondAttribute="bottom" constant="8" id="iit-ou-dsC"/>
                             <constraint firstAttribute="centerY" secondItem="Y1h-dJ-KgU" secondAttribute="centerY" id="jX2-fd-bRr"/>
+                            <constraint firstItem="Oyc-kN-sX6" firstAttribute="top" secondItem="n5f-dj-QXc" secondAttribute="bottom" constant="14" id="jka-mY-1oG"/>
                             <constraint firstAttribute="centerY" secondItem="Oyc-kN-sX6" secondAttribute="centerY" id="jl6-iG-g79"/>
                             <constraint firstItem="Y1h-dJ-KgU" firstAttribute="height" secondItem="Oyc-kN-sX6" secondAttribute="height" id="k58-6a-Meb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Oyc-kN-sX6" secondAttribute="trailing" constant="197" id="kOs-BK-10U"/>
@@ -1455,10 +1459,18 @@
                             <mask key="constraints">
                                 <exclude reference="ANc-SQ-98v"/>
                                 <exclude reference="bYa-UO-SOR"/>
+                                <exclude reference="oEe-uy-g5G"/>
                                 <exclude reference="ySP-e7-A7j"/>
                                 <exclude reference="zCG-ZN-NvU"/>
+                                <exclude reference="15d-NU-4wQ"/>
+                                <exclude reference="1v5-3q-EH1"/>
+                                <exclude reference="qRT-Sz-nm4"/>
+                                <exclude reference="9bA-9V-6rl"/>
+                                <exclude reference="B1H-f5-MDX"/>
                                 <exclude reference="IpL-RQ-tze"/>
                                 <exclude reference="gas-om-fUX"/>
+                                <exclude reference="YMm-cV-lIB"/>
+                                <exclude reference="sX9-Ln-TvE"/>
                                 <exclude reference="38y-oc-AOI"/>
                                 <exclude reference="3Wf-zT-pzy"/>
                                 <exclude reference="5lb-4P-jeU"/>
@@ -1632,6 +1644,7 @@
                     <navigationItem key="navigationItem" title="Speedy!" id="Oho-M0-WyN"/>
                     <connections>
                         <outlet property="IntroLabel" destination="xwG-Sn-AE7" id="Qw1-2p-k3m"/>
+                        <outlet property="fbProfilePic" destination="n5f-dj-QXc" id="pLt-bI-hKJ"/>
                         <outlet property="yourHighScore" destination="jOl-wr-YWW" id="tGQ-Ie-B64"/>
                     </connections>
                 </viewController>
