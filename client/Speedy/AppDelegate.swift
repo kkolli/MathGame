@@ -6,6 +6,8 @@
 // Created by Krishna Kolli
 // Copyright (c) Krishna Kolli. All rights reserved.
 //import UIKit
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         FBLoginView.self
         FBProfilePictureView.self
-    
+        
+        // google analytics
+        GAI.sharedInstance().trackUncaughtExceptions = true
+        GAI.sharedInstance().dispatchInterval = 20
+        GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        GAI.sharedInstance().trackerWithTrackingId("UA-36281325-2")
+        
+        // fabric - crashlytics
+        Fabric.with([Crashlytics()])
+
     return true
     }
     

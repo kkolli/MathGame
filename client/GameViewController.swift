@@ -11,6 +11,7 @@
 import SpriteKit
 import UIKit
 import Alamofire
+import Crashlytics
 
 class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
@@ -267,6 +268,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     func didEndContact(contact: SKPhysicsContact) {}
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+//        Crashlytics.sharedInstance().crash()
         println("preparing for segue!!")
     }
     
