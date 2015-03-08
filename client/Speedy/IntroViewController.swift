@@ -57,7 +57,7 @@ class IntroViewController: UIViewController {
                 self.fbProfilePic.image = image
             
             }
-        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
