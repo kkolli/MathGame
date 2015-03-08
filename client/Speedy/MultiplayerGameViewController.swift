@@ -9,6 +9,7 @@
 import SpriteKit
 import UIKit
 import MultipeerConnectivity
+import Alamofire
 
 class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate {
     var timer: Timer!
@@ -22,6 +23,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     var scene: GameScene?
     var boardController: BoardController?
     var finishedInit: Bool!
+    var user : FBGraphUser!
     
     var operatorsUsed: [Operator]!
     var numTargetNumbersMatched: Int!
@@ -31,9 +33,11 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     @IBOutlet weak var PeerCurrentScore: UILabel!
     @IBOutlet weak var MyCurrentScore: UILabel!
     @IBOutlet weak var GameTargetNumLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
+
         
         println("in multiplayer view controller")
 
@@ -64,6 +68,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         // Do any additional setup after loading the view.
         
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.user = appDelegate.user
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
@@ -213,9 +219,9 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     func myScoreChanged() {
         // if we've matched one before
         if numTargetNumbersMatched > 0 {
-            timer.addTime(timer.getExtraTimeFirst())
-        } else {
             timer.addTime(timer.getExtraTimeSub())
+        } else {
+            timer.addTime(timer.getExtraTimeFirst())
         }
         numTargetNumbersMatched!++
     }
@@ -312,10 +318,9 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         
         //A neccessary check to prevent contacts from throwing runtime errors
         if !(contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil) {
-            return;
+            return
         }
         
-        //This is dependant on the order of the nodes
         if contact.bodyA.node! is NumberCircle{
             numberBody = contact.bodyA
             
@@ -326,13 +331,19 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                 let opNode     = opBody.node! as OperatorCircle
                 
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        println("NO")
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
                     
                     let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
                     scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
+                    
                 }else{
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
@@ -340,6 +351,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                         mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
+            }else{
+                return
             }
         }else if contact.bodyA.node! is OperatorCircle{
             opBody = contact.bodyA
@@ -352,24 +365,27 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                 
                 // all nodes touching together have no neighbors (1st contact)
                 if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
-                    var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
-                        anchor: numberBody.node!.position)
-                    
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
                     
-                    myJoint.frictionTorque = 1.0
-                    scene!.physicsWorld.addJoint(myJoint)
-                    scene!.currentJoint = myJoint
+                    let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                    scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
                 }else{
                     // if hitting all 3
-                    let leftNumberCircle = opNode.neighbor as NumberCircle
-                    let opCircle  = opNode
-                    
-                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
                 }
+            }else{
+                return
             }
         }
     }

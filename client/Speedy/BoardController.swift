@@ -28,7 +28,7 @@ class BoardController {
     let debugColor = UIColor.yellowColor()
     let bgColor = SKColor.whiteColor()
     
-    let scene: SKScene
+    let scene: GameScene
     let frame: CGRect
     
     let debug: Bool
@@ -40,7 +40,7 @@ class BoardController {
     var nodeRestPositions = [CGPoint]()
     var gameCircles = [GameCircle?]()
     
-    init(scene s: SKScene, debug d: Bool) {
+    init(scene s: GameScene, debug d: Bool) {
         scene = s
         frame = scene.frame
         debug = d
@@ -50,18 +50,47 @@ class BoardController {
             //addDebugPhysBodies()
         }
         
+        setUpScenePhysics()
         setupBoard()
         setupLongColFieldNodes()
         setupShortColFieldNodes()
         addGameCircles()
     }
     
-    convenience init(scene: SKScene) {
-        self.init(scene: scene, debug: false)
+    convenience init(scene: GameScene) {
+        self.init(scene: scene, debug: true)
     }
     
     private func setupBoard() {
         //scene.backgroundColor = bgColor
+    }
+    
+    func setUpScenePhysics() {
+        scene.physicsWorld.gravity = CGVectorMake(0, 0)
+        scene.physicsBody = createScenePhysBody()
+        
+        scene.setGameFrame(getGameBoardRect())
+    }
+    
+    private func createScenePhysBody() -> SKPhysicsBody {
+        // we put contraints on the top, left, right, bottom so that our balls can bounce off them
+        
+        let physicsBody = SKPhysicsBody(edgeLoopFromRect: getGameBoardRect())
+        
+        physicsBody.dynamic = false
+        physicsBody.categoryBitMask = 0xFFFFFFFF
+        physicsBody.restitution = 0.1
+        physicsBody.friction = 0.0
+        
+        return physicsBody
+    }
+    
+    private func getGameBoardRect() -> CGRect {
+        let origin = scene.frame.origin
+        let width = scene.frame.width
+        let height = scene.frame.height * (1 - constraints.header_height)
+        
+        return CGRectMake(origin.x, origin.y, width, height)
     }
     
     private func drawHeaderLine() {
@@ -132,7 +161,7 @@ class BoardController {
                 continue
             }
             
-            println("replacing node \(idx)")
+            //println("replacing node \(idx)")
             
             let node = (idx < 2 * longColNodes) ? NumberCircle(num: randomNumbers.generateNumber()) :
                 OperatorCircle(operatorSymbol: randomOperators.generateOperator())
@@ -141,16 +170,16 @@ class BoardController {
             if node is NumberCircle {
                 if idx % 2 == 0 {
                     nodesAdded.leftCol++
-                    delayMultiplier += CGFloat(2 * nodesAdded.leftCol)
+                    delayMultiplier = CGFloat(4 * nodesAdded.leftCol)
                 } else {
                     nodesAdded.rightCol++
-                    delayMultiplier += CGFloat(2 * nodesAdded.rightCol)
+                    delayMultiplier = CGFloat(4 * nodesAdded.rightCol)
                 }
             }
             
             // cause node to start slightly above the rest position
             let restPosition = nodeRestPositions[topColIdx(idx)]
-            node.position = CGPoint(x: restPosition.x, y: restPosition.y + node.nodeRadius)
+            node.position = CGPoint(x: restPosition.x, y: restPosition.y + GameCircleProperties.nodeRadius)
             node.setScale(0.0)
             node.setBoardPosition(idx)
             gameCircles[idx] = node
@@ -205,23 +234,8 @@ class BoardController {
         }
     }
     
-    /*
-    private func addDebugPhysBodies() {
-        var physCategory: UInt32 = 0
-        for i in 0...(2 * longColNodes + shortColNodes - 1) {
-            let node = SKShapeNode(circleOfRadius: 20.0)
-            node.fillColor = UIColor.redColor()
-            node.physicsBody = createTestPhysBody(1 << physCategory)
-            node.position = CGPointMake(scene.frame.midX, scene.frame.midY)
-            physCategory++
-            
-            scene.addChild(node)
-        }
-    }
-*/
-    
     private func createGameCirclePhysBody(category: UInt32) -> SKPhysicsBody {
-        let physBody = SKPhysicsBody(circleOfRadius: 23.0)
+        let physBody = SKPhysicsBody(circleOfRadius: GameCircleProperties.nodeRadius)
         
         // friction when sliding against this physics body
         physBody.friction = 3.8
@@ -245,35 +259,6 @@ class BoardController {
         
         return physBody
     }
-    
-    /*
-    private func createTestPhysBody(category: UInt32) -> SKPhysicsBody {
-        let physBody = SKPhysicsBody(circleOfRadius: 20.0)
-        
-        // friction when sliding against this physics body
-        physBody.friction = 3.8
-        
-        // bounciness of this physics body when colliding
-        physBody.restitution = 0.8
-        
-        // mass (and hence inertia) of this physics body
-        physBody.mass = 1
-        
-        // this will allow the balls to rotate when bouncing off each other
-        physBody.allowsRotation = false
-        
-        //Physics to check collision
-        physBody.contactTestBitMask = 0
-        physBody.collisionBitMask = 0
-        
-        physBody.dynamic = true
-        physBody.fieldBitMask = category
-        
-        physBody.linearDamping = 2.0
-        
-        return physBody
-    }
-*/
     
     private func drawLongColLines() {
         let starty = frame.height - (constraints.header_height + constraints.long_col_vert_padding) * frame.height

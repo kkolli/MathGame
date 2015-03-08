@@ -7,20 +7,27 @@
 //
 
 import UIKit
+import Alamofire
 
 class SummaryViewController: UIViewController {
     var score: Int!
     var operatorsUsed: [Operator]!
     var numTargetNumbersMatched: Int!
+    var user : FBGraphUser!
+    var appDelegate:AppDelegate!
     
     @IBOutlet weak var NumTargetResultLabel: UILabel!
     @IBOutlet weak var ScoreResultLabel: UILabel!
     @IBOutlet weak var OperatorResultLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        // setup the user instance
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.user = appDelegate.user
         
         displayOperators()
         displayScoresAndTarget()
+        postScore(String(score))
         // Do any additional setup after loading the view.
     }
 
@@ -48,6 +55,13 @@ class SummaryViewController: UIViewController {
     func displayScoresAndTarget() {
         ScoreResultLabel.text = "Score: \(score)"
         NumTargetResultLabel.text = String(numTargetNumbersMatched)
+    }
+    func postScore(score:String){
+        var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
+        let parameters = [
+            "score": score
+        ]
+        Alamofire.request(.POST, uri, parameters: parameters, encoding: .JSON)
     }
 
     /*

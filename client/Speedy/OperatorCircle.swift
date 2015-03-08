@@ -46,7 +46,7 @@ class OperatorCircle: GameCircle{
         default: label = SKLabelNode(text: "what")
         }
         
-        label.fontSize = nodeTextFontSize
+        label.fontSize = GameCircleProperties.nodeTextFontSize
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         shapeNode!.addChild(label)
