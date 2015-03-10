@@ -22,14 +22,10 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         println("in intro view controller")
-        if user == nil {
-            println("can't get the user")
-        } else {
-            IntroLabel.text = "Hello " + user.first_name + "!"
-            
-        }
-        //
+        
+
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.mpcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
         appDelegate.mpcHandler.setupSession()
@@ -37,6 +33,12 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
+        
+        if user == nil {
+            self.user = appDelegate.user
+        }
+        IntroLabel.text = "Hello " + user.first_name + "!"
+        
         hasSeguedToMP = false
         //
         userSetup()

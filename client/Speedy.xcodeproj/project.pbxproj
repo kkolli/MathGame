@@ -33,6 +33,7 @@
 		6B83B8B41A8D3A76008C7FE0 /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */; };
 		A12D20CB1A9FBA2700DCA69A /* MPCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12D20CA1A9FBA2700DCA69A /* MPCHandler.swift */; };
 		A139BA521AA2E7D800CF740E /* MultiplayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139BA501AA2E7D800CF740E /* MultiplayerGameViewController.swift */; };
+		A13D5D1F1AA98C11007D6D4C /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13D5D1E1AA98C11007D6D4C /* SummaryViewController.swift */; };
 		A140BC0C1AA2D58B00BD753C /* MultiplayerStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140BC0B1AA2D58B00BD753C /* MultiplayerStates.swift */; };
 		A15D6B171A83FECA00105413 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15D6B161A83FECA00105413 /* FacebookSDK.framework */; };
 		A19960DA1A724EB600A327F6 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19960D91A724EB600A327F6 /* PageViewController.swift */; };
@@ -133,6 +134,8 @@
 		6B83B8B31A8D3A76008C7FE0 /* GameCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenter.swift; sourceTree = "<group>"; };
 		A12D20CA1A9FBA2700DCA69A /* MPCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCHandler.swift; sourceTree = "<group>"; };
 		A139BA501AA2E7D800CF740E /* MultiplayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameViewController.swift; sourceTree = "<group>"; };
+
+		A13D5D1E1AA98C11007D6D4C /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		A140BC0B1AA2D58B00BD753C /* MultiplayerStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerStates.swift; sourceTree = "<group>"; };
 		A15D6B161A83FECA00105413 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		A19960D81A723D7600A327F6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
@@ -173,6 +176,7 @@
 				A1DF2B681A968BB000446A7C /* IntroViewController.swift */,
 				A19960D91A724EB600A327F6 /* PageViewController.swift */,
 				6B5747A81A70BF2800D2756F /* LoginViewController.swift */,
+				A13D5D1E1AA98C11007D6D4C /* SummaryViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -415,6 +419,7 @@
 				A140BC0C1AA2D58B00BD753C /* MultiplayerStates.swift in Sources */,
 				0AE720041A90698C0030705B /* RandomOperators.swift in Sources */,
 				1C88FC261A78239B00509137 /* GameViewController.swift in Sources */,
+				A13D5D1F1AA98C11007D6D4C /* SummaryViewController.swift in Sources */,
 				0AE71FFE1A904F1D0030705B /* OperatorCircle.swift in Sources */,
 				A139BA521AA2E7D800CF740E /* MultiplayerGameViewController.swift in Sources */,
 				1C88FC241A78223800509137 /* GameScene.swift in Sources */,
