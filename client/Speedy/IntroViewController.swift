@@ -20,6 +20,8 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     var hasSeguedToMP: Bool!
     @IBOutlet weak var yourHighScore: UILabel!
     
+    @IBOutlet weak var logout_button: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         println("in intro view controller")
@@ -40,7 +42,15 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         hasSeguedToMP = false
         //
         userSetup()
+        logout_button.addTarget(self, action: "buttonClicked", forControlEvents: .TouchUpInside)
         // Do any additional setup after loading the view.
+    }
+    
+    func buttonClicked() {
+        var sesh: FBSession?
+        sesh = FBSession.activeSession()
+        sesh!.closeAndClearTokenInformation()
+        sesh!.close()
     }
     
     func userSetup(){
