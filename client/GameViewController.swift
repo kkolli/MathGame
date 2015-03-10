@@ -27,6 +27,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     let TIME_DEBUG = false
     var scene: GameScene?
     var boardController: BoardController?
+    var operatorsUsed: [Operator]!
+    var numTargetNumbersMatched:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -38,8 +40,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
             if self.timer.getTime() <= 0 {
                 self.GameTimerLabel.text = "done"
-                self.postScore(self.GameScoreLabel.text!)
-                
+                self.performSegueToSummary()
             } else {
                 if self.TIME_DEBUG {
                   println("time printout: " + String(self.timer.getTime()))
@@ -47,6 +48,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
+        numTargetNumbersMatched = 0
         
         GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
         timer.start()
@@ -56,6 +58,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         boardController = BoardController(scene: scene!)
         scene!.boardController = boardController
         updateTargetNumber()
+        operatorsUsed = []
+       
         
         // Configure the view.
         let skView = self.view as SKView
@@ -73,8 +77,14 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         skView.presentScene(scene)
     }
     
-    func updateScore(){
+    func updateScoreAndTime(){
         GameScoreLabel.text = String(score)
+        if numTargetNumbersMatched > 0 {
+            timer.addTime(timer.getExtraTimeSub())
+        } else {
+            timer.addTime(timer.getExtraTimeFirst())
+        }
+        numTargetNumbersMatched!++
     }
     
     func postScore(score:String){
@@ -239,6 +249,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         let op1 = leftNumberCircle.number!
         let op2 = rightNumberCircle.number!
         let oper = opCircle.op!
+        operatorsUsed.append(oper)
         
         switch oper{
         case .PLUS:
@@ -254,7 +265,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
         if result == targetNumber{
             score += nodeScore
-            updateScore()
+            updateScoreAndTime()
             updateTargetNumber()
         }else{
             rightNumberCircle.setScore(nodeScore)
@@ -266,10 +277,22 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     }
     
     func didEndContact(contact: SKPhysicsContact) {}
+    //func didEndContact(contact: SKPhysicsContact) {}
+    func performSegueToSummary() {
+        self.performSegueWithIdentifier("segueToSummary", sender: nil)
+    }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
 //        Crashlytics.sharedInstance().crash()
         println("preparing for segue!!")
+        if segue.identifier == "segueToSummary" {
+            println("performing segue to summary")
+            let vc = segue.destinationViewController as SummaryViewController
+            vc.operatorsUsed = operatorsUsed
+            vc.score = score
+            vc.numTargetNumbersMatched = numTargetNumbersMatched
+        }
     }
     
     override func didReceiveMemoryWarning() {
