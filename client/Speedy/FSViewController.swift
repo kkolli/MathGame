@@ -46,10 +46,6 @@ class FSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
     override func shouldAutorotate() -> Bool {
         return false
     }
