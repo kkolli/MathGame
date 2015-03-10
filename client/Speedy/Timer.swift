@@ -42,9 +42,9 @@ class Timer : NSObject{
     }
     
     func addTime(seconds: Int){
-        println("OLD TIME : \(elapsedTime)")
+//        println("OLD TIME : \(elapsedTime) and time to add: \(seconds)")
         elapsedTime -= seconds
-        println("NEW TIME : \(elapsedTime) and seconds: \(seconds) with duration : \(duration)")
+//        println("NEW TIME : \(elapsedTime) and seconds: \(seconds) with duration : \(duration)")
     }
     
     func tick(){

@@ -186,6 +186,7 @@
 		0A71D4FA1AA69BC90076FD58 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0AE720031A90698C0030705B /* RandomOperators.swift */,
 				0A2085CE1A7E138600412C8B /* RandomNumbers.swift */,
 				0AE720001A9054870030705B /* GameOperators.swift */,
 				0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */,
@@ -231,7 +232,6 @@
 				6B5747AF1A70BF2800D2756F /* LaunchScreen.xib */,
 				6B5747A41A70BF2800D2756F /* Supporting Files */,
 				A140BC0B1AA2D58B00BD753C /* MultiplayerStates.swift */,
-				0AE720031A90698C0030705B /* RandomOperators.swift */,
 				0A71D4FD1AA6A6500076FD58 /* Timer.swift */,
 			);
 			path = Speedy;

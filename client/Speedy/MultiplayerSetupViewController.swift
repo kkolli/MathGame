@@ -1,16 +1,8 @@
-//
-//  MultiplayerSetupViewController.swift
-//  Speedy
-//
-//  Created by Krishna Kolli on 2/12/15.
-//  Copyright (c) 2015 Krishna Kolli. All rights reserved.
-//
-
 import UIKit
 import MultipeerConnectivity
 
 class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerDelegate {
-
+    
     var currentPlayer:String!
     
     var appDelegate:AppDelegate!
@@ -51,7 +43,7 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
         if state != MCSessionState.Connecting.rawValue {
             self.navigationItem.title = "Connected"
             if !hasSeguedToMP {
-              determineServer(otherUserPID)
+                determineServer(otherUserPID)
             }
         }
         
@@ -59,7 +51,7 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
     
     func determineServer(peerID: MCPeerID) {
         // first figure out who's the server
-        // If I'm the server, send data saying { "server": true } 
+        // If I'm the server, send data saying { "server": true }
         self.isServer = amIServer(peerID)
         
         // should probably make init some kind of constant
@@ -111,7 +103,7 @@ class MultiplayerSetupViewController: UIViewController, MCBrowserViewControllerD
                 // success!
                 println("resolved correctly, going to segue to multiplayer!!")
                 if appDelegate.mpcHandler.browser != nil {
-                  appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+                    appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
                 }
                 hasSeguedToMP = true
                 performSegueToMultiplayer()

@@ -99,7 +99,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "multiplayerSegueToSummary" {
-            println("performing segue to summary")
+            println("performing segue to summary inside MC Game")
             let vc = segue.destinationViewController as SummaryViewController
             vc.operatorsUsed = operatorsUsed
             vc.score = score
@@ -218,12 +218,14 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     */
     func myScoreChanged() {
         // if we've matched one before
+        println("score changing... with num: \(numTargetNumbersMatched) and old timer: \(timer.getTime())")
         if numTargetNumbersMatched > 0 {
             timer.addTime(timer.getExtraTimeSub())
         } else {
             timer.addTime(timer.getExtraTimeFirst())
         }
         numTargetNumbersMatched!++
+        println("now score changed... with num: \(numTargetNumbersMatched) and new timer: \(timer.getTime())")
     }
     
     func updateTargetNumber(){
@@ -289,7 +291,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
         if result == targetNumber{
             score += nodeScore
-            myScoreChanged()
+            //myScoreChanged()
             notifyScoreChanged()
             setScoreLabels()
             updateTargetNumber()
