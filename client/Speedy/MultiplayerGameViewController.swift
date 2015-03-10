@@ -39,8 +39,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         println("in multiplayer view controller")
 
         scene = GameScene(size: view.frame.size)
-        boardController = BoardController(scene: scene!)
-        scene!.boardController = boardController
+        boardController = BoardController(scene: scene!, mode: .MULTI)
+   //     scene!.boardController = boardController
         updateTargetNumber()
         finishedInit = false
         
@@ -202,7 +202,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     
     func updateTargetNumber(){
         if targetNumber != nil{
-            let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
+            let numberCircleList = boardController!.gameCircles.filter{$0 is NumberCircle}
             let numberList = numberCircleList.map{($0 as NumberCircle).number!}
             targetNumber = boardController!.randomNumbers.generateTarget(numberList)
         }else{
