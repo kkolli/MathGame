@@ -480,6 +480,7 @@
                         <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
                         <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
                         <outlet property="counterTimer" destination="4ND-DL-wxI" id="BWy-Re-VEP"/>
+                        <segue destination="8bK-Y6-6GN" kind="show" identifier="multiplayerSegueToSummary" id="AdL-6T-hqH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ca1-uk-TMO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -653,34 +654,20 @@
                     <view key="view" contentMode="scaleToFill" id="SKh-zn-Qbj" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT9-hS-myM">
-                                <rect key="frame" x="479" y="570" width="105" height="30"/>
-                                <color key="backgroundColor" red="0.28844282959955359" green="0.49518830699026006" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" red="0.068023989898989945" green="0.018646972232209558" blue="0.0083342547150162052" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="8bK-Y6-6GN" kind="showDetail" id="S8O-M2-spD"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="rT9-hS-myM" secondAttribute="trailing" constant="9" id="Jb7-gX-21q"/>
-                            <constraint firstItem="rT9-hS-myM" firstAttribute="top" secondItem="e2c-Ou-BDh" secondAttribute="bottom" constant="530" id="eg0-h0-Wh5"/>
-                        </constraints>
                     </view>
+                    <connections>
+                        <segue destination="8bK-Y6-6GN" kind="show" identifier="segueToSummary" id="2Au-Ic-4HO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Re-9k-rH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3819" y="768.75"/>
         </scene>
-        <!--View Controller-->
+        <!--Summary View Controller-->
         <scene sceneID="Jhc-mq-gCM">
             <objects>
-                <viewController id="8bK-Y6-6GN" sceneMemberID="viewController">
+                <viewController id="8bK-Y6-6GN" customClass="SummaryViewController" customModule="Speedy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vvg-br-qLy"/>
                         <viewControllerLayoutGuide type="bottom" id="9aG-sZ-P2L"/>
@@ -725,6 +712,33 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgZ-sI-W6G">
+                                <rect key="frame" x="79" y="91" width="178" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Operator Win label" lineBreakMode="wordWrap" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB6-gg-mpR">
+                                <rect key="frame" x="79" y="203" width="448" height="194"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Num Target Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edQ-nY-2sv">
+                                <rect key="frame" x="79" y="151" width="258" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zc9-sD-4tg">
+                                <rect key="frame" x="209" y="102" width="41" height="30"/>
+                                <state key="normal" title="Home">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="xfK-l9-L2b" kind="show" id="kpS-h4-aTe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -805,6 +819,11 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="NumTargetResultLabel" destination="edQ-nY-2sv" id="HRN-ss-Fya"/>
+                        <outlet property="OperatorResultLabel" destination="FB6-gg-mpR" id="vf9-ug-Mqg"/>
+                        <outlet property="ScoreResultLabel" destination="ZgZ-sI-W6G" id="C5k-47-7C3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2e1-FP-pyb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1626,4 +1645,7 @@
     <resources>
         <image name="16" width="400" height="300"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="2Au-Ic-4HO"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -26,6 +26,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     let TIME_DEBUG = false
     var scene: GameScene?
     var boardController: BoardController?
+    var operatorsUsed: [Operator]!
+    var numTargetNumbersMatched:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -38,7 +40,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
             if self.timer.getTime() <= 0 {
                 //self.GameTimerLabel.text = "done"
                 //self.postScore(self.GameScoreLabel.text!)
-                
+                self.performSegueToSummary()
             } else {
                 if self.TIME_DEBUG {
                   println("time printout: " + String(self.timer.getTime()))
@@ -50,12 +52,14 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 //self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
+        numTargetNumbersMatched = 0
         
         //GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
         
         //GameScoreLabel.text = String(score)
         
         scene = GameScene(size: view.frame.size)
+        operatorsUsed = []
         boardController = BoardController(scene: scene!, mode: .SINGLE)
         //scene!.boardController = boardController
         //updateTargetNumber()
@@ -81,6 +85,12 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     /*
     func updateScore(){
         GameScoreLabel.text = String(score)
+        if numTargetNumbersMatched > 0 {
+            timer.addTime(timer.getExtraTimeSub())
+        } else {
+            timer.addTime(timer.getExtraTimeFirst())
+        }
+        numTargetNumbersMatched!++
     }
 */
     
@@ -243,11 +253,21 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         boardController!.replaceMissingNodes()
     }
     
-    
     func didEndContact(contact: SKPhysicsContact) {}
+    //func didEndContact(contact: SKPhysicsContact) {}
+    func performSegueToSummary() {
+        self.performSegueWithIdentifier("segueToSummary", sender: nil)
+    }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        println("preparing for segue!!")
+        if segue.identifier == "segueToSummary" {
+            println("performing segue to summary")
+            let vc = segue.destinationViewController as SummaryViewController
+            vc.operatorsUsed = operatorsUsed
+            vc.score = boardController!.score
+            vc.numTargetNumbersMatched = numTargetNumbersMatched
+        }
     }
     
     override func didReceiveMemoryWarning() {
