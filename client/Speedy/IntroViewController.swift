@@ -22,8 +22,6 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setup the user instance
-        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
         println("in intro view controller")
         if user == nil {
