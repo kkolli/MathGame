@@ -28,18 +28,19 @@ class Timer : NSObject{
     }
     
     func start(){
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("tick"), userInfo: nil, repeats: true)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector: Selector("tick"), userInfo: nil, repeats: true)
     }
     
     func addTime(seconds: Int){
-        elapsedTime -= seconds
+        elapsedTime -= seconds*10
     }
     
     func tick(){
         elapsedTime++
+        
         handler(elapsedTime)
         
-        if elapsedTime == duration{
+        if elapsedTime == duration*10 {
             stop()
         }
     }
@@ -49,7 +50,7 @@ class Timer : NSObject{
     }
     
     func getTime() -> Int {
-        return duration-elapsedTime
+        return duration*10-elapsedTime
     }
     
     /*

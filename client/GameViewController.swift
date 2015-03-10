@@ -43,12 +43,16 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 if self.TIME_DEBUG {
                   println("time printout: " + String(self.timer.getTime()))
                 }
+                
+                if self.boardController != nil {
+                    self.boardController?.setTimeInHeader(self.timer.getTime())
+                }
                 //self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
         
         //GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
-        timer.start()
+        
         //GameScoreLabel.text = String(score)
         
         scene = GameScene(size: view.frame.size)
@@ -70,6 +74,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         //scene!.scoreHandler = handleMerge
         scene!.physicsWorld.contactDelegate = self
         skView.presentScene(scene)
+        
+        timer.start()
     }
     
     /*

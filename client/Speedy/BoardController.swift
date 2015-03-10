@@ -71,6 +71,10 @@ class BoardController {
         addGameCircles()
     }
     
+    func setTimeInHeader(time: Int) {
+        headerController?.setTimeRemaining(time)
+    }
+    
     convenience init(scene: GameScene, mode: BoardMode) {
         self.init(mode: mode, scene: scene, debug: true)
     }
