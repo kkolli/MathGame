@@ -51,6 +51,9 @@ class BoardController {
     var targetNumber: Int?
     var score = 0
     
+    var operatorsUsed: [Operator]!
+    var notifyScoreChanged: (() -> ())!
+    
     init(mode m: BoardMode, scene s: GameScene, debug d: Bool) {
         scene = s
         frame = scene.frame
@@ -69,6 +72,8 @@ class BoardController {
         headerController = BoardHeaderController(mode: m, scene: s, frame: createHeaderFrame(), board: self)
         
         addGameCircles()
+        
+        operatorsUsed = []
     }
     
     func setTimeInHeader(time: Int) {
@@ -115,25 +120,26 @@ class BoardController {
         
         nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
         if result == targetNumber{
-            score += nodeScore
-            updateScore()
-            updateTargetNumber()
+            // update the score, update the target number, and notify changed
+            targetNumberMatched(nodeScore)
         }else{
             rightNumberCircle.setScore(nodeScore)
         }
         
         let removeNode = (result == targetNumber || result == 0)
         
+        operatorsUsed!.append(oper)
+        
         return (result, removeNode)
     }
     
-    func updateScore(){
-        //GameScoreLabel.text = String(score)
+    func targetNumberMatched(nodeScore: Int) {
+        score += nodeScore
+        headerController!.setScore(score)
+        generateNewTargetNumber()
+        notifyScoreChanged()
     }
     
-    func updateTargetNumber() {
-        
-    }
     
     func generateNewTargetNumber(){
         if targetNumber != nil{
@@ -142,6 +148,7 @@ class BoardController {
         }else{
             targetNumber = randomNumbers.generateTarget()
         }
+        headerController?.setTargetNumber(targetNumber!)
         //GameTargetNumLabel.text = String(targetNumber!)
     }
     

@@ -45,7 +45,7 @@ class Timer : NSObject{
         elapsedTime -= seconds*10
 
 //        println("OLD TIME : \(elapsedTime) and time to add: \(seconds)")
-        elapsedTime -= seconds
+//        elapsedTime -= seconds
 //        println("NEW TIME : \(elapsedTime) and seconds: \(seconds) with duration : \(duration)")
     }
     

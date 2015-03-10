@@ -31,4 +31,8 @@ class BoardHeaderController {
     func setTimeRemaining(time: Int) {
         view.timer = time
     }
+    
+    func setScore(currentScore: Int) {
+        view.score = currentScore
+    }
 }

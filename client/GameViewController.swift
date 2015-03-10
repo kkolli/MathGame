@@ -26,7 +26,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     let TIME_DEBUG = false
     var scene: GameScene?
     var boardController: BoardController?
-    var operatorsUsed: [Operator]!
     var numTargetNumbersMatched:Int!
     
     override func viewDidLoad() {
@@ -59,8 +58,9 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         //GameScoreLabel.text = String(score)
         
         scene = GameScene(size: view.frame.size)
-        operatorsUsed = []
+    
         boardController = BoardController(scene: scene!, mode: .SINGLE)
+        boardController!.notifyScoreChanged = updateScoreAndTime
         //scene!.boardController = boardController
         //updateTargetNumber()
         
@@ -82,9 +82,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         timer.start()
     }
     
-    /*
-    func updateScore(){
-        GameScoreLabel.text = String(score)
+    
+    func updateScoreAndTime(){
         if numTargetNumbersMatched > 0 {
             timer.addTime(timer.getExtraTimeSub())
         } else {
@@ -92,7 +91,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         }
         numTargetNumbersMatched!++
     }
-*/
+
     
     func postScore(score:String){
         var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
@@ -230,7 +229,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     //TODO: Refactor mergeNodes and handleMerge together
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
         let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
-        
+
         /*
         let op1Upgrade = leftNumberCircle.upgrade
         let op2Upgrade = rightNumberCircle.upgrade
@@ -264,7 +263,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         if segue.identifier == "segueToSummary" {
             println("performing segue to summary")
             let vc = segue.destinationViewController as SummaryViewController
-            vc.operatorsUsed = operatorsUsed
+            vc.operatorsUsed = boardController!.operatorsUsed
             vc.score = boardController!.score
             vc.numTargetNumbersMatched = numTargetNumbersMatched
         }
