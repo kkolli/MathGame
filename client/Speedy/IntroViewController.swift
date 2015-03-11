@@ -12,7 +12,7 @@ import MultipeerConnectivity
 
 class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     @IBOutlet weak var IntroLabel: UILabel!
-    @IBOutlet weak var fbProfilePic: UIImageView!
+    @IBOutlet weak var FBProfilePic: UIImageView!
     var user : FBGraphUser!
     var appDelegate:AppDelegate!
     var id = UIDevice.currentDevice().identifierForVendor.UUIDString.utf8
@@ -49,10 +49,10 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         var uri = "http://mathisspeedy.herokuapp.com/OneHighScore/" + user.objectID
         Alamofire.request(.GET, uri)
             .responseJSON { (request, response, data, error) in
-                println("request: \(request)")
-                println("response: \(response)")
-                println("data: \(data)")
-                println("error: \(error)")
+                //println("request: \(request)")
+                //println("response: \(response)")
+                //println("data: \(data)")
+                //println("error: \(error)")
                 if error != nil || data == nil ||  data!.objectForKey("highscore") == nil {
                     println(" errors found")
                 } else {
@@ -62,7 +62,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
                     
                 }
         }
-        uri = "http://graph.facebook.com/\(user.objectID)/picture?type=large"
+        uri = "http://graph.facebook.com/\(user.objectID)/picture?height=200&width=200"
         let url = NSURL(string:uri)
         let urlRequest = NSURLRequest(URL: url!)
         
@@ -72,8 +72,11 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
             
                 // Display the image
                 let image = UIImage(data: data)
-                self.fbProfilePic.image = image
-            
+                self.FBProfilePic.image = image
+                self.FBProfilePic.layer.cornerRadius = self.FBProfilePic.frame.size.width / 2
+                self.FBProfilePic.clipsToBounds = true
+                self.FBProfilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                self.FBProfilePic.layer.borderWidth = 1.0
             }
     }
     @IBAction func setupConnection(sender: AnyObject) {

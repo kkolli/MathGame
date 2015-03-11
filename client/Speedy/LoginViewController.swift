@@ -50,11 +50,11 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         self.user = user
         appDelegate.user = user
-        println("User: \(user)")
-        println("User ID: \(user.objectID)")
-        println("User Name: \(user.name)")
+        //println("User: \(user)")
+        //println("User ID: \(user.objectID)")
+        //println("User Name: \(user.name)")
         var userEmail = user.objectForKey("email") as String
-        println("User Email: \(userEmail)")
+        //println("User Email: \(userEmail)")
         
         // call method to handle getting the user's current/updated friends
         if !alreadyFetched {
@@ -74,17 +74,17 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             //"friends": data.objectForKey("data") as NSArray,
             "friends_page" : data
         ]
-        println("PRINTING PARAMS: ")
-        println(params)
+        //println("PRINTING PARAMS: ")
+        //println(params)
         
         
         
         Alamofire.request(.POST, "http://mathisspeedy.herokuapp.com/create_check_user", parameters: params, encoding:.JSON)
         .responseString { (request, response, data, error) in
-          println("request: \(request)")
-          println("response: \(response)")
-          println("data: \(data)")
-          println("error: \(error)")
+          //println("request: \(request)")
+          //println("response: \(response)")
+          //println("data: \(data)")
+          //println("error: \(error)")
             if error != nil {
                 println(" errors found")
             } else {
@@ -124,13 +124,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "login_segue" {
             println("performing segue")
-            let vc = segue.destinationViewController as PageViewController
+            let vc = segue.destinationViewController as MainMenuViewController
             vc.user = user
         }
     }
