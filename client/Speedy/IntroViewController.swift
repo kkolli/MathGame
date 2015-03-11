@@ -24,6 +24,8 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         super.viewDidLoad()
         
         println("in intro view controller")
+        self.navigationController?.navigationBarHidden = false
+        self.tabBarController?.tabBar.hidden = false
         
 
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
