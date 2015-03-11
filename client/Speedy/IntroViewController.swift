@@ -12,7 +12,7 @@ import MultipeerConnectivity
 
 class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     @IBOutlet weak var IntroLabel: UILabel!
-    @IBOutlet weak var fbProfilePic: UIImageView!
+    @IBOutlet weak var FBProfilePic: UIImageView!
     var user : FBGraphUser!
     var appDelegate:AppDelegate!
     var id = UIDevice.currentDevice().identifierForVendor.UUIDString.utf8
@@ -22,9 +22,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         println("in intro view controller")
-        
 
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.mpcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
@@ -42,17 +40,26 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         hasSeguedToMP = false
         //
         userSetup()
+        
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "mainmenu")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build())
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.navigationItem.hidesBackButton = true
+       
     }
     
     func userSetup(){
         var uri = "http://mathisspeedy.herokuapp.com/OneHighScore/" + user.objectID
         Alamofire.request(.GET, uri)
             .responseJSON { (request, response, data, error) in
-                println("request: \(request)")
-                println("response: \(response)")
-                println("data: \(data)")
-                println("error: \(error)")
+                //println("request: \(request)")
+                //println("response: \(response)")
+                //println("data: \(data)")
+                //println("error: \(error)")
                 if error != nil || data == nil ||  data!.objectForKey("highscore") == nil {
                     println(" errors found")
                 } else {
@@ -62,7 +69,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
                     
                 }
         }
-        uri = "http://graph.facebook.com/\(user.objectID)/picture?type=large"
+        uri = "http://graph.facebook.com/\(user.objectID)/picture?height=200&width=200"
         let url = NSURL(string:uri)
         let urlRequest = NSURLRequest(URL: url!)
         
@@ -72,8 +79,11 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
             
                 // Display the image
                 let image = UIImage(data: data)
-                self.fbProfilePic.image = image
-            
+                self.FBProfilePic.image = image
+                self.FBProfilePic.layer.cornerRadius = self.FBProfilePic.frame.size.width / 2
+                self.FBProfilePic.clipsToBounds = true
+                self.FBProfilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                self.FBProfilePic.layer.borderWidth = 1.0
             }
     }
     @IBAction func setupConnection(sender: AnyObject) {
@@ -129,11 +139,15 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         let myIDArr = Array(appDelegate.mpcHandler.peerID.displayName.generate())
         let otherIDArr = Array(peerID.displayName.generate())
         
+        
         let iter_count = max(myIDArr.count, otherIDArr.count)
         for i in 0...iter_count-1 {
-            if (myIDArr[i] > otherIDArr[i]) {
+            if (myIDArr[i] == otherIDArr[i]) {
+                continue
+            } else if (myIDArr[i] > otherIDArr[i]) {
                 return true
-            } else {
+            }
+            else{
                 return false
             }
         }
@@ -161,7 +175,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
                 if appDelegate.mpcHandler.browser != nil {
                     appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
                 }
-                hasSeguedToMP = true
+                
                 performSegueToMultiplayer()
             } else {
                 println("there was an error for client server resolution- client: \(self.isServer) serveR: \(isPeerServer)")
@@ -171,7 +185,10 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
 
     
     func performSegueToMultiplayer() {
-        self.performSegueWithIdentifier("multiplayer_segue", sender: nil)
+        if !hasSeguedToMP {
+            self.performSegueWithIdentifier("multiplayer_segue", sender: nil)
+          hasSeguedToMP = true
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {

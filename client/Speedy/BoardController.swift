@@ -7,6 +7,11 @@
 //
 import SpriteKit
 
+enum BoardMode {
+    case SINGLE
+    case MULTI
+}
+
 class BoardController {
     // defines board element positioning, in relative percents
     struct BoardConstraints {
@@ -36,14 +41,25 @@ class BoardController {
     let randomNumbers = RandomNumbers()
     let randomOperators = RandomOperators()
     
-    var circleList: [GameCircle] = []
+    //var circleList: [GameCircle] = []
     var nodeRestPositions = [CGPoint]()
     var gameCircles = [GameCircle?]()
     
-    init(scene s: GameScene, debug d: Bool) {
+    let headerController: BoardHeaderController?
+    let mode: BoardMode?
+    
+    var targetNumber: Int?
+    var score = 0
+    
+    var operatorsUsed: [Operator]!
+    var notifyScoreChanged: (() -> ())!
+    
+    init(mode m: BoardMode, scene s: GameScene, debug d: Bool) {
         scene = s
         frame = scene.frame
         debug = d
+        mode = m;
+        
         
         if debug {
             drawDebugLines()
@@ -52,17 +68,168 @@ class BoardController {
         
         setUpScenePhysics()
         setupBoard()
-        setupLongColFieldNodes()
-        setupShortColFieldNodes()
+        
+        headerController = BoardHeaderController(mode: m, scene: s, frame: createHeaderFrame(), board: self)
+        
         addGameCircles()
+        
+        operatorsUsed = []
     }
     
-    convenience init(scene: GameScene) {
-        self.init(scene: scene, debug: true)
+    func setTimeInHeader(time: Int) {
+        headerController?.setTimeRemaining(time)
+    }
+    
+    func setOpponentScore(score: Int) {
+        println("SETTING OPPONENT SCORE")
+        headerController!.setOpponentScore(score)
+    }
+    
+    func setOpponentName(opponent: String) {
+        headerController!.setOpponentName(opponent)
+    }
+    
+    convenience init(scene: GameScene, mode: BoardMode) {
+        self.init(mode: mode, scene: scene, debug: false)
     }
     
     private func setupBoard() {
-        //scene.backgroundColor = bgColor
+        generateNewTargetNumber()
+        setupLongColFieldNodes()
+        setupShortColFieldNodes()
+    }
+    
+    private func createHeaderFrame() -> CGRect {
+        let x = frame.origin.x
+        let y = frame.origin.y + frame.height * (1 - constraints.header_height)
+        let width = frame.width
+        let height = frame.height * constraints.header_height
+        
+        return CGRect(x: x, y: y, width: width, height: height)
+    }
+    
+    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) {
+        println("HANDLING MERGE...")
+        var result: Int
+        var nodeScore: Int
+        
+        let op1 = leftNumberCircle.number!
+        let op2 = rightNumberCircle.number!
+        let oper = opCircle.op!
+        
+        switch oper{
+        case .PLUS:
+            result = op1 + op2
+        case .MINUS:
+            result = op1 - op2
+        case .MULTIPLY:
+            result = op1 * op2
+        case .DIVIDE:
+            result = op1 / op2
+        }
+        
+        nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
+        
+        
+        nodeRemoved(leftNumberCircle.boardPos!)
+        nodeRemoved(opCircle.boardPos!)
+        
+        // clear phys bodies so we don't get weird physics glitches
+        leftNumberCircle.physicsBody = nil
+        opCircle.physicsBody = nil
+        
+        let mergeAction = actionAnimateNodeMerge(rightNumberCircle)
+        let removeAction = SKAction.runBlock {
+            leftNumberCircle.removeFromParent()
+            opCircle.removeFromParent()
+        }
+        
+        let sequence = SKAction.sequence([mergeAction, removeAction])
+        
+        leftNumberCircle.runAction(sequence)
+        opCircle.runAction(sequence)
+        
+        if result == targetNumber {
+            println("TARGET NUMBER MATCHED: \(result)")
+            // update the score, update the target number, and notify changed
+            targetNumberMatched(nodeScore)
+            
+            rightNumberCircle.physicsBody = nil
+            
+            let waitAction = SKAction.waitForDuration(NSTimeInterval(sequence.duration + 0.1))
+            let scoreAction = actionAnimateNodeToScore(rightNumberCircle)
+            let removeAction = SKAction.runBlock {
+                rightNumberCircle.removeFromParent()
+            }
+            
+            let sequence = SKAction.sequence([waitAction, scoreAction, removeAction])
+            rightNumberCircle.runAction(sequence)
+            
+            nodeRemoved(rightNumberCircle.boardPos!)
+        }else if result == 0 {
+            let waitAction = SKAction.waitForDuration(NSTimeInterval(sequence.duration + 0.1))
+            let disappearAction = actionAnimateNodeDisappear(rightNumberCircle)
+            let removeAction = SKAction.runBlock {
+                rightNumberCircle.removeFromParent()
+            }
+            
+            let sequence = SKAction.sequence([waitAction, disappearAction, removeAction])
+            rightNumberCircle.runAction(sequence)
+            
+            rightNumberCircle.setNumber(result)
+            nodeRemoved(rightNumberCircle.boardPos!)
+        }
+        else {
+            rightNumberCircle.setScore(nodeScore)
+            rightNumberCircle.setNumber(result)
+            rightNumberCircle.neighbor = nil
+        }
+        
+        operatorsUsed!.append(oper)
+        
+        replaceMissingNodes()
+    }
+    
+    func actionAnimateNodeToScore(node: SKNode) -> SKAction {
+        var targetPos = headerController!.getScorePosition()
+        targetPos.y = targetPos.y + frame.height * (1 - constraints.header_height)
+        let moveAction = SKAction.moveTo(targetPos, duration: NSTimeInterval(0.4))
+        let scaleAction = SKAction.scaleTo(0.0, duration: NSTimeInterval(0.4))
+        let actionGroup = SKAction.group([moveAction, scaleAction])
+        
+        return actionGroup
+    }
+    
+    func actionAnimateNodeMerge(nodeTarget: SKNode) -> SKAction {
+        let targetPos = nodeTarget.position
+        let moveAction = SKAction.moveTo(targetPos, duration: NSTimeInterval(0.2))
+        let scaleAction = SKAction.scaleTo(0.0, duration: NSTimeInterval(0.15))
+        let actionGroup = SKAction.group([moveAction, scaleAction])
+        
+        return actionGroup
+    }
+    
+    func actionAnimateNodeDisappear(node: SKNode) -> SKAction {
+        return SKAction.scaleTo(0.0, duration: NSTimeInterval(0.2))
+    }
+    
+    func targetNumberMatched(nodeScore: Int) {
+        score += nodeScore
+        headerController!.setScore(score)
+        generateNewTargetNumber()
+        notifyScoreChanged()
+    }
+    
+    
+    func generateNewTargetNumber(){
+        if targetNumber != nil{
+            let numberList = gameCircles.filter{$0 is NumberCircle}.map{($0 as NumberCircle).number!}
+            targetNumber = randomNumbers.generateTarget(numberList)
+        }else{
+            targetNumber = randomNumbers.generateTarget()
+        }
+        headerController?.setTargetNumber(targetNumber!)
+        //GameTargetNumLabel.text = String(targetNumber!)
     }
     
     func setUpScenePhysics() {
@@ -109,6 +276,28 @@ class BoardController {
     
     func nodeRemoved(pos: Int) {
         gameCircles[pos] = nil
+    }
+    
+    func upgradeCircle(){
+        let shouldUpgrade = Int(arc4random_uniform(10) + 1)
+            
+        if shouldUpgrade == 1{
+            let upgradeOption = UpgradeOptions(rawValue: Int(arc4random_uniform(2)))
+            
+            let numberCircles = gameCircles.filter{$0 is NumberCircle}
+            let upgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade != .None}
+            let unUpgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade == .None}
+            
+            if upgradeOption != .None && upgradedCircles.count < 2{
+                let index = Int(arc4random_uniform(UInt32(unUpgradedCircles.count)))
+                
+                var nodeToUpgrade = unUpgradedCircles[index] as NumberCircle
+                if nodeToUpgrade !== scene.getActiveNode() {
+                    nodeToUpgrade.setUpgrade(upgradeOption!)
+                    nodeToUpgrade.setFillColor(upgradeOption!.upgradeColor())
+                }
+            }
+        }
     }
     
     func replaceMissingNodes() {
@@ -230,7 +419,7 @@ class BoardController {
             node.setBoardPosition(i)
             gameCircles.append(node)
             scene.addChild(node)
-            circleList.append(node)
+            //circleList.append(node)
         }
     }
     
@@ -399,7 +588,9 @@ class BoardController {
         drawShortColLine()
     }
     
+    /*
     func getCircleList() -> [GameCircle]{
         return circleList
     }
+    */
 }

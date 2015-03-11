@@ -35,6 +35,13 @@ class OperatorCircle: GameCircle{
         op = operatorSymbol
     }
     
+    // override fill color
+    override func setupNodes() {
+        super.setupNodes()
+        
+        shapeNode!.fillColor = UIColor(red: 248.0 / 255.0, green: 195.0 / 255.0, blue: 28.0 / 255.0, alpha: 1.0)
+    }
+    
     private func setLabel(op: Operator){
         var label: SKLabelNode
         

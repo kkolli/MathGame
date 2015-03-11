@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo (no background)" translatesAutoresizingMaskIntoConstraints="NO" id="yIS-dZ-b3S">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="134" id="7Ec-OP-gki">
+                            <variation key="heightClass=regular-widthClass=compact" constant="117"/>
+                        </constraint>
+                        <constraint firstAttribute="width" constant="166" id="pRn-pj-Zf5">
+                            <variation key="heightClass=regular-widthClass=compact" constant="145"/>
+                        </constraint>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="7Ec-OP-gki"/>
+                            <exclude reference="pRn-pj-Zf5"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="7Ec-OP-gki"/>
+                            <include reference="pRn-pj-Zf5"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Speedy" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
+                    <rect key="frame" x="20" y="140" width="441" height="43"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <size key="shadowOffset" width="1" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.090196078430000007" green="0.69019607839999997" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="yIS-dZ-b3S" secondAttribute="centerX" id="5Xr-rr-w0w"/>
+                <constraint firstAttribute="centerY" secondItem="yIS-dZ-b3S" secondAttribute="centerY" id="KIs-yT-I6z"/>
+                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
+                <constraint firstItem="yIS-dZ-b3S" firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="ZVo-zE-94c"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="yIS-dZ-b3S" secondAttribute="bottom" constant="8" id="bBj-Up-cCv">
+                    <variation key="heightClass=regular-widthClass=compact" constant="-4"/>
+                </constraint>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="yIS-dZ-b3S"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="5Xr-rr-w0w"/>
+                    <exclude reference="KIs-yT-I6z"/>
+                    <exclude reference="ZVo-zE-94c"/>
+                    <exclude reference="bBj-Up-cCv"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="subviews">
+                    <include reference="yIS-dZ-b3S"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="5Xr-rr-w0w"/>
+                    <include reference="KIs-yT-I6z"/>
+                    <exclude reference="ZVo-zE-94c"/>
+                    <include reference="bBj-Up-cCv"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="404" y="445"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Logo (no background)" width="471" height="395"/>
+    </resources>
+</document>
