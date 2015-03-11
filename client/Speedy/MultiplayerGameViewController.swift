@@ -321,7 +321,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
                         
-                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                        boardController!.handleMerge(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
             }else{
@@ -354,7 +354,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
                         
-                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                        boardController!.handleMerge(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
             }else{
@@ -364,6 +364,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     }
     
    //TODO: Refactor mergeNodes and handleMerge together
+    /*
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
         let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
         
@@ -386,4 +387,5 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         
         boardController!.replaceMissingNodes()
     }
+    */
 }

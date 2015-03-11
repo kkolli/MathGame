@@ -48,4 +48,8 @@ class BoardHeaderController {
     func setOpponentScore(opponentScore: Int) {
         view.opponentScore = opponentScore
     }
+    
+    func getScorePosition() -> CGPoint {
+        return view.getScoreLabelPosition()
+    }
 }

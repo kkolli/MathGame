@@ -10,10 +10,10 @@ import SpriteKit
 
 struct GameCircleProperties {
     static let nodeRadius: CGFloat = 23
-    static let nodeStrokeColor = UIColor.yellowColor()
+    static let nodeStrokeColor = UIColor.blackColor()
     static let nodeTextFontSize: CGFloat = 16.0
-    static let nodeLineWidth: CGFloat = 4
-    static let nodeFillColor = UIColor.redColor()
+    static let nodeLineWidth: CGFloat = 1
+    static let nodeFillColor = UIColor(red: 62.0 / 255.0, green: 176.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
     static let pickupScaleFactor: CGFloat = 1.2
 }
 

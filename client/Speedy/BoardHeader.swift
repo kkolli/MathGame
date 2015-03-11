@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 struct BoardHeaderProperties {
-    static let backgroundColor = UIColor.darkGrayColor()
+    static let backgroundColor = UIColor(red: 62.0 / 255.0, green: 176.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
 }
 
 private struct BoardHeaderConstraints {
@@ -239,5 +239,8 @@ class BoardHeader : SKSpriteNode {
         return "\(minutes):\(seconds).\(tenths)"
     }
     
+    func getScoreLabelPosition() -> CGPoint {
+        return scoreLabel.position
+    }
 
 }

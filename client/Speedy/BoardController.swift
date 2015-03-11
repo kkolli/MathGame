@@ -90,7 +90,7 @@ class BoardController {
     }
     
     convenience init(scene: GameScene, mode: BoardMode) {
-        self.init(mode: mode, scene: scene, debug: true)
+        self.init(mode: mode, scene: scene, debug: false)
     }
     
     private func setupBoard() {
@@ -108,7 +108,7 @@ class BoardController {
         return CGRect(x: x, y: y, width: width, height: height)
     }
     
-    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
+    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) {
         println("HANDLING MERGE...")
         var result: Int
         var nodeScore: Int
@@ -129,19 +129,87 @@ class BoardController {
         }
         
         nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
-        if result == targetNumber{
+        
+        
+        nodeRemoved(leftNumberCircle.boardPos!)
+        nodeRemoved(opCircle.boardPos!)
+        
+        // clear phys bodies so we don't get weird physics glitches
+        leftNumberCircle.physicsBody = nil
+        opCircle.physicsBody = nil
+        
+        let mergeAction = actionAnimateNodeMerge(rightNumberCircle)
+        let removeAction = SKAction.runBlock {
+            leftNumberCircle.removeFromParent()
+            opCircle.removeFromParent()
+        }
+        
+        let sequence = SKAction.sequence([mergeAction, removeAction])
+        
+        leftNumberCircle.runAction(sequence)
+        opCircle.runAction(sequence)
+        
+        if result == targetNumber {
             println("TARGET NUMBER MATCHED: \(result)")
             // update the score, update the target number, and notify changed
             targetNumberMatched(nodeScore)
-        }else{
-            rightNumberCircle.setScore(nodeScore)
+            
+            rightNumberCircle.physicsBody = nil
+            
+            let waitAction = SKAction.waitForDuration(NSTimeInterval(sequence.duration + 0.1))
+            let scoreAction = actionAnimateNodeToScore(rightNumberCircle)
+            let removeAction = SKAction.runBlock {
+                rightNumberCircle.removeFromParent()
+            }
+            
+            let sequence = SKAction.sequence([waitAction, scoreAction, removeAction])
+            rightNumberCircle.runAction(sequence)
+            
+            nodeRemoved(rightNumberCircle.boardPos!)
+        }else if result == 0 {
+            let waitAction = SKAction.waitForDuration(NSTimeInterval(sequence.duration + 0.1))
+            let disappearAction = actionAnimateNodeDisappear(rightNumberCircle)
+            let removeAction = SKAction.runBlock {
+                rightNumberCircle.removeFromParent()
+            }
+            
+            let sequence = SKAction.sequence([waitAction, disappearAction, removeAction])
+            rightNumberCircle.runAction(sequence)
+            
+            nodeRemoved(rightNumberCircle.boardPos!)
         }
-        
-        let removeNode = (result == targetNumber || result == 0)
+        else {
+            rightNumberCircle.setScore(nodeScore)
+            rightNumberCircle.setNumber(result)
+            rightNumberCircle.neighbor = nil
+        }
         
         operatorsUsed!.append(oper)
         
-        return (result, removeNode)
+        replaceMissingNodes()
+    }
+    
+    func actionAnimateNodeToScore(node: SKNode) -> SKAction {
+        var targetPos = headerController!.getScorePosition()
+        targetPos.y = targetPos.y + frame.height * (1 - constraints.header_height)
+        let moveAction = SKAction.moveTo(targetPos, duration: NSTimeInterval(0.4))
+        let scaleAction = SKAction.scaleTo(0.0, duration: NSTimeInterval(0.4))
+        let actionGroup = SKAction.group([moveAction, scaleAction])
+        
+        return actionGroup
+    }
+    
+    func actionAnimateNodeMerge(nodeTarget: SKNode) -> SKAction {
+        let targetPos = nodeTarget.position
+        let moveAction = SKAction.moveTo(targetPos, duration: NSTimeInterval(0.2))
+        let scaleAction = SKAction.scaleTo(0.0, duration: NSTimeInterval(0.15))
+        let actionGroup = SKAction.group([moveAction, scaleAction])
+        
+        return actionGroup
+    }
+    
+    func actionAnimateNodeDisappear(node: SKNode) -> SKAction {
+        return SKAction.scaleTo(0.0, duration: NSTimeInterval(0.2))
     }
     
     func targetNumberMatched(nodeScore: Int) {

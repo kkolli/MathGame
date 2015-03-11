@@ -186,7 +186,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
                         
-                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                        boardController!.handleMerge(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
             }else{
@@ -219,7 +219,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
                         
-                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                        boardController!.handleMerge(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
             }else{
@@ -229,6 +229,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     }
     
     //TODO: Refactor mergeNodes and handleMerge together
+    /*
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
         let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
 
@@ -238,8 +239,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         */
         
         if removeNode {
-            rightNumberCircle.removeFromParent()
-            boardController!.nodeRemoved(rightNumberCircle.boardPos!)
+            //rightNumberCircle.removeFromParent()
+            //boardController!.nodeRemoved(rightNumberCircle.boardPos!)
         } else {
             rightNumberCircle.setNumber(result)
             rightNumberCircle.neighbor = nil
@@ -248,11 +249,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         leftNumberCircle.removeFromParent()
         opCircle.removeFromParent()
         
-        boardController!.nodeRemoved(leftNumberCircle.boardPos!)
-        boardController!.nodeRemoved(opCircle.boardPos!)
-        
-        boardController!.replaceMissingNodes()
     }
+    */
     
     func didEndContact(contact: SKPhysicsContact) {}
     //func didEndContact(contact: SKPhysicsContact) {}
