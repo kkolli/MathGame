@@ -889,7 +889,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="xfK-l9-L2b" kind="show" id="fH3-n0-Nkr"/>
+                                    <segue destination="YJj-YQ-SHl" kind="show" id="qkf-zK-vrA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1525,7 +1525,7 @@
         <image name="trophy 2" width="39" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fH3-n0-Nkr"/>
+        <segue reference="qkf-zK-vrA"/>
         <segue reference="AdL-6T-hqH"/>
     </inferredMetricsTieBreakers>
 </document>
