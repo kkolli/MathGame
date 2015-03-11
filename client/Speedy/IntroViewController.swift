@@ -22,7 +22,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("in intro view controller")        
+        println("in intro view controller")
 
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.mpcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
@@ -44,7 +44,8 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = false
+        self.navigationController?.navigationItem.hidesBackButton = true
+       
     }
     
     func userSetup(){

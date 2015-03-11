@@ -20,7 +20,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     var user : FBGraphUser!
     var appDelegate:AppDelegate!
     var timer: Timer!
-    var game_start_time = 2 // TODO - modify this somehow later
+    var game_start_time = 60 // TODO - modify this somehow later
     //var score = 0
     //var targetNumber: Int?
     let TIME_DEBUG = false
@@ -31,6 +31,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad();
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.navigationController?.navigationBarHidden = true
+        self.tabBarController?.tabBar.hidden = true
         self.user = appDelegate.user
         println("In Game View controller")
         

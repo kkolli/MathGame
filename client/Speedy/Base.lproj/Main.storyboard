@@ -481,7 +481,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="rdx-aE-Jza" kind="presentation" id="yPX-t0-S1p"/>
+                                    <segue destination="rdx-aE-Jza" kind="show" id="yPX-t0-S1p"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -856,7 +856,8 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="YJj-YQ-SHl" kind="showDetail" id="qkf-zK-vrA"/>
+                                    <action selector="ToMainMenu:" destination="8bK-Y6-6GN" eventType="touchUpInside" id="Jbf-bC-4q1"/>
+                                    <segue destination="YJj-YQ-SHl" kind="show" id="qkf-zK-vrA"/>
                                 </connections>
                             </button>
                         </subviews>
