@@ -401,7 +401,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ca1-uk-TMO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3405" y="339.75"/>
+            <point key="canvasLocation" x="3301.5" y="339.75"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="dya-Li-ERY">
@@ -433,9 +433,6 @@
                             </navigationBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Instructions solo 5s" translatesAutoresizingMaskIntoConstraints="NO" id="Ceo-lz-w5j">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="600"/>
-                                </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lz2-PK-sFa">
                                 <rect key="frame" x="16" y="474" width="568" height="70"/>
@@ -1437,7 +1434,7 @@
                         <outlet property="FBProfilePic" destination="ksW-SY-r3d" id="hKD-kj-00w"/>
                         <outlet property="IntroLabel" destination="xwG-Sn-AE7" id="Qw1-2p-k3m"/>
                         <outlet property="yourHighScore" destination="jOl-wr-YWW" id="tGQ-Ie-B64"/>
-                        <segue destination="Gou-v7-nn8" kind="presentation" identifier="multiplayer_segue" id="nF1-up-h0f"/>
+                        <segue destination="Gou-v7-nn8" kind="show" identifier="multiplayer_segue" id="nF1-up-h0f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tPx-cO-Jh5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1566,7 +1563,7 @@
         <image name="trophy 2" width="39" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AdL-6T-hqH"/>
         <segue reference="qkf-zK-vrA"/>
+        <segue reference="AdL-6T-hqH"/>
     </inferredMetricsTieBreakers>
 </document>
