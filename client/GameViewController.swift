@@ -14,19 +14,18 @@ import Alamofire
 
 class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
-    @IBOutlet weak var GameTimerLabel: UILabel!
-    @IBOutlet weak var GameScoreLabel: UILabel!
-    @IBOutlet weak var GameTargetNumLabel: UILabel!
+   // @IBOutlet weak var GameTimerLabel: UILabel!
+   // @IBOutlet weak var GameScoreLabel: UILabel!
+   // @IBOutlet weak var GameTargetNumLabel: UILabel!
     var user : FBGraphUser!
     var appDelegate:AppDelegate!
     var timer: Timer!
-    var game_max_time = 60 // TODO - modify this somehow later
-    var score = 0
-    var targetNumber: Int?
+    var game_start_time = 60 // TODO - modify this somehow later
+    //var score = 0
+    //var targetNumber: Int?
     let TIME_DEBUG = false
     var scene: GameScene?
     var boardController: BoardController?
-    var operatorsUsed: [Operator]!
     var numTargetNumbersMatched:Int!
     
     override func viewDidLoad() {
@@ -36,29 +35,34 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         println("In Game View controller")
         
         // start the counter to go!
-        timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
+        timer = Timer(duration: game_start_time, {(elapsedTime: Int) -> () in
             if self.timer.getTime() <= 0 {
-                self.GameTimerLabel.text = "done"
+                //self.GameTimerLabel.text = "done"
+                //self.postScore(self.GameScoreLabel.text!)
                 self.performSegueToSummary()
             } else {
                 if self.TIME_DEBUG {
                   println("time printout: " + String(self.timer.getTime()))
                 }
-                self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
+                
+                if self.boardController != nil {
+                    self.boardController?.setTimeInHeader(self.timer.getTime())
+                }
+                //self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
         numTargetNumbersMatched = 0
         
-        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
-        timer.start()
-        GameScoreLabel.text = String(score)
+        //GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
+        
+        //GameScoreLabel.text = String(score)
         
         scene = GameScene(size: view.frame.size)
-        boardController = BoardController(scene: scene!)
-        scene!.boardController = boardController
-        updateTargetNumber()
-        operatorsUsed = []
-       
+    
+        boardController = BoardController(scene: scene!, mode: .MULTI)
+        boardController!.notifyScoreChanged = updateScoreAndTime
+        //scene!.boardController = boardController
+        //updateTargetNumber()
         
         // Configure the view.
         let skView = self.view as SKView
@@ -74,10 +78,12 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         //scene!.scoreHandler = handleMerge
         scene!.physicsWorld.contactDelegate = self
         skView.presentScene(scene)
+        
+        timer.start()
     }
     
+    
     func updateScoreAndTime(){
-        GameScoreLabel.text = String(score)
         if numTargetNumbersMatched > 0 {
             timer.addTime(timer.getExtraTimeSub())
         } else {
@@ -85,6 +91,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         }
         numTargetNumbersMatched!++
     }
+
     
     func postScore(score:String){
         var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
@@ -94,6 +101,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         Alamofire.request(.POST, uri, parameters: parameters, encoding: .JSON)
     }
     
+    /*
     func updateTargetNumber(){
         if targetNumber != nil{
             let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
@@ -104,13 +112,13 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         }
         GameTargetNumLabel.text = String(targetNumber!)
     }
+*/
     
     
     /*
     this takes something like 0 and turns it into 00:00
     and if it takes something like 60 -> 01:00
     if it takes 170 -> 02:10
-    */
     func convertIntToTime(secondsPassed: Int) -> String {
         var count = game_max_time - secondsPassed
         
@@ -139,6 +147,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         return minute_display + ":" + second_display
     }
     
+    */
     func didBeginContact(contact: SKPhysicsContact) {
         var numberBody: SKPhysicsBody
         var opBody: SKPhysicsBody
@@ -219,10 +228,12 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     //TODO: Refactor mergeNodes and handleMerge together
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
-        let (result, removeNode) = handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
-        
+        let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
+
+        /*
         let op1Upgrade = leftNumberCircle.upgrade
         let op2Upgrade = rightNumberCircle.upgrade
+        */
         
         if removeNode {
             rightNumberCircle.removeFromParent()
@@ -241,40 +252,6 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         boardController!.replaceMissingNodes()
     }
     
-    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
-        var result: Int
-        var nodeScore: Int
-        
-        let op1 = leftNumberCircle.number!
-        let op2 = rightNumberCircle.number!
-        let oper = opCircle.op!
-        operatorsUsed.append(oper)
-        
-        switch oper{
-        case .PLUS:
-            result = op1 + op2
-        case .MINUS:
-            result = op1 - op2
-        case .MULTIPLY:
-            result = op1 * op2
-        case .DIVIDE:
-            result = op1 / op2
-        }
-        
-        nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
-        if result == targetNumber{
-            score += nodeScore
-            updateScoreAndTime()
-            updateTargetNumber()
-        }else{
-            rightNumberCircle.setScore(nodeScore)
-        }
-        
-        let removeNode = (result == targetNumber || result == 0)
-        
-        return (result, removeNode)
-    }
-    
     func didEndContact(contact: SKPhysicsContact) {}
     //func didEndContact(contact: SKPhysicsContact) {}
     func performSegueToSummary() {
@@ -286,8 +263,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         if segue.identifier == "segueToSummary" {
             println("performing segue to summary")
             let vc = segue.destinationViewController as SummaryViewController
-            vc.operatorsUsed = operatorsUsed
-            vc.score = score
+            vc.operatorsUsed = boardController!.operatorsUsed
+            vc.score = boardController!.score
             vc.numTargetNumbersMatched = numTargetNumbersMatched
         }
     }

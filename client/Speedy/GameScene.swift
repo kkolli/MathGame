@@ -24,7 +24,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     var releaseOperator: OperatorCircle?
     
     // this shouldn't be here?
-    var boardController: BoardController?
+    //var boardController: BoardController?
     
     var gameFrame: CGRect?
     
@@ -45,6 +45,20 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     func setGameFrame(frame: CGRect) {
         gameFrame = frame
+        setupBoardHeader()
+    }
+    
+    func setupBoardHeader() {
+        if let gf = gameFrame {
+            let frame = CGRectMake(gf.origin.x, gf.origin.y, gf.width, self.frame.height - gf.height)
+            
+            //header = BoardHeader(size: frame, )
+            
+        }
+    }
+    
+    func getActiveNode() -> SKNode? {
+        return activeNode
     }
     
     func determineClosestAnchorPair(position: CGPoint, nodeA: GameCircle, nodeB: GameCircle) -> (CGPoint, CGPoint) {
@@ -200,25 +214,4 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     */
     
     //TODO: Move to GameViewController
-    func upgradeCircle(){
-        let shouldUpgrade = Int(arc4random_uniform(10) + 1)
-            
-        if shouldUpgrade == 1{
-            let upgradeOption = UpgradeOptions(rawValue: Int(arc4random_uniform(2)))
-            
-            let numberCircles = boardController!.getCircleList().filter{$0 is NumberCircle}
-            let upgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade != .None}
-            let unUpgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade == .None}
-            
-            if upgradeOption != .None && upgradedCircles.count < 2{
-                let index = Int(arc4random_uniform(UInt32(unUpgradedCircles.count)))
-                
-                var nodeToUpgrade = unUpgradedCircles[index] as NumberCircle
-                if nodeToUpgrade !== activeNode{
-                    nodeToUpgrade.setUpgrade(upgradeOption!)
-                    nodeToUpgrade.setFillColor(upgradeOption!.upgradeColor())
-                }
-            }
-        }
-    }
 }

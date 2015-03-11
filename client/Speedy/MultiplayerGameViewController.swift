@@ -24,15 +24,12 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     var boardController: BoardController?
     var finishedInit: Bool!
     var user : FBGraphUser!
+    var opponentFirstName: String!
     
     var operatorsUsed: [Operator]!
     var numTargetNumbersMatched: Int!
     
-    @IBOutlet weak var GameTimerLabel: UILabel!
     @IBOutlet weak var counterTimer: UILabel!
-    @IBOutlet weak var PeerCurrentScore: UILabel!
-    @IBOutlet weak var MyCurrentScore: UILabel!
-    @IBOutlet weak var GameTargetNumLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +39,10 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         println("in multiplayer view controller")
 
         scene = GameScene(size: view.frame.size)
-        boardController = BoardController(scene: scene!)
-        scene!.boardController = boardController
         numTargetNumbersMatched = 0
+        boardController = BoardController(scene: scene!, mode: .MULTI)
+        boardController!.notifyScoreChanged = notifyScoreChanged
+   //     scene!.boardController = boardController
         updateTargetNumber()
         operatorsUsed = []
         finishedInit = false
@@ -80,17 +78,20 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         // start the counter to go!
         timer = Timer(duration: game_max_time, {(elapsedTime: Int) -> () in
             if self.timer.getTime() <= 0 {
-                self.GameTimerLabel.text = "done"
+//                self.GameTimerLabel.text = "done"
                 self.performSegueToSummary()
             } else {
                 if self.TIME_DEBUG {
                     println("time printout: " + String(self.timer.getTime()))
                 }
-                self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
+                if self.boardController != nil {
+                    self.boardController?.setTimeInHeader(self.timer.getTime())
+                }
+//                self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
             }
         })
         
-        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
+//        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
     }
     
     func performSegueToSummary() {
@@ -101,8 +102,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         if segue.identifier == "multiplayerSegueToSummary" {
             println("performing segue to summary inside MC Game")
             let vc = segue.destinationViewController as SummaryViewController
-            vc.operatorsUsed = operatorsUsed
-            vc.score = score
+            vc.operatorsUsed = boardController!.operatorsUsed
+            vc.score = boardController!.score
             vc.numTargetNumbersMatched = numTargetNumbersMatched
         }
     }
@@ -134,9 +135,14 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         if msg_type?.isEqualToString("score_update") == true {
             // if this is a score_update, then unwrap for the score changes to the peer
             peer_score = message.objectForKey("score") as Int
+            println("PEER SCORE IN: \(peer_score)")
             setScoreLabels()
         }
         else if msg_type?.isEqualToString("init_state") == true && !self.finishedInit{
+            if opponentFirstName == nil {
+                opponentFirstName = message.objectForKey("first_name") as String
+                boardController!.setOpponentName(opponentFirstName)
+            }
             //Do everything here for beginning countdown
             var recv_counter:Int = msg_val!.integerValue
             var old_counter = countDown
@@ -185,7 +191,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     }
     
     func timeoutCtr(txt: String, resolve: () -> (), reject: () -> ()) {
-        var delta: Int64 = 1 * Int64(NSEC_PER_SEC)
+        var delta: Int64 = 1 * Int64(NSEC_PER_SEC)/2
         var time = dispatch_time(DISPATCH_TIME_NOW, delta)
         
         dispatch_after(time, dispatch_get_main_queue(), {
@@ -203,8 +209,9 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         self.targetNumber = num
     }
     func setScoreLabels() {
-        PeerCurrentScore.text = String(peer_score)
-        MyCurrentScore.text = String(score)
+        boardController!.setOpponentScore(peer_score)
+//        PeerCurrentScore.text = String(peer_score)
+//        MyCurrentScore.text = String(score)
         if (countDown == 0) {
             counterTimer.hidden = true
         } else {
@@ -216,7 +223,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     Just update that we've hit a target number
     add some time 
     */
-    func myScoreChanged() {
+    func updateScoreAndTime() {
         // if we've matched one before
         println("score changing... with num: \(numTargetNumbersMatched) and old timer: \(timer.getTime())")
         if numTargetNumbersMatched > 0 {
@@ -230,19 +237,19 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     
     func updateTargetNumber(){
         if targetNumber != nil{
-            let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
+            let numberCircleList = boardController!.gameCircles.filter{$0 is NumberCircle}
             let numberList = numberCircleList.map{($0 as NumberCircle).number!}
             targetNumber = boardController!.randomNumbers.generateTarget(numberList)
         }else{
             targetNumber = boardController!.randomNumbers.generateTarget()
         }
-        GameTargetNumLabel.text = String(targetNumber!)
+//        GameTargetNumLabel.text = String(targetNumber!)
     }
 
     
     func notifyScoreChanged() {
-        myScoreChanged()
-        var msg = ["type" : "score_update", "score": self.score]
+        updateScoreAndTime()
+        var msg = ["type" : "score_update", "score": boardController!.score]
         let messageData = NSJSONSerialization.dataWithJSONObject(msg, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         var error:NSError?
         
@@ -255,8 +262,8 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     }
     
     func initialCountDown(val:String, changedType:String){
-        println("sending initial count down: " + val)
-        var msg = ["value" : val, "type": changedType]
+        println("sending initial count down: " + val + " and name: \(user.first_name)")
+        var msg = ["value" : val, "type": changedType, "first_name": user.first_name]
         let messageData = NSJSONSerialization.dataWithJSONObject(msg, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         var error:NSError?
         
@@ -268,42 +275,6 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         
     }
     
-    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
-        var result: Int
-        var nodeScore: Int
-        
-        let op1 = leftNumberCircle.number!
-        let op2 = rightNumberCircle.number!
-        let oper = opCircle.op!
-        operatorsUsed.append(oper)
-        
-        switch oper{
-        case .PLUS:
-            result = op1 + op2
-        case .MINUS:
-            result = op1 - op2
-        case .MULTIPLY:
-            result = op1 * op2
-        case .DIVIDE:
-            result = op1 / op2
-        }
-        
-        nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
-        if result == targetNumber{
-            score += nodeScore
-            //myScoreChanged()
-            notifyScoreChanged()
-            setScoreLabels()
-            updateTargetNumber()
-        }else{
-            rightNumberCircle.setScore(nodeScore)
-        }
-        
-        let removeNode = (result == targetNumber || result == 0)
-        
-        return (result, removeNode)
-    }
-
     
     /*
     // MARK: - Navigation
@@ -394,7 +365,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     
    //TODO: Refactor mergeNodes and handleMerge together
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
-        let (result, removeNode) = handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
+        let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
         
         let op1Upgrade = leftNumberCircle.upgrade
         let op2Upgrade = rightNumberCircle.upgrade

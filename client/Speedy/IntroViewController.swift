@@ -164,7 +164,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
                 if appDelegate.mpcHandler.browser != nil {
                     appDelegate.mpcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
                 }
-                hasSeguedToMP = true
+                
                 performSegueToMultiplayer()
             } else {
                 println("there was an error for client server resolution- client: \(self.isServer) serveR: \(isPeerServer)")
@@ -174,7 +174,10 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
 
     
     func performSegueToMultiplayer() {
-        self.performSegueWithIdentifier("multiplayer_segue", sender: nil)
+        if !hasSeguedToMP {
+            self.performSegueWithIdentifier("multiplayer_segue", sender: nil)
+          hasSeguedToMP = true
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {

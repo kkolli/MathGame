@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -356,64 +355,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocx-mf-GFf">
-                                <rect key="frame" x="30" y="289" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-85-3lf">
-                                <rect key="frame" x="104" y="289" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Starting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ND-DL-wxI">
                                 <rect key="frame" x="208" y="276" width="212" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="212" id="hMf-RB-fS8"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="50"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzZ-CR-ZCo">
-                                <rect key="frame" x="30" y="552" width="62" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="1qU-m4-A8l"/>
-                                    <constraint firstAttribute="width" constant="62" id="BRo-Rj-IsR"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
                                 <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZC-kP-7w5">
-                                <rect key="frame" x="179" y="288" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="94" y="316" width="212" height="203"/>
+                                    <mask key="constraints">
+                                        <exclude reference="hMf-RB-fS8"/>
+                                    </mask>
+                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4ND-DL-wxI" firstAttribute="leading" secondItem="oGf-85-3lf" secondAttribute="trailing" constant="62" id="2xB-gy-39B"/>
-                            <constraint firstItem="ocx-mf-GFf" firstAttribute="firstBaseline" secondItem="oGf-85-3lf" secondAttribute="firstBaseline" id="4Z9-OX-DJS"/>
-                            <constraint firstItem="4ND-DL-wxI" firstAttribute="centerY" secondItem="oGf-85-3lf" secondAttribute="centerY" id="IIB-yB-2zL"/>
-                            <constraint firstItem="ocx-mf-GFf" firstAttribute="leading" secondItem="gzZ-CR-ZCo" secondAttribute="leading" id="KI7-Gg-tJv"/>
                             <constraint firstItem="hAl-YI-2mA" firstAttribute="top" secondItem="4ND-DL-wxI" secondAttribute="bottom" constant="277" id="QfA-c0-xPR"/>
-                            <constraint firstItem="ocx-mf-GFf" firstAttribute="baseline" secondItem="oGf-85-3lf" secondAttribute="baseline" id="Y5E-Dc-fdE"/>
-                            <constraint firstItem="oGf-85-3lf" firstAttribute="leading" secondItem="ocx-mf-GFf" secondAttribute="trailing" constant="32" id="ZIB-5J-lsH"/>
-                            <constraint firstItem="hAl-YI-2mA" firstAttribute="top" secondItem="gzZ-CR-ZCo" secondAttribute="bottom" constant="27" id="bkF-Tu-84c"/>
+                            <constraint firstAttribute="centerY" secondItem="4ND-DL-wxI" secondAttribute="centerY" constant="-17.5" id="Sez-dI-suo"/>
+                            <constraint firstAttribute="centerX" secondItem="4ND-DL-wxI" secondAttribute="centerX" id="b4Z-Eg-ibG"/>
                             <constraint firstItem="4ND-DL-wxI" firstAttribute="top" secondItem="sHS-u5-gSh" secondAttribute="bottom" constant="256" id="fan-mW-iup"/>
-                            <constraint firstItem="ocx-mf-GFf" firstAttribute="top" secondItem="sHS-u5-gSh" secondAttribute="bottom" constant="269" id="o7g-Fb-lhu"/>
                             <constraint firstItem="4ND-DL-wxI" firstAttribute="leading" secondItem="U63-Eo-q7O" secondAttribute="leading" constant="208" id="yZN-oQ-I2e"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Sez-dI-suo"/>
+                                <exclude reference="b4Z-Eg-ibG"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="Sez-dI-suo"/>
+                                <include reference="b4Z-Eg-ibG"/>
+                                <exclude reference="fan-mW-iup"/>
+                                <exclude reference="yZN-oQ-I2e"/>
+                                <exclude reference="QfA-c0-xPR"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
-                        <outlet property="GameTargetNumLabel" destination="xZC-kP-7w5" id="utL-ti-hUi"/>
-                        <outlet property="GameTimerLabel" destination="gzZ-CR-ZCo" id="EtH-8v-Kk1"/>
-                        <outlet property="MyCurrentScore" destination="ocx-mf-GFf" id="AJG-SY-3Xf"/>
-                        <outlet property="PeerCurrentScore" destination="oGf-85-3lf" id="8QA-3T-pC5"/>
                         <outlet property="counterTimer" destination="4ND-DL-wxI" id="BWy-Re-VEP"/>
                         <segue destination="8bK-Y6-6GN" kind="show" identifier="multiplayerSegueToSummary" id="AdL-6T-hqH"/>
                     </connections>
@@ -586,9 +568,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="GameScoreLabel" destination="eUH-GN-V7B" id="fXb-wU-ESK"/>
-                        <outlet property="GameTargetNumLabel" destination="lva-Cn-tb7" id="XeS-nY-1DX"/>
-                        <outlet property="GameTimerLabel" destination="ef3-N4-yis" id="stl-WT-ZbS"/>
                         <segue destination="8bK-Y6-6GN" kind="show" identifier="segueToSummary" id="2Au-Ic-4HO"/>
                     </connections>
                 </viewController>

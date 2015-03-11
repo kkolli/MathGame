@@ -7,6 +7,11 @@
 //
 import SpriteKit
 
+enum BoardMode {
+    case SINGLE
+    case MULTI
+}
+
 class BoardController {
     // defines board element positioning, in relative percents
     struct BoardConstraints {
@@ -36,14 +41,25 @@ class BoardController {
     let randomNumbers = RandomNumbers()
     let randomOperators = RandomOperators()
     
-    var circleList: [GameCircle] = []
+    //var circleList: [GameCircle] = []
     var nodeRestPositions = [CGPoint]()
     var gameCircles = [GameCircle?]()
     
-    init(scene s: GameScene, debug d: Bool) {
+    let headerController: BoardHeaderController?
+    let mode: BoardMode?
+    
+    var targetNumber: Int?
+    var score = 0
+    
+    var operatorsUsed: [Operator]!
+    var notifyScoreChanged: (() -> ())!
+    
+    init(mode m: BoardMode, scene s: GameScene, debug d: Bool) {
         scene = s
         frame = scene.frame
         debug = d
+        mode = m;
+        
         
         if debug {
             drawDebugLines()
@@ -52,17 +68,99 @@ class BoardController {
         
         setUpScenePhysics()
         setupBoard()
-        setupLongColFieldNodes()
-        setupShortColFieldNodes()
+        
+        headerController = BoardHeaderController(mode: m, scene: s, frame: createHeaderFrame(), board: self)
+        
         addGameCircles()
+        
+        operatorsUsed = []
     }
     
-    convenience init(scene: GameScene) {
-        self.init(scene: scene, debug: true)
+    func setTimeInHeader(time: Int) {
+        headerController?.setTimeRemaining(time)
+    }
+    
+    func setOpponentScore(score: Int) {
+        println("SETTING OPPONENT SCORE")
+        headerController!.setOpponentScore(score)
+    }
+    
+    func setOpponentName(opponent: String) {
+        headerController!.setOpponentName(opponent)
+    }
+    
+    convenience init(scene: GameScene, mode: BoardMode) {
+        self.init(mode: mode, scene: scene, debug: true)
     }
     
     private func setupBoard() {
-        //scene.backgroundColor = bgColor
+        generateNewTargetNumber()
+        setupLongColFieldNodes()
+        setupShortColFieldNodes()
+    }
+    
+    private func createHeaderFrame() -> CGRect {
+        let x = frame.origin.x
+        let y = frame.origin.y + frame.height * (1 - constraints.header_height)
+        let width = frame.width
+        let height = frame.height * constraints.header_height
+        
+        return CGRect(x: x, y: y, width: width, height: height)
+    }
+    
+    func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
+        println("HANDLING MERGE...")
+        var result: Int
+        var nodeScore: Int
+        
+        let op1 = leftNumberCircle.number!
+        let op2 = rightNumberCircle.number!
+        let oper = opCircle.op!
+        
+        switch oper{
+        case .PLUS:
+            result = op1 + op2
+        case .MINUS:
+            result = op1 - op2
+        case .MULTIPLY:
+            result = op1 * op2
+        case .DIVIDE:
+            result = op1 / op2
+        }
+        
+        nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
+        if result == targetNumber{
+            println("TARGET NUMBER MATCHED: \(result)")
+            // update the score, update the target number, and notify changed
+            targetNumberMatched(nodeScore)
+        }else{
+            rightNumberCircle.setScore(nodeScore)
+        }
+        
+        let removeNode = (result == targetNumber || result == 0)
+        
+        operatorsUsed!.append(oper)
+        
+        return (result, removeNode)
+    }
+    
+    func targetNumberMatched(nodeScore: Int) {
+        score += nodeScore
+        headerController!.setScore(score)
+        generateNewTargetNumber()
+        notifyScoreChanged()
+    }
+    
+    
+    func generateNewTargetNumber(){
+        if targetNumber != nil{
+            let numberList = gameCircles.filter{$0 is NumberCircle}.map{($0 as NumberCircle).number!}
+            targetNumber = randomNumbers.generateTarget(numberList)
+        }else{
+            targetNumber = randomNumbers.generateTarget()
+        }
+        headerController?.setTargetNumber(targetNumber!)
+        //GameTargetNumLabel.text = String(targetNumber!)
     }
     
     func setUpScenePhysics() {
@@ -109,6 +207,28 @@ class BoardController {
     
     func nodeRemoved(pos: Int) {
         gameCircles[pos] = nil
+    }
+    
+    func upgradeCircle(){
+        let shouldUpgrade = Int(arc4random_uniform(10) + 1)
+            
+        if shouldUpgrade == 1{
+            let upgradeOption = UpgradeOptions(rawValue: Int(arc4random_uniform(2)))
+            
+            let numberCircles = gameCircles.filter{$0 is NumberCircle}
+            let upgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade != .None}
+            let unUpgradedCircles = numberCircles.filter{($0 as NumberCircle).upgrade == .None}
+            
+            if upgradeOption != .None && upgradedCircles.count < 2{
+                let index = Int(arc4random_uniform(UInt32(unUpgradedCircles.count)))
+                
+                var nodeToUpgrade = unUpgradedCircles[index] as NumberCircle
+                if nodeToUpgrade !== scene.getActiveNode() {
+                    nodeToUpgrade.setUpgrade(upgradeOption!)
+                    nodeToUpgrade.setFillColor(upgradeOption!.upgradeColor())
+                }
+            }
+        }
     }
     
     func replaceMissingNodes() {
@@ -230,7 +350,7 @@ class BoardController {
             node.setBoardPosition(i)
             gameCircles.append(node)
             scene.addChild(node)
-            circleList.append(node)
+            //circleList.append(node)
         }
     }
     
@@ -399,7 +519,9 @@ class BoardController {
         drawShortColLine()
     }
     
+    /*
     func getCircleList() -> [GameCircle]{
         return circleList
     }
+    */
 }
