@@ -40,6 +40,10 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         hasSeguedToMP = false
         //
         userSetup()
+        
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "mainmenu")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build())
         // Do any additional setup after loading the view.
     }
     

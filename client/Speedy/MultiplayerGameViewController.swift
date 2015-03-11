@@ -92,6 +92,9 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         })
         
 //        GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "multiplayer")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
     
     func performSegueToSummary() {

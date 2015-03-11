@@ -11,6 +11,7 @@
 import SpriteKit
 import UIKit
 import Alamofire
+import Crashlytics
 
 class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
@@ -30,6 +31,9 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        // UNCOMMENT THIS TO TEST CRASHLYTICS
+        //        Crashlytics.sharedInstance().crash()
+
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         self.navigationController?.navigationBarHidden = true
         self.tabBarController?.tabBar.hidden = true
@@ -82,6 +86,9 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         skView.presentScene(scene)
         
         timer.start()
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "singleplayer")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
     
     
@@ -260,6 +267,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        println("preparing for segue!!")
         if segue.identifier == "segueToSummary" {
             println("performing segue to summary")
             let vc = segue.destinationViewController as SummaryViewController

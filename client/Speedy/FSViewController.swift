@@ -18,6 +18,10 @@ class FSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "high scores")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
 
     override func didReceiveMemoryWarning() {
