@@ -28,7 +28,16 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
     
     var gameFrame: CGRect?
     
-    var header: BoardHeader?
+    override init(size: CGSize){
+        super.init(size: size)
+        
+        let background = SKSpriteNode(imageNamed: "background_graph_paper")
+        addChild(background)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func didMoveToView(view: SKView) {
         //setUpPhysics()

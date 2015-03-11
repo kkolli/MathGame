@@ -191,7 +191,7 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
     }
     
     func timeoutCtr(txt: String, resolve: () -> (), reject: () -> ()) {
-        var delta: Int64 = 1 * Int64(NSEC_PER_SEC)
+        var delta: Int64 = 1 * Int64(NSEC_PER_SEC)/2
         var time = dispatch_time(DISPATCH_TIME_NOW, delta)
         
         dispatch_after(time, dispatch_get_main_queue(), {

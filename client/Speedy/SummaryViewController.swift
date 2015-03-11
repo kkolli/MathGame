@@ -9,53 +9,89 @@
 import UIKit
 import Alamofire
 
-class SummaryViewController: UIViewController {
+class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     var score: Int!
     var operatorsUsed: [Operator]!
     var numTargetNumbersMatched: Int!
     var user : FBGraphUser!
     var appDelegate:AppDelegate!
+    var keys: [String] = []
+    var vals: [Int] = []
     
-    @IBOutlet weak var NumTargetResultLabel: UILabel!
-    @IBOutlet weak var ScoreResultLabel: UILabel!
-    @IBOutlet weak var OperatorResultLabel: UILabel!
+    let evenCellColor = UIColor(red: CGFloat(43/255.0), green: CGFloat(176/255.0), blue: CGFloat(237/255.0), alpha: 1.0)
+    let oddCellColor = UIColor(red: CGFloat(14/255.0), green: CGFloat(125/255.0), blue: CGFloat(206/255.0), alpha: 1.0)
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setup the user instance
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         self.user = appDelegate.user
         
-        displayOperators()
-        displayScoresAndTarget()
+        addScore()
+        addTargetNumberCount()
+        countOperators()
         postScore(String(score))
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    func displayOperators() {
-        var numPlus = 0, numMinus = 0, numMult = 0, numDiv = 0
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return keys.count;
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        tableView.backgroundColor = UIColor.clearColor()
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("SummaryCell") as SummaryCell
+        
+        let key = keys[indexPath.row]
+        let value = vals[indexPath.row]
+        
+        println(value)
+        cell.keyLabel.text = key
+        cell.keyLabel.textColor = UIColor.whiteColor()
+        cell.valueLabel.text = String(value)
+        cell.valueLabel.textColor = UIColor.whiteColor()
+        cell.backgroundColor = indexPath.row % 2 == 0 ? evenCellColor : oddCellColor
+        
+        return cell
+    }
+    
+    func addScore(){
+        keys.append("Score")
+        vals.append(score)
+    }
+    
+    func addTargetNumberCount(){
+        keys.append("Target Number count")
+        vals.append(numTargetNumbersMatched)
+    }
+    
+    func countOperators(){
+        let operators = ["Addition count",
+                        "Subtraction count",
+                        "Multiplication count",
+                        "Division count"]
+        var counts = [Int](count: 4, repeatedValue: 0)
+        
         for oper in operatorsUsed {
             switch oper {
-            case .PLUS: numPlus++
-            case .MINUS: numMinus++
-            case .MULTIPLY: numMult++
-            case .DIVIDE: numDiv++
+            case .PLUS: counts[0]++
+            case .MINUS: counts[1]++
+            case .MULTIPLY: counts[2]++
+            case .DIVIDE: counts[3]++
             default: break
             }
         }
-        
-        var str = "Plus: \(numPlus) times\nMinus: \(numMinus) times\nMultiply: \(numMult) times\nDivide: \(numDiv) times"
-        OperatorResultLabel.text = str
+
+        keys += operators
+        vals += counts
     }
     
-    func displayScoresAndTarget() {
-        ScoreResultLabel.text = "Score: \(score)"
-        NumTargetResultLabel.text = String(numTargetNumbersMatched)
-    }
     func postScore(score:String){
         var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
         let parameters = [
@@ -63,15 +99,4 @@ class SummaryViewController: UIViewController {
         ]
         Alamofire.request(.POST, uri, parameters: parameters, encoding: .JSON)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
