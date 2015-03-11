@@ -20,7 +20,6 @@ class MainMenuViewController: UITabBarController {
         let navVC = self.viewControllers![0] as UINavigationController
         let introVC = navVC.topViewController as IntroViewController
         introVC.user = user
-        
         getFriends(loadAfterGetFriends)
     }
 

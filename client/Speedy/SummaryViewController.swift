@@ -35,6 +35,10 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         postScore(String(score))
     }
 
+    @IBAction func ToMainMenu(sender: AnyObject) {
+        self.navigationController?.navigationBarHidden = false
+        self.tabBarController?.tabBar.hidden = false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

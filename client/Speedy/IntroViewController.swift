@@ -22,9 +22,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         println("in intro view controller")
-        
 
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.mpcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
@@ -43,6 +41,11 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         //
         userSetup()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.navigationItem.hidesBackButton = true
+       
     }
     
     func userSetup(){

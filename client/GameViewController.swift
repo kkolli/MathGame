@@ -31,6 +31,8 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad();
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.navigationController?.navigationBarHidden = true
+        self.tabBarController?.tabBar.hidden = true
         self.user = appDelegate.user
         println("In Game View controller")
         
