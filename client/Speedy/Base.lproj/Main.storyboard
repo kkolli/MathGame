@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -669,7 +669,9 @@
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="top" secondItem="c51-vI-lqn" secondAttribute="topMargin" constant="3" id="AhX-4h-Zze"/>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="firstBaseline" secondItem="FFf-VS-uog" secondAttribute="firstBaseline" id="GIJ-ir-n9o"/>
                                                 <constraint firstItem="FFf-VS-uog" firstAttribute="leading" secondItem="AIP-kf-AyD" secondAttribute="trailing" constant="22" id="TXe-ba-7kG"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="FFf-VS-uog" secondAttribute="trailing" constant="8" id="bhY-Ar-71g"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="FFf-VS-uog" secondAttribute="trailing" constant="8" id="bhY-Ar-71g">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="88"/>
+                                                </constraint>
                                                 <constraint firstItem="FFf-VS-uog" firstAttribute="centerY" secondItem="c51-vI-lqn" secondAttribute="centerY" id="efI-zh-rWs"/>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="baseline" secondItem="FFf-VS-uog" secondAttribute="baseline" id="lrF-Sc-mOK"/>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="leading" secondItem="c51-vI-lqn" secondAttribute="leadingMargin" id="phE-qo-txb"/>
@@ -770,7 +772,7 @@
                                     <constraint firstAttribute="width" constant="310" id="yHm-qn-Bzf"/>
                                     <constraint firstAttribute="width" constant="310" id="yI9-NM-TIv"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="Solo Button">
+                                <state key="normal" backgroundImage="Main Menu">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1514,6 +1516,7 @@
     </scenes>
     <resources>
         <image name="Instructions solo 5s" width="640" height="885"/>
+        <image name="Main Menu" width="200" height="40"/>
         <image name="Menu" width="34" height="34"/>
         <image name="Play" width="200" height="41"/>
         <image name="Settings" width="200" height="40"/>
