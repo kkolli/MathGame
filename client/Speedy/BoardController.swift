@@ -80,6 +80,15 @@ class BoardController {
         headerController?.setTimeRemaining(time)
     }
     
+    func setOpponentScore(score: Int) {
+        println("SETTING OPPONENT SCORE")
+        headerController!.setOpponentScore(score)
+    }
+    
+    func setOpponentName(opponent: String) {
+        headerController!.setOpponentName(opponent)
+    }
+    
     convenience init(scene: GameScene, mode: BoardMode) {
         self.init(mode: mode, scene: scene, debug: true)
     }
@@ -100,6 +109,7 @@ class BoardController {
     }
     
     func handleMerge(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle) -> (Int, Bool){
+        println("HANDLING MERGE...")
         var result: Int
         var nodeScore: Int
         
@@ -120,6 +130,7 @@ class BoardController {
         
         nodeScore = leftNumberCircle.getScore() + rightNumberCircle.getScore() * ScoreMultiplier.getMultiplierFactor(oper)
         if result == targetNumber{
+            println("TARGET NUMBER MATCHED: \(result)")
             // update the score, update the target number, and notify changed
             targetNumberMatched(nodeScore)
         }else{

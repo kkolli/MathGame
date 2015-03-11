@@ -24,7 +24,7 @@ class BoardHeaderController {
             view = BoardHeader(frame: f, targetNum: b.targetNumber!, time: 600)
             s.addChild(view)
         } else {
-            view = BoardHeader(frame: f, targetNum: b.targetNumber!, time: 600, opponentName: "Bob")
+            view = BoardHeader(frame: f, targetNum: b.targetNumber!, time: 600, opponentName: "")
             s.addChild(view)
         }
     }
