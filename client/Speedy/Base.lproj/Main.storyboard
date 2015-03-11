@@ -669,7 +669,9 @@
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="top" secondItem="c51-vI-lqn" secondAttribute="topMargin" constant="3" id="AhX-4h-Zze"/>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="firstBaseline" secondItem="FFf-VS-uog" secondAttribute="firstBaseline" id="GIJ-ir-n9o"/>
                                                 <constraint firstItem="FFf-VS-uog" firstAttribute="leading" secondItem="AIP-kf-AyD" secondAttribute="trailing" constant="22" id="TXe-ba-7kG"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="FFf-VS-uog" secondAttribute="trailing" constant="8" id="bhY-Ar-71g"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="FFf-VS-uog" secondAttribute="trailing" constant="8" id="bhY-Ar-71g">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="88"/>
+                                                </constraint>
                                                 <constraint firstItem="FFf-VS-uog" firstAttribute="centerY" secondItem="c51-vI-lqn" secondAttribute="centerY" id="efI-zh-rWs"/>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="baseline" secondItem="FFf-VS-uog" secondAttribute="baseline" id="lrF-Sc-mOK"/>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="leading" secondItem="c51-vI-lqn" secondAttribute="leadingMargin" id="phE-qo-txb"/>
@@ -887,7 +889,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="xfK-l9-L2b" kind="show" id="fH3-n0-Nkr"/>
+                                    <segue destination="YJj-YQ-SHl" kind="show" id="qkf-zK-vrA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1522,7 +1524,7 @@
         <image name="trophy 2" width="39" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fH3-n0-Nkr"/>
+        <segue reference="qkf-zK-vrA"/>
         <segue reference="AdL-6T-hqH"/>
     </inferredMetricsTieBreakers>
 </document>
