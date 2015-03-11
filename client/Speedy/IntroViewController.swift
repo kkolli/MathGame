@@ -135,11 +135,15 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         let myIDArr = Array(appDelegate.mpcHandler.peerID.displayName.generate())
         let otherIDArr = Array(peerID.displayName.generate())
         
+        
         let iter_count = max(myIDArr.count, otherIDArr.count)
         for i in 0...iter_count-1 {
-            if (myIDArr[i] > otherIDArr[i]) {
+            if (myIDArr[i] == otherIDArr[i]) {
+                continue
+            } else if (myIDArr[i] > otherIDArr[i]) {
                 return true
-            } else {
+            }
+            else{
                 return false
             }
         }
