@@ -20,7 +20,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
     var user : FBGraphUser!
     var appDelegate:AppDelegate!
     var timer: Timer!
-    var game_start_time = 60 // TODO - modify this somehow later
+    var game_start_time = 2 // TODO - modify this somehow later
     //var score = 0
     //var targetNumber: Int?
     let TIME_DEBUG = false

@@ -355,7 +355,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Starting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ND-DL-wxI">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ND-DL-wxI">
                                 <rect key="frame" x="208" y="276" width="212" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="212" id="hMf-RB-fS8"/>
@@ -433,6 +433,9 @@
                             </navigationBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Instructions solo 5s" translatesAutoresizingMaskIntoConstraints="NO" id="Ceo-lz-w5j">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="64" width="400" height="600"/>
+                                </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lz2-PK-sFa">
                                 <rect key="frame" x="16" y="474" width="568" height="70"/>
@@ -447,7 +450,7 @@
                                     </constraint>
                                     <constraint firstAttribute="height" constant="60" id="u4k-Jx-gz2"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="Play">
+                                <state key="normal" backgroundImage="Play-1">
                                     <color key="titleColor" red="0.99294738999999999" green="1" blue="0.98448069640000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -465,7 +468,8 @@
                                         <include reference="u4k-Jx-gz2"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="100" y="683" width="200" height="41"/>
                                     <mask key="constraints">
                                         <include reference="Msb-Zw-cns"/>
                                         <exclude reference="Shy-xS-kFm"/>
@@ -602,6 +606,9 @@
                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="8" y="11" width="129" height="22"/>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFf-VS-uog">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -616,7 +623,8 @@
                                                             <exclude reference="gIp-WC-TcX"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="163" y="11" width="149" height="23.5"/>
                                                         <mask key="constraints">
                                                             <include reference="gIp-WC-TcX"/>
                                                         </mask>
@@ -848,7 +856,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="YJj-YQ-SHl" kind="show" id="qkf-zK-vrA"/>
+                                    <segue destination="YJj-YQ-SHl" kind="showDetail" id="qkf-zK-vrA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1550,14 +1558,14 @@
         <image name="Instructions solo 5s" width="640" height="885"/>
         <image name="Main Menu" width="200" height="40"/>
         <image name="Menu" width="34" height="34"/>
-        <image name="Play" width="200" height="41"/>
+        <image name="Play-1" width="200" height="40"/>
         <image name="Settings" width="200" height="40"/>
         <image name="Solo Button" width="200" height="40"/>
         <image name="Versus Button" width="200" height="40"/>
         <image name="trophy 2" width="39" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rau-il-ZUN"/>
         <segue reference="AdL-6T-hqH"/>
+        <segue reference="qkf-zK-vrA"/>
     </inferredMetricsTieBreakers>
 </document>
