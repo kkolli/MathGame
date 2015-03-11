@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -657,8 +658,7 @@
                                                             <exclude reference="gIp-WC-TcX"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="243" y="9" width="149" height="22"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="gIp-WC-TcX"/>
                                                         </mask>
@@ -667,7 +667,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="FFf-VS-uog" firstAttribute="leading" secondItem="AIP-kf-AyD" secondAttribute="trailing" constant="37" id="5rL-Wy-mTd">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="21"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="26"/>
                                                 </constraint>
                                                 <constraint firstItem="AIP-kf-AyD" firstAttribute="leading" secondItem="c51-vI-lqn" secondAttribute="leadingMargin" id="C6c-2L-LS7"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="AIP-kf-AyD" secondAttribute="bottom" constant="2.5" id="MJA-wf-V0U"/>
@@ -676,7 +676,7 @@
                                                     <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                 </constraint>
                                                 <constraint firstItem="FFf-VS-uog" firstAttribute="centerY" secondItem="c51-vI-lqn" secondAttribute="centerY" id="efI-zh-rWs">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="-2"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="1"/>
                                                 </constraint>
                                             </constraints>
                                             <variation key="default">
@@ -1489,7 +1489,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KQc-Ta-r5T" userLabel="Login View" customClass="FBLoginView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KQc-Ta-r5T" userLabel="Login View" customClass="FBLoginView">
                                 <rect key="frame" x="163" y="434" width="274" height="116"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1513,47 +1513,47 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="XJ1-Za-QWh"/>
-                                        <exclude reference="Sfn-Nu-pKz"/>
-                                        <exclude reference="z0A-Oz-Mam"/>
-                                        <exclude reference="SDE-4H-HWs"/>
-                                        <exclude reference="n4b-vp-drW"/>
-                                        <exclude reference="jY7-kf-fNR"/>
-                                        <exclude reference="VUu-Zw-Aaf"/>
-                                        <exclude reference="PP8-6G-4we"/>
-                                        <exclude reference="JLw-BW-qq9"/>
                                         <exclude reference="0mQ-Kr-jz4"/>
-                                        <exclude reference="DpH-SV-794"/>
-                                        <exclude reference="CXW-e7-ZYY"/>
                                         <exclude reference="7JW-lg-Ip7"/>
-                                        <exclude reference="tWL-af-3jb"/>
+                                        <exclude reference="CXW-e7-ZYY"/>
+                                        <exclude reference="DpH-SV-794"/>
+                                        <exclude reference="JLw-BW-qq9"/>
+                                        <exclude reference="PP8-6G-4we"/>
+                                        <exclude reference="SDE-4H-HWs"/>
+                                        <exclude reference="Sfn-Nu-pKz"/>
+                                        <exclude reference="VUu-Zw-Aaf"/>
                                         <exclude reference="X08-Te-Lwr"/>
+                                        <exclude reference="XJ1-Za-QWh"/>
+                                        <exclude reference="jY7-kf-fNR"/>
+                                        <exclude reference="n4b-vp-drW"/>
+                                        <exclude reference="tWL-af-3jb"/>
+                                        <exclude reference="z0A-Oz-Mam"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=compact-widthClass=compact">
                                     <mask key="constraints">
+                                        <include reference="0mQ-Kr-jz4"/>
                                         <include reference="SDE-4H-HWs"/>
                                         <include reference="VUu-Zw-Aaf"/>
-                                        <include reference="0mQ-Kr-jz4"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
+                                        <exclude reference="bwf-JJ-ygE"/>
                                         <exclude reference="cCd-hP-vq3"/>
                                         <include reference="jY7-kf-fNR"/>
-                                        <exclude reference="bwf-JJ-ygE"/>
                                         <include reference="tWL-af-3jb"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
-                                        <exclude reference="Sfn-Nu-pKz"/>
-                                        <exclude reference="z0A-Oz-Mam"/>
-                                        <exclude reference="n4b-vp-drW"/>
-                                        <exclude reference="JLw-BW-qq9"/>
-                                        <include reference="DpH-SV-794"/>
-                                        <include reference="CXW-e7-ZYY"/>
                                         <include reference="7JW-lg-Ip7"/>
+                                        <include reference="CXW-e7-ZYY"/>
+                                        <include reference="DpH-SV-794"/>
+                                        <exclude reference="JLw-BW-qq9"/>
+                                        <exclude reference="Sfn-Nu-pKz"/>
+                                        <exclude reference="n4b-vp-drW"/>
+                                        <exclude reference="z0A-Oz-Mam"/>
                                     </mask>
                                 </variation>
                             </view>
