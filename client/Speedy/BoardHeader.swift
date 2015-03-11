@@ -20,6 +20,8 @@ private struct BoardHeaderConstraints {
     static let timerValueBaseline: CGFloat = 0.15
     static let sideLabelBaseline: CGFloat = 0.40
     static let sideValueBaseline: CGFloat = 0.10
+    static let topValueUpperBaseline: CGFloat = 0.65
+    static let topValueLowerBaseline: CGFloat = 0.40
 }
 
 class BoardHeader : SKSpriteNode {
@@ -88,6 +90,7 @@ class BoardHeader : SKSpriteNode {
         score = 0
         target = targetNum
         targetLabel.text = "Target"
+        timerValue.fontName = "HelveticaNeue-Thin"
         self.anchorPoint = CGPointMake(0, 0)
         self.position = frame.origin
     }
@@ -104,20 +107,10 @@ class BoardHeader : SKSpriteNode {
         self.init(mode: .MULTI, frame: frame, targetNum: targetNum, time: time)
         self.opponentName = opponentName
         opponentScore = 0
+        scoreLabel.text = "You"
         addChildrenForMultiPlayer(frame)
     }
     
-/*
-    private let timerValue = SKLabelNode()
-    private let scoreLabel = SKLabelNode()
-    private let scoreValue = SKLabelNode()
-    private let targetLabel = SKLabelNode()
-    private let targetValue = SKLabelNode()
-    
-    // these may never be used, so declare them as lazy
-    private lazy var opponentScoreLabel = SKLabelNode()
-    private lazy var opponentScoreValue = SKLabelNode()
-*/
     func addChildrenForSinglePlayer(frame: CGRect) {
         let centerColStart = frame.width * BoardHeaderConstraints.leftColWidth
         let centerColEnd = centerColStart + frame.width * BoardHeaderConstraints.centerColWidth
@@ -164,11 +157,70 @@ class BoardHeader : SKSpriteNode {
         targetValue.fontSize = 24
         
         self.addChild(targetValue)
-        
     }
     
     func addChildrenForMultiPlayer(frame: CGRect) {
+        let centerColStart = frame.width * BoardHeaderConstraints.leftColWidth
+        let centerColEnd = centerColStart + frame.width * BoardHeaderConstraints.centerColWidth
+        let centerColMid = centerColStart + (centerColEnd - centerColStart) / 2
+        let leftColMid = (frame.width * BoardHeaderConstraints.leftColWidth) / 2
+        let rightColMid =  centerColEnd + (frame.width - frame.width * (1 - BoardHeaderConstraints.rightColWidth)) / 2
         
+        // setup timer value
+        let timerLabelX = centerColMid
+        let timerLabelY = frame.height * BoardHeaderConstraints.timerValueBaseline / 2
+        timerValue.position = CGPointMake(timerLabelX, timerLabelY)
+        timerValue.fontSize = 32
+        
+        self.addChild(timerValue)
+        
+        // setup score label
+        let scoreLabelX = leftColMid
+        let scoreLabelY = frame.height * BoardHeaderConstraints.sideLabelBaseline
+        scoreLabel.position = CGPointMake(scoreLabelX, scoreLabelY)
+        scoreLabel.fontSize = 24
+        
+        self.addChild(scoreLabel)
+        
+        // setup score value
+        let scoreValueX = leftColMid
+        let scoreValueY = frame.height * BoardHeaderConstraints.sideValueBaseline
+        scoreValue.position = CGPointMake(scoreValueX, scoreValueY)
+        scoreValue.fontSize = 24
+        
+        self.addChild(scoreValue)
+        
+        // setup opponent score label
+        let opponentNameX = rightColMid
+        let opponentNameY = frame.height * BoardHeaderConstraints.sideLabelBaseline
+        opponentScoreLabel.position = CGPointMake(opponentNameX, opponentNameY)
+        opponentScoreLabel.fontSize = 24
+        
+        self.addChild(opponentScoreLabel)
+        
+        // setup opponent score value
+        let opponentScoreX = rightColMid
+        let opponentScoreY = frame.height * BoardHeaderConstraints.sideValueBaseline
+        opponentScoreValue.position = CGPointMake(opponentScoreX, opponentScoreY)
+        opponentScoreValue.fontSize = 24
+        
+        self.addChild(opponentScoreValue)
+        
+        // setup target label
+        let targetLabelX = centerColMid
+        let targetLabelY = frame.height * BoardHeaderConstraints.topValueUpperBaseline
+        targetLabel.position = CGPointMake(targetLabelX, targetLabelY)
+        targetLabel.fontSize = 16
+        
+        self.addChild(targetLabel)
+        
+        // setup target value
+        let targetValueX = centerColMid
+        let targetValueY = frame.height * BoardHeaderConstraints.topValueLowerBaseline
+        targetValue.position = CGPointMake(targetValueX, targetValueY)
+        targetValue.fontSize = 24
+        
+        self.addChild(targetValue)
     }
     
     func convertIntToTimeString(time: Int) -> String {

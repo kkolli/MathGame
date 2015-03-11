@@ -20,8 +20,13 @@ class BoardHeaderController {
         frame = f
         board = b
         
-        view = BoardHeader(frame: f, targetNum: b.targetNumber!, time: 600)
-        s.addChild(view)
+        if mode == .SINGLE {
+            view = BoardHeader(frame: f, targetNum: b.targetNumber!, time: 600)
+            s.addChild(view)
+        } else {
+            view = BoardHeader(frame: f, targetNum: b.targetNumber!, time: 600, opponentName: "Bob")
+            s.addChild(view)
+        }
     }
     
     func setTargetNumber(num: Int) {
@@ -34,5 +39,13 @@ class BoardHeaderController {
     
     func setScore(currentScore: Int) {
         view.score = currentScore
+    }
+    
+    func setOpponentName(opponent: String) {
+        view.opponentName = opponent
+    }
+    
+    func setOpponentScore(opponentScore: Int) {
+        view.opponentScore = opponentScore
     }
 }

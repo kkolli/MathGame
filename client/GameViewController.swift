@@ -59,7 +59,7 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         
         scene = GameScene(size: view.frame.size)
     
-        boardController = BoardController(scene: scene!, mode: .SINGLE)
+        boardController = BoardController(scene: scene!, mode: .MULTI)
         boardController!.notifyScoreChanged = updateScoreAndTime
         //scene!.boardController = boardController
         //updateTargetNumber()
