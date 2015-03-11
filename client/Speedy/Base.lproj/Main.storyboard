@@ -477,7 +477,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="rdx-aE-Jza" kind="showDetail" id="yPX-t0-S1p"/>
+                                    <segue destination="rdx-aE-Jza" kind="presentation" id="yPX-t0-S1p"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1428,7 +1428,7 @@
                         <outlet property="FBProfilePic" destination="ksW-SY-r3d" id="hKD-kj-00w"/>
                         <outlet property="IntroLabel" destination="xwG-Sn-AE7" id="Qw1-2p-k3m"/>
                         <outlet property="yourHighScore" destination="jOl-wr-YWW" id="tGQ-Ie-B64"/>
-                        <segue destination="Gou-v7-nn8" kind="show" identifier="multiplayer_segue" id="nF1-up-h0f"/>
+                        <segue destination="Gou-v7-nn8" kind="presentation" identifier="multiplayer_segue" id="nF1-up-h0f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tPx-cO-Jh5" userLabel="First Responder" sceneMemberID="firstResponder"/>

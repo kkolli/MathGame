@@ -23,10 +23,7 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println("in intro view controller")
-        self.navigationController?.navigationBarHidden = false
-        self.tabBarController?.tabBar.hidden = false
-        
+        println("in intro view controller")        
 
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.mpcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
