@@ -176,6 +176,7 @@ class BoardController {
             let sequence = SKAction.sequence([waitAction, disappearAction, removeAction])
             rightNumberCircle.runAction(sequence)
             
+            rightNumberCircle.setNumber(result)
             nodeRemoved(rightNumberCircle.boardPos!)
         }
         else {
