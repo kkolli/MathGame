@@ -664,10 +664,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/choucalate/Documents/FacebookSDK,
-					"$(PROJECT_DIR)",
-					/Users/edwardchiou/Documents/FacebookSDK,
-					/Users/choucalate/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -675,7 +672,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDK.framework/Versions/A",
-					/Users/choucalate/Downloads/GoogleAnalyticsServicesiOS_3.10,
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -694,10 +690,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/choucalate/Documents/FacebookSDK,
-					"$(PROJECT_DIR)",
-					/Users/edwardchiou/Documents/FacebookSDK,
-					/Users/choucalate/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -705,7 +698,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDK.framework/Versions/A",
-					/Users/choucalate/Downloads/GoogleAnalyticsServicesiOS_3.10,
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
