@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,14 +16,18 @@
                         <constraint firstAttribute="height" constant="134" id="7Ec-OP-gki">
                             <variation key="heightClass=regular-widthClass=compact" constant="117"/>
                         </constraint>
+                        <constraint firstAttribute="height" constant="115" id="cFZ-WV-ZNK"/>
                         <constraint firstAttribute="width" constant="166" id="pRn-pj-Zf5">
                             <variation key="heightClass=regular-widthClass=compact" constant="145"/>
                         </constraint>
+                        <constraint firstAttribute="width" constant="137" id="wtB-3d-jOI"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="7Ec-OP-gki"/>
+                            <exclude reference="cFZ-WV-ZNK"/>
                             <exclude reference="pRn-pj-Zf5"/>
+                            <exclude reference="wtB-3d-jOI"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact">
@@ -32,36 +36,47 @@
                             <include reference="pRn-pj-Zf5"/>
                         </mask>
                     </variation>
+                    <variation key="heightClass=regular-widthClass=regular">
+                        <mask key="constraints">
+                            <include reference="cFZ-WV-ZNK"/>
+                            <include reference="wtB-3d-jOI"/>
+                        </mask>
+                    </variation>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Speedy" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
                     <rect key="frame" x="20" y="140" width="441" height="43"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.090196078430000007" green="0.69019607839999997" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="yIS-dZ-b3S" secondAttribute="centerX" id="5Xr-rr-w0w"/>
+                <constraint firstAttribute="centerX" secondItem="yIS-dZ-b3S" secondAttribute="centerX" id="HZ6-sa-hSX"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="yIS-dZ-b3S" secondAttribute="bottom" constant="8" id="IFQ-vd-pi6"/>
                 <constraint firstAttribute="centerY" secondItem="yIS-dZ-b3S" secondAttribute="centerY" id="KIs-yT-I6z"/>
                 <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
+                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="SDs-DU-YVa"/>
                 <constraint firstItem="yIS-dZ-b3S" firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="ZVo-zE-94c"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="yIS-dZ-b3S" secondAttribute="bottom" constant="8" id="bBj-Up-cCv">
                     <variation key="heightClass=regular-widthClass=compact" constant="-4"/>
                 </constraint>
+                <constraint firstAttribute="centerY" secondItem="yIS-dZ-b3S" secondAttribute="centerY" id="e1B-nw-xOt"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="yIS-dZ-b3S"/>
-                </mask>
                 <mask key="constraints">
                     <exclude reference="5Xr-rr-w0w"/>
+                    <exclude reference="HZ6-sa-hSX"/>
                     <exclude reference="KIs-yT-I6z"/>
                     <exclude reference="ZVo-zE-94c"/>
+                    <exclude reference="e1B-nw-xOt"/>
+                    <exclude reference="IFQ-vd-pi6"/>
+                    <exclude reference="SDs-DU-YVa"/>
                     <exclude reference="bBj-Up-cCv"/>
                 </mask>
             </variation>
@@ -74,6 +89,14 @@
                     <include reference="KIs-yT-I6z"/>
                     <exclude reference="ZVo-zE-94c"/>
                     <include reference="bBj-Up-cCv"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <include reference="HZ6-sa-hSX"/>
+                    <include reference="e1B-nw-xOt"/>
+                    <include reference="IFQ-vd-pi6"/>
+                    <include reference="SDs-DU-YVa"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="404" y="445"/>

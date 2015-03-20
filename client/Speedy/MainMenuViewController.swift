@@ -36,10 +36,10 @@ class MainMenuViewController: UITabBarController {
         var uri = "http://mathisspeedy.herokuapp.com/friend_scores/" + user.objectID
         Alamofire.request(.GET, uri)
             .responseJSON { (request, response, data, error) in
-                //println("request: \(request)")
-                //println("response: \(response)")
-                //println("data: \(data)")
-                //println("error: \(error)")
+                println("request: \(request)")
+                println("response: \(response)")
+                println("data: \(data)")
+                println("error: \(error)")
                 if error != nil || data == nil ||  data!.objectForKey("friends") == nil {
                     println(" errors found")
                 } else {
