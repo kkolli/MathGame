@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nLq-xe-jmM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -466,7 +466,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lz2-PK-sFa">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lz2-PK-sFa">
                                 <rect key="frame" x="200" y="488" width="200" height="70"/>
                                 <rect key="contentStretch" x="0.0" y="1" width="1" height="1"/>
                                 <constraints>
@@ -1269,8 +1269,7 @@
                                         <exclude reference="oH4-so-jh5"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="205" y="519" width="190" height="35"/>
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
                                         <include reference="AYm-WC-ORu"/>
                                         <exclude reference="OP3-FO-WUw"/>
@@ -1323,9 +1322,6 @@
                                 <state key="normal" backgroundImage="Settings">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="205" y="632" width="190" height="35"/>
-                                </variation>
                                 <connections>
                                     <segue destination="mdK-Ko-cDt" kind="show" id="4nu-PD-Y4B"/>
                                 </connections>
@@ -1441,8 +1437,7 @@
                                         <exclude reference="vPh-bQ-Btg"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="205" y="576" width="190" height="35"/>
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
                                         <exclude reference="5aW-rq-TQE"/>
                                         <exclude reference="8XQ-Db-qWr"/>
@@ -1516,7 +1511,9 @@
                             <constraint firstItem="ksW-SY-r3d" firstAttribute="top" secondItem="Obz-iJ-zKN" secondAttribute="top" constant="145" id="RBZ-2w-qRk">
                                 <variation key="heightClass=regular-widthClass=regular" constant="242"/>
                             </constraint>
-                            <constraint firstItem="WM3-Ax-Z9w" firstAttribute="top" secondItem="njH-S4-Fuh" secondAttribute="bottom" constant="133" id="Rbi-JL-Vi6"/>
+                            <constraint firstItem="WM3-Ax-Z9w" firstAttribute="top" secondItem="njH-S4-Fuh" secondAttribute="bottom" constant="133" id="Rbi-JL-Vi6">
+                                <variation key="heightClass=regular-widthClass=regular" constant="84"/>
+                            </constraint>
                             <constraint firstItem="Y1h-dJ-KgU" firstAttribute="width" secondItem="Oyc-kN-sX6" secondAttribute="width" id="WTs-tH-1YT"/>
                             <constraint firstAttribute="centerX" secondItem="jOl-wr-YWW" secondAttribute="centerX" id="a3O-9q-QRl"/>
                             <constraint firstItem="ksW-SY-r3d" firstAttribute="top" secondItem="xwG-Sn-AE7" secondAttribute="bottom" constant="8" id="a86-tA-jei"/>
@@ -1727,8 +1724,7 @@
                                         <include reference="tWL-af-3jb"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="163" y="434" width="274" height="116"/>
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
                                         <exclude reference="JLw-BW-qq9"/>
                                         <exclude reference="Sfn-Nu-pKz"/>
@@ -1746,16 +1742,16 @@
                             <constraint firstAttribute="centerX" secondItem="KQc-Ta-r5T" secondAttribute="centerX" id="5Q8-A4-O4p"/>
                             <constraint firstAttribute="centerY" secondItem="KQc-Ta-r5T" secondAttribute="centerY" constant="-5.5" id="clm-2D-LMb"/>
                             <constraint firstAttribute="centerX" secondItem="KQc-Ta-r5T" secondAttribute="centerX" id="d7n-us-r8u"/>
-                            <constraint firstItem="KQc-Ta-r5T" firstAttribute="leading" secondItem="L4w-cS-9QP" secondAttribute="leading" constant="163" id="kUN-yI-5dx"/>
                             <constraint firstItem="KQc-Ta-r5T" firstAttribute="top" secondItem="Tgm-aB-Zpo" secondAttribute="bottom" constant="370" id="t3H-CD-nwe"/>
+                            <constraint firstItem="KQc-Ta-r5T" firstAttribute="leading" secondItem="L4w-cS-9QP" secondAttribute="leading" constant="163" id="tP7-BL-HNm"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="5Q8-A4-O4p"/>
                                 <exclude reference="clm-2D-LMb"/>
                                 <exclude reference="d7n-us-r8u"/>
-                                <exclude reference="kUN-yI-5dx"/>
                                 <exclude reference="t3H-CD-nwe"/>
+                                <exclude reference="tP7-BL-HNm"/>
                                 <exclude reference="4Gw-p1-7ga"/>
                             </mask>
                         </variation>
@@ -1771,8 +1767,8 @@
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
                                 <include reference="5Q8-A4-O4p"/>
-                                <include reference="kUN-yI-5dx"/>
                                 <include reference="t3H-CD-nwe"/>
+                                <include reference="tP7-BL-HNm"/>
                                 <include reference="4Gw-p1-7ga"/>
                             </mask>
                         </variation>
