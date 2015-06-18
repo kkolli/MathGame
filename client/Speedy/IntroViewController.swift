@@ -56,10 +56,10 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         var uri = "http://mathisspeedy.herokuapp.com/OneHighScore/" + user.objectID
         Alamofire.request(.GET, uri)
             .responseJSON { (request, response, data, error) in
-                //println("request: \(request)")
-                //println("response: \(response)")
-                //println("data: \(data)")
-                //println("error: \(error)")
+                println("request: \(request)")
+                println("response: \(response)")
+                println("data: \(data)")
+                println("error: \(error)")
                 if error != nil || data == nil ||  data!.objectForKey("highscore") == nil {
                     println(" errors found")
                 } else {
@@ -129,8 +129,6 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
         }
     }
 
-    
-    
     /*
     Convert both to utf8 and then compute them
     return true if I'm the server.  else false
@@ -152,11 +150,8 @@ class IntroViewController: UIViewController, MCBrowserViewControllerDelegate {
             }
         }
         return false
-        
-        
     }
 
-    
     func handleReceivedDataWithNotification(notification:NSNotification){
         println("received some data with notification! mcsetupview")
         let userInfo = notification.userInfo! as Dictionary

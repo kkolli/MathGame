@@ -207,11 +207,4 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             joinedNodeB = nil
         }
     }
-    
-    /*
-    * Game will randomly choose a node at random intervals of time to "upgrade"
-    * the value of a node.
-    */
-    
-    //TODO: Move to GameViewController
 }

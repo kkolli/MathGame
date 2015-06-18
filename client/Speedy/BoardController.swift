@@ -587,10 +587,4 @@ class BoardController {
         drawLongColLines()
         drawShortColLine()
     }
-    
-    /*
-    func getCircleList() -> [GameCircle]{
-        return circleList
-    }
-    */
 }

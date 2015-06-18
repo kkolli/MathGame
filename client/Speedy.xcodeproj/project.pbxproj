@@ -11,6 +11,7 @@
 		0A2085CF1A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
 		0A2085D01A7E138600412C8B /* RandomNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2085CE1A7E138600412C8B /* RandomNumbers.swift */; };
 		0A71D4FE1AA6A6500076FD58 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71D4FD1AA6A6500076FD58 /* Timer.swift */; };
+		0AD59F5A1ABA82E200CA1F21 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD59F591ABA82E200CA1F21 /* libGoogleAnalyticsServices.a */; };
 		0AE71FFB1A904A230030705B /* GameCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFA1A904A230030705B /* GameCircle.swift */; };
 		0AE71FFC1A904A230030705B /* GameCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFA1A904A230030705B /* GameCircle.swift */; };
 		0AE71FFE1A904F1D0030705B /* OperatorCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */; };
@@ -44,10 +45,8 @@
 		A18E4D121AAC1336003D6019 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A18E4D111AAC1336003D6019 /* CoreData.framework */; };
 		A18E4D141AAC1340003D6019 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A18E4D131AAC1340003D6019 /* libz.dylib */; };
 		A18E4D161AAC1349003D6019 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A18E4D151AAC1349003D6019 /* SystemConfiguration.framework */; };
-		A18E4D231AAC15CA003D6019 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18E4D221AAC15CA003D6019 /* libGoogleAnalyticsServices.a */; };
 		A18E4D271AAC2248003D6019 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A18E4D251AAC2247003D6019 /* Crashlytics.framework */; };
 		A18E4D281AAC2248003D6019 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A18E4D261AAC2247003D6019 /* Fabric.framework */; };
-		A19960DA1A724EB600A327F6 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19960D91A724EB600A327F6 /* PageViewController.swift */; };
 		A1DF2B691A968BB000446A7C /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF2B681A968BB000446A7C /* IntroViewController.swift */; };
 		A1DF2B701A96D08500446A7C /* FSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF2B6F1A96D08500446A7C /* FSViewController.swift */; };
 		A1F43FF41A806DF2008FF953 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F43FEB1A806DA7008FF953 /* Alamofire.framework */; };
@@ -124,6 +123,7 @@
 		0A0A23491AAF22CB00DA1B8B /* SummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
 		0A2085CE1A7E138600412C8B /* RandomNumbers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNumbers.swift; sourceTree = "<group>"; };
 		0A71D4FD1AA6A6500076FD58 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		0AD59F591ABA82E200CA1F21 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		0AE71FFA1A904A230030705B /* GameCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCircle.swift; sourceTree = "<group>"; };
 		0AE71FFD1A904F1D0030705B /* OperatorCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorCircle.swift; sourceTree = "<group>"; };
 		0AE720001A9054870030705B /* GameOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOperators.swift; sourceTree = "<group>"; };
@@ -166,7 +166,6 @@
 		A18E4D1F1AAC13A6003D6019 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
 		A18E4D201AAC13A6003D6019 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		A18E4D211AAC13A6003D6019 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
-		A18E4D221AAC15CA003D6019 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = ../../../Downloads/GoogleAnalyticsServicesiOS_3.10/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		A18E4D251AAC2247003D6019 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		A18E4D261AAC2247003D6019 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		A19960D81A723D7600A327F6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
@@ -180,9 +179,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A18E4D231AAC15CA003D6019 /* libGoogleAnalyticsServices.a in Frameworks */,
 				A18E4D161AAC1349003D6019 /* SystemConfiguration.framework in Frameworks */,
 				A18E4D271AAC2248003D6019 /* Crashlytics.framework in Frameworks */,
+				0AD59F5A1ABA82E200CA1F21 /* libGoogleAnalyticsServices.a in Frameworks */,
 				A18E4D141AAC1340003D6019 /* libz.dylib in Frameworks */,
 				A18E4D121AAC1336003D6019 /* CoreData.framework in Frameworks */,
 				A18E4D281AAC2248003D6019 /* Fabric.framework in Frameworks */,
@@ -237,7 +236,7 @@
 			children = (
 				A18E4D251AAC2247003D6019 /* Crashlytics.framework */,
 				A18E4D261AAC2247003D6019 /* Fabric.framework */,
-				A18E4D221AAC15CA003D6019 /* libGoogleAnalyticsServices.a */,
+				0AD59F591ABA82E200CA1F21 /* libGoogleAnalyticsServices.a */,
 				A18E4D151AAC1349003D6019 /* SystemConfiguration.framework */,
 				A18E4D131AAC1340003D6019 /* libz.dylib */,
 				A18E4D111AAC1336003D6019 /* CoreData.framework */,
@@ -665,10 +664,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/choucalate/Documents/FacebookSDK,
-					"$(PROJECT_DIR)",
-					/Users/edwardchiou/Documents/FacebookSDK,
-					/Users/choucalate/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -676,7 +672,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDK.framework/Versions/A",
-					/Users/choucalate/Downloads/GoogleAnalyticsServicesiOS_3.10,
+					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -694,10 +690,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/choucalate/Documents/FacebookSDK,
-					"$(PROJECT_DIR)",
-					/Users/edwardchiou/Documents/FacebookSDK,
-					/Users/choucalate/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = Speedy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -705,7 +698,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDK.framework/Versions/A",
-					/Users/choucalate/Downloads/GoogleAnalyticsServicesiOS_3.10,
+					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

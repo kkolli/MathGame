@@ -278,16 +278,6 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
         
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func didBeginContact(contact: SKPhysicsContact) {
         var numberBody: SKPhysicsBody
         var opBody: SKPhysicsBody
@@ -365,30 +355,4 @@ class MultiplayerGameViewController: UIViewController, SKPhysicsContactDelegate 
             }
         }
     }
-    
-   //TODO: Refactor mergeNodes and handleMerge together
-    /*
-    func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
-        let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
-        
-        let op1Upgrade = leftNumberCircle.upgrade
-        let op2Upgrade = rightNumberCircle.upgrade
-        
-        if removeNode {
-            rightNumberCircle.removeFromParent()
-            boardController!.nodeRemoved(rightNumberCircle.boardPos!)
-        } else {
-            rightNumberCircle.setNumber(result)
-            rightNumberCircle.neighbor = nil
-        }
-        
-        leftNumberCircle.removeFromParent()
-        opCircle.removeFromParent()
-        
-        boardController!.nodeRemoved(leftNumberCircle.boardPos!)
-        boardController!.nodeRemoved(opCircle.boardPos!)
-        
-        boardController!.replaceMissingNodes()
-    }
-    */
 }
