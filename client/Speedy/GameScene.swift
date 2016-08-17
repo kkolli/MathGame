@@ -9,36 +9,56 @@
 import SpriteKit
 
 class GameScene : SKScene, SKPhysicsContactDelegate {
-    let randomNumbers = RandomNumbers(difficulty: 5) //Hardcoded difficulty value
-    let randomOperators = RandomOperators(difficulty: 5) //Hardcoded difficulty value
-    
     var contentCreated = false
     var scoreHandler: ((op1: Int, op2: Int, oper: Operator) -> ((Int, Bool)))?
 
     var currentJoint: SKPhysicsJoint?
-    var joinedNodeA: GameCircle?
-    var joinedNodeB: GameCircle?
+    var joinedNodeA: NumberCircle?
+    var joinedNodeB: OperatorCircle?
     
     var targetNumber: Int?
-
     var activeNode: SKNode?
     var freezeAction = false
     
-    override func didMoveToView(view: SKView) {
+    var releaseNumber: NumberCircle?
+    var releaseOperator: OperatorCircle?
+    
+    // this shouldn't be here?
+    //var boardController: BoardController?
+    
+    var gameFrame: CGRect?
+    
+    override init(size: CGSize){
+        super.init(size: size)
         
-        setUpPhysics()
+        let background = SKSpriteNode(imageNamed: "background_graph_paper")
+        addChild(background)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpPhysics(){
-        self.physicsWorld.gravity = CGVectorMake(0, 0)
-        // we put contraints on the top, left, right, bottom so that our balls can bounce off them
-        let physicsBody = SKPhysicsBody (edgeLoopFromRect: self.frame)
-        physicsBody.dynamic = false
-        physicsBody.categoryBitMask = 0xFFFFFFFF
-        self.physicsBody = physicsBody
-        self.physicsBody?.restitution = 0.1
-        self.physicsBody?.friction = 0.0
-        //self.physicsWorld.contactDelegate = self;
+    override func didMoveToView(view: SKView) {
+        //setUpPhysics()
+    }
+    
+    func setGameFrame(frame: CGRect) {
+        gameFrame = frame
+        setupBoardHeader()
+    }
+    
+    func setupBoardHeader() {
+        if let gf = gameFrame {
+            let frame = CGRectMake(gf.origin.x, gf.origin.y, gf.width, self.frame.height - gf.height)
+            
+            //header = BoardHeader(size: frame, )
+            
+        }
+    }
+    
+    func getActiveNode() -> SKNode? {
+        return activeNode
     }
     
     func determineClosestAnchorPair(position: CGPoint, nodeA: GameCircle, nodeB: GameCircle) -> (CGPoint, CGPoint) {
@@ -80,20 +100,10 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if (freezeAction == true) {
             return
         }
-        /* touch has begun */
+
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
         var touchedNode = nodeAtPoint(touchLocation)
-        
-        /*
-        if touchedNode is GameCircle {
-            println("GameCircle touched")
-        }
-        
-        if touchedNode is SKLabelNode {
-            println("Label node touched")
-        }
-        */
         
         while !(touchedNode is GameCircle) {
             if touchedNode is SKScene {
@@ -110,47 +120,68 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
         if let physBody = touchedNode.physicsBody {
             physBody.dynamic = false
         }
+        
         activeNode = touchedNode
+        
+        if activeNode! is NumberCircle{
+            let liftup = SKAction.scaleTo(GameCircleProperties.pickupScaleFactor, duration: 0.2)
+            activeNode!.runAction(liftup)
+        }
+    }
+    
+    func adjustPositionIntoGameFrame(position: CGPoint) -> CGPoint {
+        if let frame = gameFrame {
+            let nodeRadius = GameCircleProperties.nodeRadius * GameCircleProperties.pickupScaleFactor
+            let maxHeight = frame.height - nodeRadius
+            if maxHeight < position.y {
+                return CGPointMake(position.x, maxHeight)
+            }
+        }
+        
+        return position
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         // println("in touchesmoved and freezeaction is: " + String(freezeAction.description))
+        releaseNumber = nil
+        releaseOperator = nil
+        
         if (freezeAction == true) {
             return
         }
         let touch = touches.anyObject() as UITouch
         let touchLocation = touch.locationInNode(self)
-        var touchedNode = nodeAtPoint(touchLocation)
-        
-        while !(touchedNode is GameCircle) {
-            if touchedNode is SKScene {
-                // can't move the scene, finger probably fell off a circle?
-                if let physBody = activeNode?.physicsBody {
-                    physBody.dynamic = true
+
+        if activeNode != nil{
+            while !(activeNode is GameCircle) {
+                if activeNode is SKScene {
+                    // can't move the scene, finger probably fell off a circle?
+                    if let physBody = activeNode?.physicsBody {
+                        physBody.dynamic = true
+                    }
+                    return
                 }
-                return
+                activeNode = activeNode!.parent!
             }
-            touchedNode = touchedNode.parent!
-        }
-        
-        if touchedNode is NumberCircle{
+            
             //Only number circles can be moved
-            touchedNode.position.x = touchLocation.x
-            touchedNode.position.y = touchLocation.y
+            if activeNode is NumberCircle{
+                activeNode!.position = adjustPositionIntoGameFrame(touchLocation)
+            }
         }
     }
 
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        let touch = touches.anyObject() as UITouch
-        let touchLocation = touch.locationInNode(self)
-        var touchedNode = nodeAtPoint(touchLocation)
-        
         //Break the node joint if touch is released
         breakJoint()
 
-       // wayPoints.removeAll(keepCapacity: false)
         if let physBody = activeNode?.physicsBody {
             physBody.dynamic = true
+        }
+        
+        if activeNode != nil && activeNode! is NumberCircle{
+            let dropDown = SKAction.scaleTo(1.0, duration: 0.2)
+            activeNode!.runAction(dropDown, withKey: "drop")
         }
         
         activeNode = nil
@@ -158,6 +189,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
 
     func breakJoint(){
         if currentJoint != nil {
+            println("breakjoint")
             self.physicsWorld.removeJoint(currentJoint!)
             currentJoint = nil
             
@@ -168,7 +200,18 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
             if joinedNodeB != nil{
                 joinedNodeB!.neighbor = nil
             }
+            
+            releaseNumber = joinedNodeA
+            releaseOperator = joinedNodeB
+            joinedNodeA = nil
+            joinedNodeB = nil
         }
     }
     
+    /*
+    * Game will randomly choose a node at random intervals of time to "upgrade"
+    * the value of a node.
+    */
+    
+    //TODO: Move to GameViewController
 }

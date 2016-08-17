@@ -12,17 +12,14 @@ class NumberCircle : GameCircle {
     var score: Int?
     
     let nodeFont = "AmericanTypewriter-Bold"
-    
     var text: SKLabelNode?
+    var scoreMultiplier = 1
+    var upgrade: UpgradeOptions = UpgradeOptions.None
     
     convenience init(num: Int)    {
         self.init()
         setNumber(num)
-        initScore()
-    }
-    
-    func initScore() {
-        score = 0
+        setScore(num)
     }
     
     func setScore(num: Int) {
@@ -37,12 +34,28 @@ class NumberCircle : GameCircle {
         setLabel()
     }
     
+    func setScoreMultiplier(multiplier: Int){
+        scoreMultiplier = multiplier
+    }
+    
+    func setUpgrade(upgrade: UpgradeOptions){
+        self.upgrade = upgrade
+    }
+    
+    func setFillColor(color: UIColor){
+        shapeNode!.fillColor = color
+    }
+    
+    func resetFillColor(){
+        shapeNode!.fillColor = UIColor.redColor()
+    }
+    
     func setLabel(){
         if text != nil{
             text!.text = "\(number!)"
         }else{
             text = SKLabelNode(text: "\(number!)")
-            text!.fontSize = nodeTextFontSize
+            text!.fontSize = GameCircleProperties.nodeTextFontSize
             text!.fontName = nodeFont
             text!.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
             text!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center

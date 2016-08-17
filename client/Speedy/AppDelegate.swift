@@ -6,19 +6,31 @@
 // Created by Krishna Kolli
 // Copyright (c) Krishna Kolli. All rights reserved.
 //import UIKit
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var mpcHandler:MPCHandler = MPCHandler()
+    var user:FBGraphUser?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
     // Override point for customization after application launch.
     
         FBLoginView.self
         FBProfilePictureView.self
-    
+        
+        // google analytics
+        GAI.sharedInstance().trackUncaughtExceptions = true
+        GAI.sharedInstance().dispatchInterval = 20
+        GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        GAI.sharedInstance().trackerWithTrackingId("UA-36281325-2")
+        
+        // fabric - crashlytics
+        Fabric.with([Crashlytics()])
+
     return true
     }
     

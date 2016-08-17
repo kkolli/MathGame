@@ -10,101 +10,124 @@
 
 import SpriteKit
 import UIKit
+import Alamofire
+import Crashlytics
 
 class GameViewController : UIViewController, SKPhysicsContactDelegate {
     
-    @IBOutlet weak var GameTimerLabel: UILabel!
-    @IBOutlet weak var GameScoreLabel: UILabel!
-    @IBOutlet weak var GameTargetNumLabel: UILabel!
-    var timer = NSTimer()
-    var counter = 0
-    var game_max_time = 60 // TODO - modify this somehow later
-    var score = 0
-    var targetNumber: Int?
+   // @IBOutlet weak var GameTimerLabel: UILabel!
+   // @IBOutlet weak var GameScoreLabel: UILabel!
+   // @IBOutlet weak var GameTargetNumLabel: UILabel!
+    var user : FBGraphUser!
+    var appDelegate:AppDelegate!
+    var timer: Timer!
+    var game_start_time = 60 // TODO - modify this somehow later
+    //var score = 0
+    //var targetNumber: Int?
     let TIME_DEBUG = false
     var scene: GameScene?
     var boardController: BoardController?
+    var numTargetNumbersMatched:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        // UNCOMMENT THIS TO TEST CRASHLYTICS
+        //        Crashlytics.sharedInstance().crash()
+
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.navigationController?.navigationBarHidden = true
+        self.tabBarController?.tabBar.hidden = true
+        self.user = appDelegate.user
         println("In Game View controller")
         
         // start the counter to go!
-        GameTimerLabel.text = convertIntToTime(counter)
-        startTimer()
+        timer = Timer(duration: game_start_time, {(elapsedTime: Int) -> () in
+            if self.timer.getTime() <= 0 {
+                //self.GameTimerLabel.text = "done"
+                //self.postScore(self.GameScoreLabel.text!)
+                self.performSegueToSummary()
+            } else {
+                if self.TIME_DEBUG {
+                  println("time printout: " + String(self.timer.getTime()))
+                }
+                
+                if self.boardController != nil {
+                    self.boardController?.setTimeInHeader(self.timer.getTime())
+                }
+                //self.GameTimerLabel.text = self.timer.convertIntToTime(self.timer.getTime())
+            }
+        })
+        numTargetNumbersMatched = 0
+        
+        //GameTimerLabel.text = timer.convertIntToTime(self.timer.getTime())
+        
+        //GameScoreLabel.text = String(score)
         
         scene = GameScene(size: view.frame.size)
-        boardController = BoardController(scene: scene!)
+    
+        boardController = BoardController(scene: scene!, mode: .SINGLE)
+        boardController!.notifyScoreChanged = updateScoreAndTime
+        //scene!.boardController = boardController
+        //updateTargetNumber()
         
         // Configure the view.
         let skView = self.view as SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        //skView.showsFPS = true
+        //skView.showsNodeCount = true
         //skView.showsPhysics = true
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = false
         
         /* Set the scale mode to scale to fit the window */
+
         scene!.scaleMode = .AspectFill
         //scene!.scoreHandler = handleMerge
         scene!.physicsWorld.contactDelegate = self
-        
         skView.presentScene(scene)
+        
+        timer.start()
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "singleplayer")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
     
-    // BEGIN -- SCORE HANDLING
-    /*
-    takes in the target node that everything gets merged into, 
-    two operands and an operatorCircle
     
-    Whether or not this new node is the designated target number should be handled elsewhere
-    */
-    func handleMerge(op1: Int, op2: Int, oper: Operator) -> (Int, Bool){
-        var result: Int
-        
-        switch oper{
-        case .PLUS: result = op1 + op2
-        case .MINUS: result = op1 - op2
-        case .MULTIPLY: result = op1 * op2
-        case .DIVIDE: result = op1 / op2
-        }
-        
-        println("targetnum: \(targetNumber) and result: \(result)")
-        if result == targetNumber{
-            score += result * ScoreMultiplier.getMultiplierFactor(oper)
-        }
-        
-        let removeNode = (result == targetNumber || result == 0)
-        
-        return (result, removeNode)
-    }
-    
-    // END-- SCORE HANDLING
-    
-    func startTimer() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
-    }
-    
-    func updateCounter() {
-        counter++;
-        if (game_max_time - counter < 0) {
-            // Stop the timer completely
-            GameTimerLabel.text = "Done"
-            stopPauseTimer()
+    func updateScoreAndTime(){
+        if numTargetNumbersMatched > 0 {
+            timer.addTime(timer.getExtraTimeSub())
         } else {
-            GameTimerLabel.text = convertIntToTime(counter)
+            timer.addTime(timer.getExtraTimeFirst())
         }
+        numTargetNumbersMatched!++
+    }
+
+    
+    func postScore(score:String){
+        var uri = "http://mathisspeedy.herokuapp.com/HighScores/" + user.objectID
+        let parameters = [
+            "score": score
+        ]
+        Alamofire.request(.POST, uri, parameters: parameters, encoding: .JSON)
     }
     
-    func stopPauseTimer() {
-        timer.invalidate()
+    /*
+    func updateTargetNumber(){
+        if targetNumber != nil{
+            let numberCircleList = boardController!.circleList.filter{$0 is NumberCircle}
+            let numberList = numberCircleList.map{($0 as NumberCircle).number!}
+            targetNumber = boardController!.randomNumbers.generateTarget(numberList)
+        }else{
+            targetNumber = boardController!.randomNumbers.generateTarget()
+        }
+        GameTargetNumLabel.text = String(targetNumber!)
     }
+*/
+    
     
     /*
     this takes something like 0 and turns it into 00:00
     and if it takes something like 60 -> 01:00
     if it takes 170 -> 02:10
-    */
     func convertIntToTime(secondsPassed: Int) -> String {
         var count = game_max_time - secondsPassed
         
@@ -133,16 +156,16 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         return minute_display + ":" + second_display
     }
     
+    */
     func didBeginContact(contact: SKPhysicsContact) {
         var numberBody: SKPhysicsBody
         var opBody: SKPhysicsBody
         
         //A neccessary check to prevent contacts from throwing runtime errors
         if !(contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA.node!.parent != nil && contact.bodyB.node!.parent != nil) {
-            return;
+            return
         }
         
-        //This is dependant on the order of the nodes
         if contact.bodyA.node! is NumberCircle{
             numberBody = contact.bodyA
             
@@ -153,20 +176,28 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 let opNode     = opBody.node! as OperatorCircle
                 
                 if !numberNode.hasNeighbor() && !opNode.hasNeighbor() {
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        println("NO")
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
 
                     let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
                     scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
+
                 }else{
                     if let leftNumberCircle = opNode.neighbor as? NumberCircle {
                         let opCircle  = opNode
                         
-                        mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                        boardController!.handleMerge(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
                     }
                 }
+            }else{
+                return
             }
         }else if contact.bodyA.node! is OperatorCircle{
             opBody = contact.bodyA
@@ -179,37 +210,44 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
                 
                 // all nodes touching together have no neighbors (1st contact)
                 if numberNode.hasNeighbor() == false && opNode.hasNeighbor() == false{
-                    var myJoint = SKPhysicsJointPin.jointWithBodyA(numberBody, bodyB: opBody,
-                        anchor: numberBody.node!.position)
-                    
+                    if scene!.releaseNumber != nil && scene!.releaseOperator != nil{
+                        return
+                    }
                     numberNode.setNeighbor(opNode)
                     opNode.setNeighbor(numberNode)
-                    myJoint.frictionTorque = 1.0
-                    scene!.physicsWorld.addJoint(myJoint)
-                    scene!.currentJoint = myJoint
+                    
+                    let joint = scene!.createBestJoint(contact.contactPoint, nodeA: numberNode, nodeB: opNode)
+                    scene!.physicsWorld.addJoint(joint)
+                    scene!.currentJoint = joint
                     scene!.joinedNodeA = numberNode
                     scene!.joinedNodeB = opNode
                 }else{
                     // if hitting all 3
-                    let leftNumberCircle = opNode.neighbor as NumberCircle
-                    let opCircle  = opNode
-                    
-                    mergeNodes(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    if let leftNumberCircle = opNode.neighbor as? NumberCircle {
+                        let opCircle  = opNode
+                        
+                        boardController!.handleMerge(leftNumberCircle, rightNumberCircle: numberNode, opCircle: opCircle)
+                    }
                 }
+            }else{
+                return
             }
         }
     }
     
+    //TODO: Refactor mergeNodes and handleMerge together
+    /*
     func mergeNodes(leftNumberCircle: NumberCircle, rightNumberCircle: NumberCircle, opCircle: OperatorCircle){
-        let leftNumber = leftNumberCircle.number!
-        let rightNumber = rightNumberCircle.number!
-        let op = opCircle.op!
-        
-        let (result, removeNode) = handleMerge(leftNumber, op2: rightNumber, oper: op)
+        let (result, removeNode) = boardController!.handleMerge(leftNumberCircle, rightNumberCircle: rightNumberCircle, opCircle: opCircle)
+
+        /*
+        let op1Upgrade = leftNumberCircle.upgrade
+        let op2Upgrade = rightNumberCircle.upgrade
+        */
         
         if removeNode {
-            rightNumberCircle.removeFromParent()
-            boardController!.nodeRemoved(rightNumberCircle.boardPos!)
+            //rightNumberCircle.removeFromParent()
+            //boardController!.nodeRemoved(rightNumberCircle.boardPos!)
         } else {
             rightNumberCircle.setNumber(result)
             rightNumberCircle.neighbor = nil
@@ -218,29 +256,36 @@ class GameViewController : UIViewController, SKPhysicsContactDelegate {
         leftNumberCircle.removeFromParent()
         opCircle.removeFromParent()
         
-        boardController!.nodeRemoved(leftNumberCircle.boardPos!)
-        boardController!.nodeRemoved(opCircle.boardPos!)
-        
-        boardController!.replaceMissingNodes()
-        
-        /*
-        if let num = rightNumberCircle.number {
-            if num == self.targetNumber {
-                println("YOU WIN")
-            }
-        }
-        */
     }
+    */
     
+    func didEndContact(contact: SKPhysicsContact) {}
     //func didEndContact(contact: SKPhysicsContact) {}
+    func performSegueToSummary() {
+        self.performSegueWithIdentifier("segueToSummary", sender: nil)
+    }
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         println("preparing for segue!!")
+        if segue.identifier == "segueToSummary" {
+            println("performing segue to summary")
+            let vc = segue.destinationViewController as SummaryViewController
+            vc.operatorsUsed = boardController!.operatorsUsed
+            vc.score = boardController!.score
+            vc.numTargetNumbersMatched = numTargetNumbersMatched
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning();
-        
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
     }
 }

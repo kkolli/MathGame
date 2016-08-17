@@ -16,13 +16,14 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     @IBOutlet var fbLoginView : FBLoginView!
     var alreadyFetched = false
     var user: FBGraphUser!
+    var appDelegate:AppDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         // Do any additional setup after loading the view, typically from a nib.
         println("loaded login view controller")
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -48,11 +49,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     */
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         self.user = user
-        println("User: \(user)")
-        println("User ID: \(user.objectID)")
-        println("User Name: \(user.name)")
+        appDelegate.user = user
+        //println("User: \(user)")
+        //println("User ID: \(user.objectID)")
+        //println("User Name: \(user.name)")
         var userEmail = user.objectForKey("email") as String
-        println("User Email: \(userEmail)")
+        //println("User Email: \(userEmail)")
         
         // call method to handle getting the user's current/updated friends
         if !alreadyFetched {
@@ -72,17 +74,17 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             //"friends": data.objectForKey("data") as NSArray,
             "friends_page" : data
         ]
-        println("PRINTING PARAMS: ")
-        println(params)
+        //println("PRINTING PARAMS: ")
+        //println(params)
         
         
         
         Alamofire.request(.POST, "http://mathisspeedy.herokuapp.com/create_check_user", parameters: params, encoding:.JSON)
         .responseString { (request, response, data, error) in
-          println("request: \(request)")
-          println("response: \(response)")
-          println("data: \(data)")
-          println("error: \(error)")
+          //println("request: \(request)")
+          //println("response: \(response)")
+          //println("data: \(data)")
+          //println("error: \(error)")
             if error != nil {
                 println(" errors found")
             } else {
@@ -122,17 +124,21 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "login_segue" {
             println("performing segue")
-            let vc = segue.destinationViewController as PageViewController
+            let vc = segue.destinationViewController as MainMenuViewController
             vc.user = user
-            
         }
-        
     }
     
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return UIInterfaceOrientation.Portrait.rawValue
+    }
 }
